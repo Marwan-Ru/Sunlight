@@ -3,6 +3,7 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
+#include <algorithm>
 #include <queue>
 #include <fstream>
 #include <string>
@@ -169,7 +170,7 @@ RayCollection CreateRays(const std::string& currentBBName, const RayBoxCollectio
 /// \param rayColl Collection of Rays.
 /// \param datetimeSunInfo Map holding sun and shadow information for current triangle.
 ///
-void RayTraceTriangles(const std::string& filepath, const citygml::CityObjectsType& fileType, const std::string& cityObjId,
+void RayTraceTriangles(const std::string& filepath, const CityObjectsType& fileType, const std::string& cityObjId,
     RayCollection& rayColl, std::map<int, bool>& datetimeSunInfo)
 {
     //Get the triangle list of files matching intersected AABB
@@ -273,9 +274,9 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
         TriangleList* trianglesfile;
 
         if (f->m_type == fileType::_BATI)
-            trianglesfile = BuildTriangleList(f->m_filepath, citygml::CityObjectsType::COT_Building);
+            trianglesfile = BuildTriangleList(f->m_filepath, CityObjectsType::COT_Building);
         else if (f->m_type == fileType::_MNT)
-            trianglesfile = BuildTriangleList(f->m_filepath, citygml::CityObjectsType::COT_TINRelief);
+            trianglesfile = BuildTriangleList(f->m_filepath, CityObjectsType::COT_TINRelief);
         else
             trianglesfile = new TriangleList();
 
@@ -386,7 +387,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                         }
 
                         //Raytracing on current building (thanks to cityObjId)
-                        RayTraceTriangles(fBoxHit.m_filepath, citygml::CityObjectsType::COT_Building, cityObjId, raysTemp, datetimeSunInfo);
+                        RayTraceTriangles(fBoxHit.m_filepath, CityObjectsType::COT_Building, cityObjId, raysTemp, datetimeSunInfo);
 
                         raysTemp.rays.clear();
 
@@ -405,7 +406,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                         continue;
                     }
 
-                    RayTraceTriangles(fBoxHit.m_filepath, citygml::CityObjectsType::COT_TINRelief, cityObjId, raysTemp, datetimeSunInfo);
+                    RayTraceTriangles(fBoxHit.m_filepath, CityObjectsType::COT_TINRelief, cityObjId, raysTemp, datetimeSunInfo);
 
                     //Clear rays
                     raysTemp.rays.clear();
@@ -443,6 +444,5 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     for (unsigned int i = 0; i < filenames.size(); ++i)
         delete filenames[i];
 
-    std::cout << "Total time : " << time_tot << "s" << std::endl;
-
+    //std::cout << "Total time : " << time_tot << "s" << std::endl;
 }

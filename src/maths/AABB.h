@@ -7,8 +7,6 @@
 
 #include <string>
 #include <vector>
-
-#include "maths/AABB.h"
 #include <float.h>
 
 #ifdef _MSC_VER

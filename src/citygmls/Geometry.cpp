@@ -15,7 +15,6 @@
 */
 
 #include "Geometry.h"
-#include "Polygon.h"
 
 Geometry::Geometry( const std::string& id, GeometryType type, unsigned int lod)
     : Object( id ), _type( type ), _lod( lod )

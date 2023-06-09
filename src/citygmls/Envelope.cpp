@@ -14,7 +14,6 @@
 * GNU Lesser General Public License for more details.
 */
 
-
 #include "Envelope.h"
 
 #include <limits>

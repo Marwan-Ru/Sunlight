@@ -25,7 +25,7 @@
 #include <set>
 #include <algorithm>
 
-#include "tesselator.hpp"
+#include "Tesselator.h"
 #include "citygml.hpp"
 #include "utils.hpp"
 
@@ -161,7 +161,7 @@ CityObject* CityModel::getNodeById(const std::string& id)
     return res;
 }
 
-CityObject* CityModel::getNode(const vcity::URI& uri, bool inPickingMode)
+CityObject* CityModel::getNode(const URI& uri, bool inPickingMode)
 {
 	std::string sNode;	
 

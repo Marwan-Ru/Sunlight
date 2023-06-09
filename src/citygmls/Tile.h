@@ -11,9 +11,7 @@
 
 #include "citygmls/CityObject.h"
 #include "citygmls/CityModel.h"
-
-#include "citygml.hpp"
-#include "URI.hpp"
+#include "citygmls/URI.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4251) // VC++ DLL jejune complains on STL _Id member
@@ -52,7 +50,7 @@ public:
   void setName(const std::string& name);
   //osg::ref_ptr<osg::Node> getOsgRoot();
 
-  //citygml::CityObject* findNode(const std::string& name);
+  //CityObject* findNode(const std::string& name);
 
   void deleteNode(const std::string& name);
   void insertNode(CityObject* node);

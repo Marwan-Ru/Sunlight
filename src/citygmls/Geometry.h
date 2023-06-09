@@ -19,13 +19,11 @@
 #include <vector>
 #include <ostream>
 
+#include "citygmls/Object.h"
 #include "citygmls/Envelope.h"
 #include "citygmls/Polygon.h"
+#include "citygmls/ParserParams.h"
 
-#include "object.hpp"
-#include "parserparams.hpp"
-
-class Polygon;
 class CityObject;
 
 enum GeometryType
@@ -39,10 +37,10 @@ enum GeometryType
     GT_InteriorWall,
     GT_Ceiling,
 };
-////////////////////////////////////////////////////////////////////////////////
+
 /// \brief Geometry class
 ///
-////////////////////////////////////////////////////////////////////////////////
+
 class Geometry : public Object
 {
     friend class CityGMLHandler;

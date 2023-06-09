@@ -18,20 +18,19 @@
 
 #include <ostream>
 
+#include "citygmls/Object.h"
 #include "citygmls/Geometry.h"
-
-#include "object.hpp"
-#include "URI.hpp"
+#include "citygmls/URI.h"
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
 #endif
 
-////////////////////////////////////////////////////////////////////////////////
+
 //forward declaration
 class ADEHandler;
 
-////////////////////////////////////////////////////////////////////////////////
+
 enum CityObjectsType {
     COT_GenericCityObject           = 1 << 0,
     COT_Building                    = 1 << 1,
@@ -68,7 +67,7 @@ enum CityObjectsType {
 };
 typedef unsigned int CityObjectsTypeMask;
 
-////////////////////////////////////////////////////////////////////////////////
+
 class CityObject : public Object
 {
     friend class CityGMLHandler;
@@ -132,7 +131,7 @@ public:
 
     /// Get a node from a uri
     /// \param uri uri pointing to requested node
-	CityObject* getNode(const vcity::URI& uri);
+	CityObject* getNode(const URI& uri);
 
 //protected:
     void finish( AppearanceManager&, const ParserParams& );
@@ -153,7 +152,7 @@ public:
     std::string m_path;
     bool m_temporalUse;
 };
-////////////////////////////////////////////////////////////////////////////////
+
 std::string getCityObjectsClassName( CityObjectsTypeMask mask );
 CityObjectsTypeMask getCityObjectsTypeMaskFromString( const std::string& stringMask );
 std::ostream& operator<<( std::ostream&, const CityObject& );

@@ -13,7 +13,7 @@
 #include <map>
 
 #include "libcitygml/citygml.hpp"
-#include "libcitygml/utils/tile.hpp"
+#include "citygmls/Tile.h"
 
 TiledFiles::TiledFiles(std::string Folderpath)
 {

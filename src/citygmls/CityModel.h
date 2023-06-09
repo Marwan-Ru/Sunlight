@@ -21,17 +21,18 @@
 #include <ostream>
 
 #include "maths/Vectors.h"
+#include "citygmls/Object.h"
 #include "citygmls/Envelope.h"
 #include "citygmls/CityObject.h"
+#include "citygmls/URI.h"
+#include "citygmls/AppearanceManager.h"
 
-#include "object.hpp"
-#include "appearancemanager.hpp"
-#include "URI.hpp"
-#include "ADE/temporal/version.hpp"
-#include "ADE/temporal/versionTransition.hpp"
-#include "ADE/temporal/workspace.hpp"
-#include "ADE/document/documentObject.hpp"
-#include "ADE/document/reference.hpp"
+#include "ADE/temporal/Version.h"
+#include "ADE/temporal/VersionTransition.h"
+#include "ADE/temporal/Workspace.h"
+
+#include "ADE/document/DocumentObject.h"
+#include "ADE/document/Reference.h"
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
@@ -39,7 +40,7 @@
 
 typedef std::vector< CityObject* > CityObjects;
 typedef std::map< CityObjectsType, CityObjects > CityObjectsMap;
-////////////////////////////////////////////////////////////////////////////////
+
 class CityModel : public Object
 {
     friend class CityGMLHandler;
@@ -88,7 +89,7 @@ public:
     void addCityObject( CityObject* o );
 
     /// Get node by uri
-	CityObject* getNode(const vcity::URI& uri, bool inPickingMode=false);
+	CityObject* getNode(const URI& uri, bool inPickingMode=false);
 
     /// Get node by name
     CityObject* getNodeById(const std::string& id);
@@ -129,5 +130,5 @@ protected:
     std::vector<documentADE::DocumentObject*> _documents;
     std::vector<documentADE::Reference*> _references;
 };
-////////////////////////////////////////////////////////////////////////////////
+
 std::ostream& operator<<( std::ostream&, const CityModel & );

@@ -19,22 +19,22 @@
 #include <vector>
 
 #include "maths/Vectors.h"
+#include "citygmls/Object.h"
 #include "citygmls/Geometry.h"
 #include "citygmls/Envelope.h"
 
-#include "object.hpp"
-#include "appearance.hpp"
-#include "appearancemanager.hpp"
-#include "material.hpp"
-#include "texture.hpp"
-#include "linearring.hpp"
-#include "citygmltypes.hpp"
+#include "citygmls/Appearance.h"
+#include "citygmls/AppearanceManager.h"
+#include "Material.h"
+#include "Texture.h"
+#include "CityGmlTypes.h"
+
+#include "LinearRing.h"
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
 #endif
 
-class Geometry;
 class Polygon : public Object
 {
     friend class CityGMLHandler;
@@ -52,7 +52,7 @@ public:
 
     virtual ~Polygon( void ) override;
 
-	Polygon* Clone();
+	//Polygon* Clone();
 
     // Get the vertices
     const std::vector<TVec3d>& getVertices( void ) const;

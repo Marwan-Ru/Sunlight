@@ -15,6 +15,7 @@
 
 #include "Triangle.h"
 #include "parsers/TiledFilesLayout.h"
+#include "citygmls/Tile.h"
 
 //AABB
 bool AABB::operator==(AABB const& other)
@@ -183,7 +184,7 @@ AABBCollection LoadLayersAABBs(std::string dir)
 *	@param type Type of cityobject to use
 *	@return a collection of boxes, key = name of the box, value = <min of the box, max of the box>
 */
-std::map<std::string, std::pair<TVec3d, TVec3d>> DoBuildAABB(std::string dir, TiledLayer L, citygml::CityObjectsType type)
+std::map<std::string, std::pair<TVec3d, TVec3d>> DoBuildAABB(std::string dir, TiledLayer L, CityObjectsType type)
 {
     std::map<std::string, std::pair<TVec3d, TVec3d>> AABBs;
 
@@ -256,21 +257,21 @@ void BuildLayersAABBs(std::string dir)
 
     for (TiledLayer L : Files.ListofLayers)
     {
-        citygml::CityObjectsType type;
+        CityObjectsType type;
         if (L.Name.find("_BATI") != std::string::npos)
-            type = citygml::CityObjectsType::COT_Building;
+            type = CityObjectsType::COT_Building;
         else if (L.Name.find("_MNT") != std::string::npos)
-            type = citygml::CityObjectsType::COT_TINRelief;
+            type = CityObjectsType::COT_TINRelief;
         else if (L.Name.find("_WATER") != std::string::npos)
-            type = citygml::CityObjectsType::COT_WaterBody;
+            type = CityObjectsType::COT_WaterBody;
         else if (L.Name.find("_VEGET") != std::string::npos)
         {
-            type = citygml::CityObjectsType::COT_SolitaryVegetationObject;
+            type = CityObjectsType::COT_SolitaryVegetationObject;
         }
         else
         {
             // Dummy value acting as a default fuse value:
-            type = citygml::CityObjectsType::COT_All;
+            type = CityObjectsType::COT_All;
         }
 
         // Pour chaque tuile "string", bounding box : min-max
@@ -289,9 +290,9 @@ void BuildLayersAABBs(std::string dir)
 ///
 void doBuildBuildingAABBs(std::string filepath)
 {
-    vcity::Tile* tile = new vcity::Tile(filepath);
+    Tile* tile = new Tile(filepath);
 
-    citygml::CityModel* city = tile->getCityModel();
+    CityModel* city = tile->getCityModel();
 
     //Size of Building Parts AABB
     size_t AABBsize = 0;
@@ -306,14 +307,14 @@ void doBuildBuildingAABBs(std::string filepath)
 
     ofs_B_AABB.open(filename_B_AABB, std::ofstream::trunc);
 
-    citygml::CityObjects cityobjects = city->getCityObjectsRoots();
+    CityObjects cityobjects = city->getCityObjectsRoots();
 
     //Write in Building AABB file
     ofs_B_AABB << cityobjects.size() << std::endl;
 
-    for (const citygml::CityObject* cityObj : cityobjects)
+    for (const CityObject* cityObj : cityobjects)
     {
-        citygml::Envelope envCityObj = cityObj->getEnvelope();
+        Envelope envCityObj = cityObj->getEnvelope();
 
         //Print AABB in Building AABB file
         ofs_B_AABB << cityObj->getId() << std::endl;
@@ -324,7 +325,7 @@ void doBuildBuildingAABBs(std::string filepath)
         ofs_B_AABB << std::to_string(envCityObj.getUpperBound().y) << std::endl;
         ofs_B_AABB << std::to_string(envCityObj.getUpperBound().z) << std::endl;
 
-        std::vector<citygml::CityObject*> cityobjchilds = cityObj->getChildren();
+        std::vector<CityObject*> cityobjchilds = cityObj->getChildren();
 
         AABBsize += cityobjchilds.size();
     }
@@ -336,13 +337,13 @@ void doBuildBuildingAABBs(std::string filepath)
 
     ofs_BP_AABB << AABBsize << std::endl;
 
-    for (const citygml::CityObject* cityObj : cityobjects)
+    for (const CityObject* cityObj : cityobjects)
     {
-        std::vector<citygml::CityObject*> cityobjchilds = cityObj->getChildren();
+        std::vector<CityObject*> cityobjchilds = cityObj->getChildren();
 
-        for (citygml::CityObject* subObj : cityobjchilds)
+        for (CityObject* subObj : cityobjchilds)
         {
-            citygml::Envelope envSubObj = subObj->getEnvelope();
+            Envelope envSubObj = subObj->getEnvelope();
 
             //Print AABB in Building Parts AABB file
             ofs_BP_AABB << subObj->getId() << std::endl;

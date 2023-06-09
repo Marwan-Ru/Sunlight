@@ -14,13 +14,12 @@
 * GNU Lesser General Public License for more details.
 */
 
-
 #include "CityObject.h"
 
 #include <iostream>
 
+#include "Polygon.h"
 #include "utils.hpp"
-
 
 CityObject::CityObject(const std::string& id, CityObjectsType type)
    : Object(id), _type(type), m_path(""), m_temporalUse(false)
@@ -132,7 +131,7 @@ void CityObject::insertNode(CityObject* node)
    _children.push_back(node);
 }
 
-CityObject* CityObject::getNode(const vcity::URI& uri)
+CityObject* CityObject::getNode(const URI& uri)
 {
    CityObject* res = this;
    CityObject* current = this;

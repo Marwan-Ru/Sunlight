@@ -38,32 +38,32 @@ Polygon::~Polygon( void )
   for ( ; it != _interiorRings.end(); ++it ) delete *it;
 }
 
-Polygon* Polygon::Clone()
-{
-  LinearRing* ExtRing = this->getExteriorRing();
-
-  citygml::Polygon * Poly = new citygml::Polygon(this->getId());
-  citygml::LinearRing * NewExtRing = new citygml::LinearRing(ExtRing->getId(), true);
-
-  for(TVec3d P : ExtRing->getVertices())
-  {
-    NewExtRing->addVertex(P);
-  }
-  Poly->addRing(NewExtRing);
-
-  for(LinearRing* IntRing : this->getInteriorRings())
-  {
-    citygml::LinearRing * NewIntRing = new citygml::LinearRing(IntRing->getId(), false);
-
-    for(TVec3d P : ExtRing->getVertices())
-    {
-      NewIntRing->addVertex(P);
-    }
-    Poly->addRing(NewIntRing);
-  }
-
-  return Poly;
-}
+//Polygon* Polygon::Clone()
+//{
+//  LinearRing* ExtRing = this->getExteriorRing();
+//
+//  Polygon * Poly = new Polygon(this->getId());
+//  LinearRing * NewExtRing = new LinearRing(ExtRing->getId(), true);
+//
+//  for(TVec3d P : ExtRing->getVertices())
+//  {
+//    NewExtRing->addVertex(P);
+//  }
+//  Poly->addRing(NewExtRing);
+//
+//  for(LinearRing* IntRing : this->getInteriorRings())
+//  {
+//    LinearRing * NewIntRing = new LinearRing(IntRing->getId(), false);
+//
+//    for(TVec3d P : ExtRing->getVertices())
+//    {
+//      NewIntRing->addVertex(P);
+//    }
+//    Poly->addRing(NewIntRing);
+//  }
+//
+//  return Poly;
+//}
 
 const std::vector<TVec3d>& Polygon::getVertices( void ) const
 {
