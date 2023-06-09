@@ -8,15 +8,15 @@
 #include "Triangle.h"
 #include "Vectors.h"
 
-//Triangle
+#include "citygmls/Tile.h"
 
 Triangle::Triangle(TVec3d a, TVec3d b, TVec3d c)
 {
     this->a = a;
     this->b = b;
     this->c = c;
-    objectType = citygml::CityObjectsType::COT_All;
-    subObjectType = citygml::CityObjectsType::COT_All;
+    objectType = CityObjectsType::COT_All;
+    subObjectType = CityObjectsType::COT_All;
 }
 
 TVec3d Triangle::GetNormal()
@@ -39,26 +39,26 @@ TriangleList::~TriangleList()
         delete triangles[i];
 }
 
-TriangleList* BuildTriangleList(const std::string& tilefilename, const citygml::CityObjectsType& objectType, const std::string& cityObjId, const double& zMin)
+TriangleList* BuildTriangleList(const std::string& tilefilename, const CityObjectsType& objectType, const std::string& cityObjId, const double& zMin)
 {
     double epsilon = 0.0001;
 
     std::vector<Triangle*> triangles;
 
-    vcity::Tile* tile = new vcity::Tile(tilefilename);
+    Tile* tile = new Tile(tilefilename);
 
-    citygml::CityModel* model = tile->getCityModel();
+    CityModel* model = tile->getCityModel();
 
-    for (citygml::CityObject* obj : model->getCityObjectsRoots()) //For each city object
+    for (CityObject* obj : model->getCityObjectsRoots()) //For each city object
     {
         if (cityObjId.compare("") != 0 && cityObjId.compare(obj->getId()) != 0) //If cityObj not default "" and current city object equals to cityObjId
             continue;
 
-        if (obj->getType() == citygml::COT_Building && objectType == citygml::COT_Building) //We only take building or terrain
+        if (obj->getType() == COT_Building && objectType == COT_Building) //We only take building or terrain
         {
-            for (citygml::CityObject* object : obj->getChildren())//On parcourt les objets (Wall, Roof, ...) du batiment
-                for (citygml::Geometry* Geometry : object->getGeometries()) //pour chaque geometrie
-                    for (citygml::Polygon* PolygonCityGML : Geometry->getPolygons()) //Pour chaque polygone
+            for (CityObject* object : obj->getChildren())//On parcourt les objets (Wall, Roof, ...) du batiment
+                for (Geometry* Geometry : object->getGeometries()) //pour chaque geometrie
+                    for (Polygon* PolygonCityGML : Geometry->getPolygons()) //Pour chaque polygone
                     {
                         //Get triangle list
                         const std::vector<TVec3d>& vert = PolygonCityGML->getVertices();
@@ -87,14 +87,14 @@ TriangleList* BuildTriangleList(const std::string& tilefilename, const citygml::
         }
         // #CityObjectType
         // We check if the current cityobject is the same type of the wanted type of cityobject given in parameter
-        // Exemple : (obj->getType() == citygml::COT_<MyType> && objectType == citygml::COT_<MyType>
-        else if ((obj->getType() == citygml::COT_SolitaryVegetationObject && objectType == citygml::COT_SolitaryVegetationObject) ||
-            (obj->getType() == citygml::COT_TINRelief && objectType == citygml::COT_TINRelief) ||
-            (obj->getType() == citygml::COT_WaterBody && objectType == citygml::COT_WaterBody))
+        // Exemple : (obj->getType() == COT_<MyType> && objectType == COT_<MyType>
+        else if ((obj->getType() == COT_SolitaryVegetationObject && objectType == COT_SolitaryVegetationObject) ||
+            (obj->getType() == COT_TINRelief && objectType == COT_TINRelief) ||
+            (obj->getType() == COT_WaterBody && objectType == COT_WaterBody))
         {
 
-            for (citygml::Geometry* Geometry : obj->getGeometries()) //pour chaque geometrie
-                for (citygml::Polygon* PolygonCityGML : Geometry->getPolygons()) //Pour chaque polygone
+            for (Geometry* Geometry : obj->getGeometries()) //pour chaque geometrie
+                for (Polygon* PolygonCityGML : Geometry->getPolygons()) //Pour chaque polygone
                 {
                     //Get triangle list
                     const std::vector<TVec3d>& vert = PolygonCityGML->getVertices();

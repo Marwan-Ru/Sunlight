@@ -5,8 +5,7 @@
 
 #pragma once
 
-#include "libcitygml/citygml.hpp"
-#include "libcitygml/utils/tile.hpp"
+#include "citygmls/CityObject.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4251) // VC++ DLL jejune complains on STL _Id member
@@ -31,8 +30,8 @@ struct Triangle
     TVec3d b; ///< Second point of the triangle
     TVec3d c; ///< Third point of the triangle
 
-    citygml::CityObjectsType objectType;
-    citygml::CityObjectsType subObjectType;
+    CityObjectsType objectType;
+    CityObjectsType subObjectType;
     std::string objectId;
     std::string polygonId;
     std::string tileFile;
@@ -67,7 +66,7 @@ struct TriangleList
 */
 TriangleList* BuildTriangleList(
     const std::string& tilefilename,
-    const citygml::CityObjectsType& objectType,
+    const CityObjectsType& objectType,
     const std::string& cityObjId = "",
     const double& zMin = -10000.0
 );
