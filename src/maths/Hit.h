@@ -8,12 +8,11 @@
 #include "Vectors.h"
 #include "Triangle.h"
 #include "Ray.h"
-#include "filters_export.h"
 
 /**
 *	@brief An intersection between a ray and a triangle
 */
-struct FILTERS_EXPORT Hit
+struct Hit
 {
     /**
     *	@brief Create a new Hit

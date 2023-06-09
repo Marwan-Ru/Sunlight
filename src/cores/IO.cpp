@@ -5,44 +5,40 @@
 
 #include "IO.h"
 
+#include <fstream>
+#include <filesystem>
+
 #include "maths/Triangle.h"
 #include "utils/DateTime.h"
 #include "maths/Quaternion.h"
-
-#include <QDir>
-//This is not a real dependency towards osgDB/fstream, but towards fstream.
-//This is a kludge to be compatible with other files including osgDB/fstream
-//in order to avoid multiple definitions of stream related symbols on Windows.
-#include <osgDB/fstream>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
 
 
-void createOutputFolders(const QString& sOutputDir)
+void createOutputFolders(const std::string& sOutputDir)
 {
     //*** Create output folders
-    QDir outputDirSunlight(sOutputDir + "SunlightOutput/");
-    if (!outputDirSunlight.exists(sOutputDir + "SunlightOutput/"))
-        outputDirSunlight.mkpath(outputDirSunlight.absolutePath());
+    std::filesystem::path outputDirSunlight(sOutputDir + "SunlightOutput/");
+    if (!std::filesystem::exists(outputDirSunlight))
+        std::filesystem::create_directory(outputDirSunlight);
 
-    QDir outputDirBati(sOutputDir + "SunlightOutput/_BATI");
-    if (!outputDirBati.exists(sOutputDir + "SunlightOutput/_BATI"))
-        outputDirBati.mkpath(outputDirBati.absolutePath());
+    std::filesystem::path outputDirBati(sOutputDir + "SunlightOutput/_BATI");
+    if (!std::filesystem::exists(outputDirBati))
+        std::filesystem::create_directory(outputDirBati);
 
-    QDir outputDirMnt(sOutputDir + "SunlightOutput/_MNT");
-    if (!outputDirMnt.exists(sOutputDir + "SunlightOutput/_MNT"))
-        outputDirMnt.mkpath(outputDirMnt.absolutePath());
+    std::filesystem::path outputDirMnt(sOutputDir + "SunlightOutput/_MNT");
+    if (!std::filesystem::exists(outputDirMnt))
+        std::filesystem::create_directory(outputDirMnt);
 }
 
-void createFileFolder(FileInfo* file, const QString& sOutputDir)
+void createFileFolder(FileInfo* file, const std::string& sOutputDir)
 {
     //Create folder corresponding to file
-    QString path = sOutputDir + "SunlightOutput/" + QString::fromStdString(file->WithPrevFolder()) + "/";
-    QDir outputDir(path);
-    if (!outputDir.exists(path))
-        outputDir.mkpath(outputDir.absolutePath());
+    std::filesystem::path path(sOutputDir + "SunlightOutput/" + file->WithPrevFolder() + "/");
+    if (!std::filesystem::exists(path))
+        std::filesystem::create_directory(path);
 }
 
 void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* file, int iStartDate, int iEndDate, QString& outputDir)

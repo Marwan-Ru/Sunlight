@@ -7,7 +7,6 @@
 
 #include "libcitygml/citygml.hpp"
 #include "libcitygml/utils/tile.hpp"
-#include "citygmlutils_export.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4251) // VC++ DLL jejune complains on STL _Id member
@@ -16,7 +15,7 @@
 /**
 *	@brief A triangle created from a citygml polygon
 */
-struct CITYGMLUTILS_EXPORT Triangle
+struct Triangle
 {
     /**
     *	@brief Build a new triangle
@@ -43,7 +42,7 @@ struct CITYGMLUTILS_EXPORT Triangle
 *	A list of triangle
 *
 */
-struct CITYGMLUTILS_EXPORT TriangleList
+struct TriangleList
 {
     /**
     *	@brief Build a new collection of triangle
@@ -66,7 +65,7 @@ struct CITYGMLUTILS_EXPORT TriangleList
 *          Default = -10000.0
 *	@return The list of triangle from the CityGML tile
 */
-CITYGMLUTILS_EXPORT TriangleList* BuildTriangleList(
+TriangleList* BuildTriangleList(
     const std::string& tilefilename,
     const citygml::CityObjectsType& objectType,
     const std::string& cityObjId = "",

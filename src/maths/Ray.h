@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include "osg/Camera"
+#include <vector>
+
 #include "maths/Vectors.h"
-#include "filters_export.h"
 
 struct Hit;
 struct RayCollection;
@@ -17,7 +17,7 @@ struct Triangle;
 /**
 *	@brief A simple ray
 */
-struct FILTERS_EXPORT Ray
+struct Ray
 {
     /**
     *	@brief Build a new ray
@@ -35,13 +35,6 @@ struct FILTERS_EXPORT Ray
     */
     bool Intersect(Triangle* triangle, Hit* hit = nullptr);
 
-    /**
-    *	@brief Build a ray from a camera and a fragment coordinate
-    *	@param fragCoord Coordinate on screen of the ray
-    *	@param cam Camera used to build the ray
-    */
-    void BuildRd(TVec2d fragCoord, osg::Camera* cam);
-
     static float DotCross(TVec3d v0, TVec3d v1, TVec3d v2);
     static TVec3d Normalized(TVec3d vec);
 
@@ -56,7 +49,7 @@ struct FILTERS_EXPORT Ray
 /**
 *	@brief A collection of rays
 */
-struct FILTERS_EXPORT RayCollection
+struct RayCollection
 {
     /**
     *	@brief Build a new collection
@@ -65,13 +58,5 @@ struct FILTERS_EXPORT RayCollection
 
     ~RayCollection();
 
-    /**
-    *	@brief Build a collection of rays from a camera
-    *	@param cam The camera used to build the collection
-    */
-    static RayCollection* BuildCollection(osg::Camera* cam);
-
     std::vector<Ray*> rays;///< Rays of the collection
 };
-
-#endif

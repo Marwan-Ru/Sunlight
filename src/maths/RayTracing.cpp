@@ -8,7 +8,6 @@
 #include "Hit.h"
 
 #include <thread>
-#include <QTime>
 
 /**
 *	@brief Data used by a ray tracing thread
@@ -52,9 +51,6 @@ void RayLoop(const RayTracingData& data)
 
 std::vector<Hit*>* RayTracing(TriangleList* triangles, const std::vector<Ray*>& rays, bool breakOnFirstInter)
 {
-    QTime time;
-    time.start();
-
     unsigned int tCount = std::thread::hardware_concurrency() - 1;//Get how many thread we have
     unsigned int rayPerThread = rays.size() / tCount;
 
@@ -130,8 +126,6 @@ std::vector<Hit*>* RayTracing(TriangleList* triangles, const std::vector<Ray*>& 
     delete[] hitsArray;
 
     delete[] toDo;
-
-    //std::cout << "Time : " << time.elapsed()/1000 << " sec" << std::endl;
 
     return hits;
 }

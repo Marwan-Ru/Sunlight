@@ -7,9 +7,7 @@
 
 #include <vector>
 
-#include "osg/Camera"
-
-#include "filters/raytracing/RayTracing.h"
+#include "RayTracing.h"
 #include "AABB.h"
 
 /**
@@ -67,12 +65,6 @@ struct RayBoxCollection
     RayBoxCollection(std::vector<RayBox*> raysBoxes = std::vector<RayBox*>());
 
     ~RayBoxCollection();
-
-    /**
-    *	@brief Build a collection of rays from a camera
-    *	@param cam The camera we want to used to build the collection
-    */
-    static RayBoxCollection* BuildCollection(osg::Camera* cam);
 
     std::vector<RayBox*> raysBB;///< The rays of the collection
 };

@@ -8,13 +8,10 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <QString>
 
 #include "maths/Vectors.h"
+#include "maths/Triangle.h"
 #include "FileInfo.h"
-
-// Forward declaration, class can be found in libcitygml utils library
-struct Triangle;
 
 ///
 /// \brief createOutputFolders Prepare folder layout hierarchy:
@@ -40,14 +37,14 @@ struct Triangle;
 ///
 /// \param sOutputDir Path to output directory
 ///
-void createOutputFolders(const QString& sOutputDir);
+void createOutputFolders(const std::string& sOutputDir);
 
 ///
 /// \brief createFileFolder Creates folder for a given file which will hold its computed sunlight infos
 /// \param file File to create folder for
 /// \param sOutputDir Full path to output directory
 ///
-void createFileFolder(FileInfo* file, const QString& sOutputDir);
+void createFileFolder(FileInfo* file, const std::string& sOutputDir);
 
 ///
 /// \brief exportLightningToCSV Export Sunlight results of a given triangle into a csv.
@@ -58,7 +55,7 @@ void createFileFolder(FileInfo* file, const QString& sOutputDir);
 /// \param iEndDate End date of sunlight computation encoded as int
 /// \param outputDir Full path to output directory
 ///
-void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* file, int iStartDate, int iEndDate, QString& outputDir);
+void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* file, int iStartDate, int iEndDate, std::string& outputDir);
 
 ///
 /// \brief loadSunpathFile Loads file containing the path of the sun for a year

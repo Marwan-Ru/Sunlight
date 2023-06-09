@@ -6,8 +6,6 @@
 #pragma once
 
 #include <iostream>
-#include <QDateTime>
-
 
 ///
 /// \brief encodeDateTime Compute number of hours since civil 1970-01-01.  Negative values indicate days prior to 1970-01-01.
@@ -33,13 +31,6 @@ int encodeDateTime(const std::string& date, int hour);
 /// \return Number of hours since civil 1970-01-01.  Negative values indicate days prior to 1970-01-01.
 ///
 int encodeDateTime(const std::string& datetime);
-
-///
-/// \brief encodeDateTime Compute number of hours since civil 1970-01-01.  Negative values indicate days prior to 1970-01-01.
-/// \param date datetime as QDateTime object
-/// \return Number of hours since civil 1970-01-01.  Negative values indicate days prior to 1970-01-01.
-///
-int encodeDateTime(const QDateTime& date);
 
 ///
 /// \brief decodeDateTime Generates a string representing the datetime embedded in an integer. The integer represents the number of hours since civil 1970-01-01.

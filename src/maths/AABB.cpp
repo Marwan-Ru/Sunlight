@@ -361,7 +361,7 @@ void doBuildBuildingAABBs(std::string filepath)
     delete tile;
 }
 
-void BuildBuildingAABBs(QString buildingFilesFolder)
+void BuildBuildingAABBs(std::string buildingFilesFolder)
 {
     //Loop recursively through folder
     QDirIterator it(buildingFilesFolder, QDirIterator::Subdirectories);

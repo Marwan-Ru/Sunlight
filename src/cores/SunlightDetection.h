@@ -9,7 +9,6 @@
 
 #include <vector>
 #include <string>
-#include <QString>
 
 class FileInfo;
 
@@ -22,4 +21,4 @@ class FileInfo;
 /// \param endDate end date of sunlight computation
 /// \param outputDir full path to output directory
 ///
-void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, QString outputDir);
+void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, std::string outputDir);

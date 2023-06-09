@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "maths/Vectors.h"
-#include "citygmlutils_export.h"
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
@@ -24,7 +23,7 @@ struct TiledLayer
     int TuileMaxY;
 };
 
-class CITYGMLUTILS_EXPORT TiledFiles
+class TiledFiles
 {
 public:
     TiledFiles(std::string Folderpath);

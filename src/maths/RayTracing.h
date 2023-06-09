@@ -5,10 +5,11 @@
 
 #pragma once
 
-#include "Ray.h"
-#include "filters_export.h"
+#include <vector>
 
-struct TriangleList;
+#include "Ray.h"
+#include "Triangle.h"
+#include "Hit.h"
 
 /**
 *	@build Perform raytracing algorithm on a set of triangles
@@ -18,8 +19,4 @@ struct TriangleList;
 *                            Default : false (compute all intersections between rays and triangles).
 *   @return list of hits
 */
-FILTERS_EXPORT std::vector<Hit*>* RayTracing(
-	TriangleList* triangles,
-	const std::vector<Ray*>& rays,
-	bool breakOnFirstInter = false
-);
+std::vector<Hit*>* RayTracing(TriangleList* triangles, const std::vector<Ray*>& rays, bool breakOnFirstInter = false);

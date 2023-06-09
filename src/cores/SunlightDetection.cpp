@@ -3,9 +3,7 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
-#include <osgDB/fstream>
 #include <queue>
-
 #include <fstream>
 #include <string>
 
@@ -212,11 +210,10 @@ void writeInLogFile(const std::string& filepath, const std::string& text)
     logfile.close();
 }
 
-void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, QString outputDir)
+void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, std::string outputDir)
 {
-
-    QTime time;
-    time.start();
+    //QTime time;
+    //time.start();
 
     std::cout << "Sunlight Calculation started." << std::endl;
 
@@ -224,7 +221,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     createOutputFolders(outputDir);
 
     //Log file
-    std::string logFilePath = outputDir.toStdString() + "/SunlightOutput/logFile.txt";
+    std::string logFilePath = outputDir + "/SunlightOutput/logFile.txt";
 
     //Convert dates to integer
     int iStartDate = encodeDateTime(startDate, 0);
@@ -428,17 +425,17 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
         //Delete TriangleList
         delete trianglesfile;
 
-        std::cout << "===================================================" << std::endl;
-        std::cout << "file " << cpt_files << " of " << filenames.size() << " done in : " << static_cast<double>(time.elapsed()) / 1000.0 << "s" << std::endl;
-        std::cout << "===================================================" << std::endl;
+        //std::cout << "===================================================" << std::endl;
+        //std::cout << "file " << cpt_files << " of " << filenames.size() << " done in : " << static_cast<double>(time.elapsed()) / 1000.0 << "s" << std::endl;
+        //std::cout << "===================================================" << std::endl;
 
         //Log file
-        text = "Computation time : " + std::to_string(static_cast<double>(time.elapsed()) / 1000.0) + " s";
+        //text = "Computation time : " + std::to_string(static_cast<double>(time.elapsed()) / 1000.0) + " s";
         writeInLogFile(logFilePath, text);
         writeInLogFile(logFilePath, ""); //Skip one line
 
-        time_tot += static_cast<double>(time.elapsed()) / 1000.0;
-        time.restart();
+        //time_tot += static_cast<double>(time.elapsed()) / 1000.0;
+        //time.restart();
         ++cpt_files;
     }
 

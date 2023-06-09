@@ -4,8 +4,7 @@
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
 #include "DateTime.h"
-
-#include <QString>
+#include <string>
 
 //Partly taken from http://howardhinnant.github.io/date_algorithms.html
 int encodeDateTime(int y, int m, int d, int h)
@@ -58,18 +57,6 @@ int encodeDateTime(const std::string& datetime)
     int hour = std::stoi(sHour);
 
     return encodeDateTime(year, month, day, hour);
-}
-
-int encodeDateTime(const QDateTime& date)
-{
-    QString format = "yyyy-MM-dd:hh";
-    std::string sDatetime = date.toString(format).toStdString();
-
-    size_t pos = sDatetime.find(":");
-    std::string sDate = sDatetime.substr(0, pos);
-    std::string sHour = sDatetime.substr(pos + 1, std::string::npos);
-
-    return encodeDateTime(sDate, std::stoi(sHour));
 }
 
 //Partly taken from http://howardhinnant.github.io/date_algorithms.html

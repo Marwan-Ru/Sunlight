@@ -7,13 +7,12 @@
 
 #include <array>
 #include "maths/Vectors.h"
-#include "vcitycore_export.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4251) // VC++ DLL jejune complains on STL members
 #endif
 
-class VCITYCORE_EXPORT quaternion
+class quaternion
 {
 
 public:
@@ -48,7 +47,7 @@ public:
 /// \param s scalar
 /// \return result as a quaternion
 ///
-VCITYCORE_EXPORT quaternion operator*(const quaternion& q, double s);
+quaternion operator*(const quaternion& q, double s);
 
 ///
 /// \brief operator * Multiplication of a quaternion by a scalar
@@ -56,7 +55,7 @@ VCITYCORE_EXPORT quaternion operator*(const quaternion& q, double s);
 /// \param q quaternion
 /// \return result as a quaternion
 ///
-VCITYCORE_EXPORT quaternion operator*(double s, const quaternion& q);
+quaternion operator*(double s, const quaternion& q);
 
 ///
 /// \brief operator * Multiplication of a quaternion by a vector (applies rotation quaternion to vector)
@@ -64,7 +63,7 @@ VCITYCORE_EXPORT quaternion operator*(double s, const quaternion& q);
 /// \param vec vector
 /// \return new vector rotated
 ///
-VCITYCORE_EXPORT TVec3d operator*(quaternion const& q, TVec3d const& vec);
+TVec3d operator*(quaternion const& q, TVec3d const& vec);
 
 ///
 /// \brief operator * Multiplication of a quaternion by a quaternion
@@ -72,7 +71,7 @@ VCITYCORE_EXPORT TVec3d operator*(quaternion const& q, TVec3d const& vec);
 /// \param q2 right side quaternion
 /// \return result as a quaternion
 ///
-VCITYCORE_EXPORT quaternion operator*(const quaternion& q1, const quaternion& q2);
+quaternion operator*(const quaternion& q1, const quaternion& q2);
 
 ///
 /// \brief operator << print quaternion values
@@ -80,4 +79,4 @@ VCITYCORE_EXPORT quaternion operator*(const quaternion& q1, const quaternion& q2
 /// \param q quaternion
 /// \return Output stream of quaternion q : "q.x ; q.y ; q.z ; q.w"
 ///
-VCITYCORE_EXPORT std::ostream& operator<<(std::ostream& stream, const quaternion& q);
+std::ostream& operator<<(std::ostream& stream, const quaternion& q);
