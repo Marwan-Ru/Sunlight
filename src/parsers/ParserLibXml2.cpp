@@ -20,8 +20,6 @@
 
 #include <citygmls/CityModel.h>
 #include "Parser.h"
-//#include "citygml.hpp"
-//
 //#include <cstdarg>
 //#include <cstdio>
 #include <libxml/parser.h>

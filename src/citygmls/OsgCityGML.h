@@ -36,13 +36,13 @@
 //    };
 //
 //    ReaderOsgCityGML(const std::string& filepath);
-//    osg::ref_ptr<osg::Node> readNode(const citygml::CityObject* citygml);
+//    osg::ref_ptr<osg::Node> readNode(const CityObject* citygml);
 //
 //    static unsigned int getHighestLodForObject(const CityObject * object);
 //
 //    //private:
-//    osg::ref_ptr<osg::Node> readCity(const citygml::CityModel*);
-//    osg::ref_ptr<osg::Group> createCityObject(const citygml::CityObject*, unsigned int minimumLODToConsider = 0);
+//    osg::ref_ptr<osg::Node> readCity(const CityModel*);
+//    osg::ref_ptr<osg::Group> createCityObject(const CityObject*, unsigned int minimumLODToConsider = 0);
 //
 //public:
 //    Settings m_settings;

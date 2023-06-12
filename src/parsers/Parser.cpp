@@ -20,13 +20,16 @@
 //  http://www.citygml.org/fileadmin/citygml/docs/CityGML_1_0_0_UML_diagrams.pdf
 
 #include "Parser.h"
-#include "transform.hpp"
 #include <utils/Utils.h>
-#include "ADE/ADE.hpp"
-
 #include <citygmls/LinearRing.h>
 #include <citygmls/Polygon.h>
 #include <citygmls/Geometry.h>
+#include <citygmls/Texture.h>
+#include <citygmls/Material.h>
+#include <citygmls/Appearance.h>
+#include <citygmls/GeoReferencedTexture.h>
+#include <citygmls/GeoTransform.h>
+#include "ADE/ADE.h"
 
 #ifndef MSVC
 	#include <typeinfo>
@@ -52,7 +55,7 @@ _useXLink(false)
 	for (std::map<std::string,ADEHandler*>::iterator it = _ADEHandlers.begin(); it != _ADEHandlers.end(); it++) it->second->setGMLHandler(this); 
 }
 
-CityGMLHandler::~CityGMLHandler( void ) 
+CityGMLHandler::~CityGMLHandler() 
 {
     for ( std::set<Geometry*>::iterator it = _geometries.begin(); it != _geometries.end(); it++ )
         delete *it;
@@ -62,7 +65,7 @@ CityGMLHandler::~CityGMLHandler( void )
 	}
 }
 
-void CityGMLHandler::initNodes( void ) 
+void CityGMLHandler::initNodes() 
 {
 	if ( s_cityGMLNodeTypeMap.size() != 0 ) return;
 

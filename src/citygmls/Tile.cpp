@@ -11,6 +11,8 @@
 #include <citygmls/CityModel.h>
 #include <citygmls/URI.h>
 
+#include <parsers/ParserLibXml2.cpp>
+
 Tile::Tile()
     : m_root(nullptr)
 {

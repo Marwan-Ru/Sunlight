@@ -51,14 +51,14 @@
 //}
 //
 //// Read CityGML file using libcitygml and generate the OSG scenegraph
-//osg::ref_ptr<osg::Node> ReaderOsgCityGML::readNode(const citygml::CityObject* /*citygml*/)
+//osg::ref_ptr<osg::Node> ReaderOsgCityGML::readNode(const CityObject* /*citygml*/)
 //{
 //    osg::ref_ptr<osg::Node> res;// = readCity(citygml, settings);
 //
 //    return res;
 //}
 //
-//osg::ref_ptr<osg::Node> ReaderOsgCityGML::readCity(const citygml::CityModel* citygml)
+//osg::ref_ptr<osg::Node> ReaderOsgCityGML::readCity(const CityModel* citygml)
 //{
 //    if (!citygml) return NULL;
 //
@@ -75,17 +75,17 @@
 //
 //    if (!m_settings._recursive)
 //    {
-//        const citygml::CityObjectsMap& cityObjectsMap = citygml->getCityObjectsMap();
-//        citygml::CityObjectsMap::const_iterator it = cityObjectsMap.begin();
+//        const CityObjectsMap& cityObjectsMap = citygml->getCityObjectsMap();
+//        CityObjectsMap::const_iterator it = cityObjectsMap.begin();
 //
 //        for (; it != cityObjectsMap.end(); ++it)
 //        {
-//            const citygml::CityObjects& v = it->second;
+//            const CityObjects& v = it->second;
 //
-//            osg::notify(osg::NOTICE) << " Creation of " << v.size() << " " << citygml::getCityObjectsClassName(it->first) << ((v.size() > 1) ? "s" : "") << "..." << std::endl;
+//            osg::notify(osg::NOTICE) << " Creation of " << v.size() << " " << getCityObjectsClassName(it->first) << ((v.size() > 1) ? "s" : "") << "..." << std::endl;
 //
 //            osg::Group* grp = new osg::Group;
-//            grp->setName(citygml::getCityObjectsClassName(it->first));
+//            grp->setName(getCityObjectsClassName(it->first));
 //            root->addChild(grp);
 //
 //            for (unsigned int i = 0; i < v.size(); ++i)
@@ -96,7 +96,7 @@
 //    }
 //    else
 //    {
-//        const citygml::CityObjects& roots = citygml->getCityObjectsRoots();
+//        const CityObjects& roots = citygml->getCityObjectsRoots();
 //        for (unsigned int i = 0; i < roots.size(); ++i)
 //        {
 //            createCityObject(roots[i]);
@@ -110,7 +110,7 @@
 //    return root;
 //}
 //
-//osg::ref_ptr<osg::Group> ReaderOsgCityGML::createCityObject(const citygml::CityObject* object, unsigned int minimumLODToConsider)
+//osg::ref_ptr<osg::Group> ReaderOsgCityGML::createCityObject(const CityObject* object, unsigned int minimumLODToConsider)
 //{
 //    // Skip objects without geometry
 //    if (!object) return nullptr;
@@ -155,7 +155,7 @@
 //
 //    for (unsigned int i = 0; i < object->size(); i++)
 //    {
-//        const citygml::Geometry& geometry = *object->getGeometry(i);
+//        const Geometry& geometry = *object->getGeometry(i);
 //
 //        const unsigned int currentLOD = geometry.getLOD();
 //
@@ -166,7 +166,7 @@
 //
 //        for (unsigned int j = 0; j < geometry.size(); j++)
 //        {
-//            const citygml::Polygon* p = geometry[j];
+//            const Polygon* p = geometry[j];
 //
 //            if (p->getIndices().size() == 0) continue;
 //
@@ -231,26 +231,26 @@
 //            osg::Vec4 specularColor = osg::Vec4(0.2f, 0.2f, 0.2f, 1.f);
 //
 //            //Change color depending on object Type
-//            if (geometry.getType() == citygml::GT_Roof ||
-//                object->getType() == citygml::COT_RoofSurface) //Roofs
+//            if (geometry.getType() == GT_Roof ||
+//                object->getType() == COT_RoofSurface) //Roofs
 //            {
 //                //Brick
 //                ambientColor = osg::Vec4(0.8f, 0.25f, 0.25f, 1.f);
 //                diffuseColor = osg::Vec4(0.30f, 0.30f, 0.30f, 1.0f);
 //                specularColor = osg::Vec4(0.2f, 0.2f, 0.2f, 1.f);
 //            }
-//            else if (object->getType() == citygml::COT_TINRelief) //Land
+//            else if (object->getType() == COT_TINRelief) //Land
 //            {
 //                //Brown
 //                ambientColor = osg::Vec4(0.74f, 0.65f, 0.56f, 1.f);
 //                diffuseColor = osg::Vec4(0.35f, 0.35f, 0.35f, 1.f);
 //            }
-//            else if (object->getType() == citygml::COT_WaterBody)
+//            else if (object->getType() == COT_WaterBody)
 //            {
 //                //Blue
 //                ambientColor = osg::Vec4(0.12f, 0.49f, 0.79f, 1.f);
 //            }
-//            else if (object->getType() == citygml::COT_SolitaryVegetationObject || object->getType() == citygml::COT_PlantCover || object->getType() == citygml::COT_Square)
+//            else if (object->getType() == COT_SolitaryVegetationObject || object->getType() == COT_PlantCover || object->getType() == COT_Square)
 //            {
 //                //Green
 //                ambientColor = osg::Vec4(0.22f, 0.54f, 0.13f, 1.f);
@@ -267,11 +267,11 @@
 //
 //            if (m_settings.m_useTextures)
 //            {
-//                const citygml::Appearance *mat = p->getAppearance();
+//                const Appearance *mat = p->getAppearance();
 //
-//                if (const citygml::Texture* t = dynamic_cast<const citygml::Texture*>(mat))
+//                if (const Texture* t = dynamic_cast<const Texture*>(mat))
 //                {
-//                    const citygml::TexCoords& texCoords = p->getTexCoords();
+//                    const TexCoords& texCoords = p->getTexCoords();
 //
 //                    if (texCoords.size() > 0)
 //                    {
@@ -309,11 +309,11 @@
 //                            tex->reserve(texCoords.size());
 //
 //                            // georeferencedtexture special case : need to divide texccords by image size
-//                            if (dynamic_cast<const citygml::GeoreferencedTexture*>(mat))
+//                            if (dynamic_cast<const GeoreferencedTexture*>(mat))
 //                            {
 //                                float w = texture->getImage()->s();
 //                                float h = texture->getImage()->t();
-//                                /*citygml::TexCoords& tc = p->getTexCoords(); // fail, cityobject is const...
+//                                /*TexCoords& tc = p->getTexCoords(); // fail, cityobject is const...
 //                                for ( unsigned int k = 0; k < tc.size(); k++ )
 //                                {
 //                                    tc[k].x /= w;
@@ -374,7 +374,7 @@
 //    }
 //
 //    // Manage transparency for windows
-//    if (object->getType() == citygml::COT_Window)
+//    if (object->getType() == COT_Window)
 //    {
 //        osg::StateSet* geodeSS(geodeLOD0->getOrCreateStateSet());
 //
@@ -398,10 +398,10 @@
 //    }*/
 //
 //    // add bbox
-//    if (object->getType() == citygml::COT_Building)
+//    if (object->getType() == COT_Building)
 //    {
 //        //object->computeEnvelope();
-//        const citygml::Envelope& env = object->getEnvelope();
+//        const Envelope& env = object->getEnvelope();
 //        if ((env.getUpperBound().x != 0.0 && env.getUpperBound().y != 0.0 && env.getUpperBound().z != 0.0) ||
 //            (env.getLowerBound().x != 0.0 && env.getLowerBound().y != 0.0 && env.getLowerBound().z != 0.0))
 //        {
@@ -440,13 +440,13 @@
 //    return grp;
 //}
 //
-//unsigned int ReaderOsgCityGML::getHighestLodForObject(const citygml::CityObject* object)
+//unsigned int ReaderOsgCityGML::getHighestLodForObject(const CityObject* object)
 //{
 //    unsigned int highestLOD = 0;
 //    // first find out highest LOD for this object
 //    for (unsigned int i = 0; i < object->size(); i++)
 //    {
-//        const citygml::Geometry &geometry = *object->getGeometry(i);
+//        const Geometry &geometry = *object->getGeometry(i);
 //
 //        if (geometry.getLOD() > highestLOD)
 //        {

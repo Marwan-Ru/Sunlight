@@ -210,11 +210,11 @@ public:
 
 	CityGMLHandler( const ParserParams& params );
 
-	~CityGMLHandler( void );
+	~CityGMLHandler();
 
-    virtual void startDocument( void ) {}
+    virtual void startDocument() {}
 
-	virtual void endDocument( void );
+	virtual void endDocument();
 
 	virtual void startElement( const std::string&, void* );
 
@@ -226,7 +226,7 @@ public:
 		std::cerr << "  Full path was: " << getFullPath() << std::endl;
 	}
 
-	inline CityModel* getModel( void ) { return _model; }
+	inline CityModel* getModel() { return _model; }
 
 protected:
 
@@ -237,7 +237,7 @@ protected:
 		return -1;
 	}
 
-	inline std::string getFullPath( void ) const 
+	inline std::string getFullPath() const 
 	{
 		std::stringstream ss;
 		for ( unsigned int i = 0; i < _nodePath.size(); i++ )
@@ -245,13 +245,13 @@ protected:
 		return ss.str();
 	}
 
-	inline std::string getPrevNode( void ) const { return _nodePath.size() > 2 ? _nodePath[ _nodePath.size() - 2 ] : ""; }
+	inline std::string getPrevNode() const { return _nodePath.size() > 2 ? _nodePath[ _nodePath.size() - 2 ] : ""; }
 
-	inline unsigned int getPathDepth( void ) const { return _nodePath.size(); }
+	inline unsigned int getPathDepth() const { return _nodePath.size(); }
 
-	inline CityGMLNodeType getPrevNodeType( void ) const { return getNodeTypeFromName( getPrevNode() ); }
+	inline CityGMLNodeType getPrevNodeType() const { return getNodeTypeFromName( getPrevNode() ); }
 
-	inline void clearBuffer( void ) { _buff.str(""); _buff.clear(); }  
+	inline void clearBuffer() { _buff.str(""); _buff.clear(); }  
 		
 	inline void pushCityObject( CityObject* object )
 	{
@@ -266,7 +266,7 @@ protected:
 		_currentCityObject = object;
 	}
 
-	inline void popCityObject( void )
+	inline void popCityObject()
 	{
 		_currentCityObject = 0; 
 		if ( _cityObjectStack.empty() ) return; 
@@ -280,7 +280,7 @@ protected:
 		_currentObject = object;
 	}
 
-	inline void popObject( void )
+	inline void popObject()
 	{
 		_currentObject = 0; 
 		if ( _objectStack.empty() ) return; 
@@ -294,7 +294,7 @@ protected:
 
 	void createGeoTransform( std::string );
 		
-	static void initNodes( void );
+	static void initNodes();
 
 	static std::string getNodeName( const std::string& );
 
