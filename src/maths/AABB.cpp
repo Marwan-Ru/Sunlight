@@ -5,10 +5,7 @@
 
 #include "AABB.h"
 
-#include <QDir>
-#include <QDirIterator>
-#include <QFile>
-
+#include <filesystem>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -16,6 +13,8 @@
 #include "Triangle.h"
 #include "parsers/TiledFilesLayout.h"
 #include "citygmls/Tile.h"
+
+namespace fs = std::filesystem;
 
 //AABB
 bool AABB::operator==(AABB const& other)
@@ -94,50 +93,43 @@ AABBCollection LoadLayersAABBs(std::string dir)
 {
     // In order to add a new data set, uncomment exemple and replace fillers <..> by your data
     bool foundBuild = false;
-    QFileInfo bDat;
     bool foundTerrain = false;
-    QFileInfo tDat;
     bool foundWater = false;
-    QFileInfo wDat;
     bool foundVeget = false;
-    QFileInfo vDat;
     // bool found<MyData> = false;
-    // QFileInfo <myData>Dat;
 
     //Check if our bounding box files do exists
-    QDir dt(dir.c_str());
-    if (dt.exists())
+    fs::path dt(dir);
+    if (fs::exists(dt))
     {
-        for (QFileInfo f : dt.entryInfoList())
+        for (const auto& f : fs::directory_iterator(dt))
         {
-            if (f.isFile())
+            if (!f.is_regular_file())
             {
-                if (f.fileName() == "_BATI_AABB.dat")
-                {
-                    bDat = f.absoluteFilePath();
-                    foundBuild = true;
-                }
-                if (f.fileName() == "_MNT_AABB.dat")
-                {
-                    tDat = f.absoluteFilePath();
-                    foundTerrain = true;
-                }
-                if (f.fileName() == "_WATER_AABB.dat")
-                {
-                    wDat = f.absoluteFilePath();
-                    foundWater = true;
-                }
-                if (f.fileName() == "_VEGET_AABB.dat")
-                {
-                    vDat = f.absoluteFilePath();
-                    foundVeget = true;
-                }
-                // if(f.fileName() == "_<MyDataSuffix>_AABB.dat")
-                // {
-                // <myData>Dat = f.absoluteFilePath();
-                // found<MyData> = true;
-                // }
+                continue;
             }
+
+            if (f.path().filename().string().ends_with("_BATI_AABB.dat"))
+            {
+                foundBuild = true;
+            }
+            if (f.path().filename().string().ends_with("_MNT_AABB.dat"))
+            {
+                foundTerrain = true;
+            }
+            if (f.path().filename().string().ends_with("_WATER_AABB.dat"))
+            {
+                foundWater = true;
+            }
+            if (f.path().filename().string().ends_with("_VEGET_AABB.dat"))
+            {
+                foundVeget = true;
+            }
+            //if (f.path().filename().string().ends_with("_<MyDataSuffix>_AABB.dat"))
+            // {
+            // <myData>Dat = f.path();
+            // found<MyData> = true;
+            // }
         }
     }
     else
@@ -197,8 +189,8 @@ std::map<std::string, std::pair<TVec3d, TVec3d>> DoBuildAABB(std::string dir, Ti
             TVec3d min(FLT_MAX, FLT_MAX, FLT_MAX);
             TVec3d max(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
-            QFile File(QString(FileName.c_str()));
-            if (File.exists())
+            fs::path File(FileName);
+            if (fs::exists(File))
             {
                 TriangleList* list = BuildTriangleList(FileName, type);
 
@@ -364,19 +356,23 @@ void doBuildBuildingAABBs(std::string filepath)
 
 void BuildBuildingAABBs(std::string buildingFilesFolder)
 {
-    //Loop recursively through folder
-    QDirIterator it(buildingFilesFolder, QDirIterator::Subdirectories);
-    while (it.hasNext())
-    {
-        if (it.filePath().contains("_BATI"))
-        {
-            if (it.fileName().contains(".gml"))
-            {
-                std::cout << "File : " << it.fileName().toStdString() << std::endl;
-                doBuildBuildingAABBs(it.filePath().toStdString());
-            }
-        }
+    fs::path parentPath(buildingFilesFolder);
 
-        it.next();
+    //Loop recursively through folder
+    for (const auto& it : fs::recursive_directory_iterator(parentPath))
+    {
+        if (fs::is_directory(it))
+            continue;
+
+        std::string filePath(it.path().string());
+        if (!filePath.find("_BATI"))
+            continue;
+
+        std::string fileName(it.path().filename().string());
+        if (!fileName.ends_with(".gml"))
+            continue;
+
+        std::cout << "File : " << fileName << std::endl;
+        doBuildBuildingAABBs(filePath);
     }
 }

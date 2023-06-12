@@ -26,8 +26,6 @@
 #include <algorithm>
 
 #include "Tesselator.h"
-#include "citygml.hpp"
-#include "utils.hpp"
 
 CityModel::CityModel( const std::string& id)
     : Object( id )

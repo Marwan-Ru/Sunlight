@@ -5,15 +5,13 @@
 
 #include "TiledFilesLayout.h"
 
-#include <QDir>
-#include <QFile>
-
+#include <filesystem>
 #include <iostream>
-#include <osgDB/fstream>
 #include <map>
 
-#include "libcitygml/citygml.hpp"
 #include "citygmls/Tile.h"
+
+namespace fs = std::filesystem;
 
 TiledFiles::TiledFiles(std::string Folderpath)
 {
@@ -22,40 +20,45 @@ TiledFiles::TiledFiles(std::string Folderpath)
 
 void TiledFiles::BuildListofLayers()
 {
-    QDir QFolder(Folder.c_str());
+    const fs::path QFolder(Folder);
 
-    if (!QFolder.exists())
+    if (!fs::exists(QFolder))
     {
         std::cout << "Error, Folder does not exists." << std::endl;
         return;
     }
 
-    for (QFileInfo LayerFolder : QFolder.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::NoSort)) //Parameters needed to correct unexpected results (see http://stackoverflow.com/questions/7872155/qdirentryinfolist-unexpected-behavior)
+    for (auto& LayerFolder : fs::directory_iterator(QFolder))
     {
-        if (!LayerFolder.isDir())
+        if (!LayerFolder.is_directory())
             continue;
 
-        if (LayerFolder.filePath().endsWith("ShpExtruded") || LayerFolder.filePath().endsWith("SkylineOutput")) //For visibility plugin
+        std::string layerFilePath(LayerFolder.path().string());
+        std::string layerFileName(LayerFolder.path().filename().string());
+
+        if (layerFilePath.ends_with("ShpExtruded") || layerFilePath.ends_with("SkylineOutput")) //For visibility plugin
             continue;
 
-        if (LayerFolder.filePath().endsWith("tmp")) //For FloodAR plugin
+        if (layerFilePath.ends_with("tmp")) //For FloodAR plugin
             continue;
 
-        QDir QDirLayerFolder(LayerFolder.filePath());
+        fs::path QDirLayerFolder(layerFilePath);
 
         TiledLayer L;
-        L.Name = LayerFolder.baseName().toStdString();
+        // TODO test if it's the correct base name
+        L.Name = layerFileName;
         L.TuileMinX = -1;
         L.TuileMinY = -1;
         L.TuileMaxX = -1;
         L.TuileMaxY = -1;
 
-        for (QFileInfo TileFolder : QDirLayerFolder.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::NoSort))
+        for (const auto& TileFolder : std::filesystem::directory_iterator(QDirLayerFolder))
         {
-            if (!TileFolder.isDir())
+            if (!TileFolder.is_directory())
                 continue;
 
-            std::string Tile = TileFolder.baseName().toStdString();
+            // TODO test if it's the correct base name (directory parent of current file)
+            std::string Tile = TileFolder.path().filename().string();
 
             int SplitPos = Tile.find("_"); //Position of the split character "_" between X and Y coordinates of the current tile
 

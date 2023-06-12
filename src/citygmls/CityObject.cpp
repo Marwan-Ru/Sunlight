@@ -19,7 +19,7 @@
 #include <iostream>
 
 #include "Polygon.h"
-#include "utils.hpp"
+#include "utils/Utils.h"
 
 CityObject::CityObject(const std::string& id, CityObjectsType type)
    : Object(id), _type(type), m_path(""), m_temporalUse(false)
