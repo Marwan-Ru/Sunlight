@@ -34,14 +34,14 @@
   #include <GL/glu.h>
 #endif
 
-#include "maths/Vectors.h"
+#include <maths/Vectors.h>
 
 // GLU based polygon tesselator
 class Tesselator 
 {		
 public:
-	Tesselator( void ); 
-	~Tesselator( void );
+	Tesselator(); 
+	~Tesselator();
 
 	void init( size_t verticesCount, const TVec3d& normal, GLenum winding_rule = GLU_TESS_WINDING_ODD );
 
@@ -49,12 +49,12 @@ public:
 	void addContour( const std::vector<TVec3d>&, const std::vector<TVec2f>& );
 
 	// Let's tesselate!
-	void compute( void );
+	void compute();
 
 	// Tesselation result access
-	inline const std::vector<TVec3d>& getVertices( void ) const { return _vertices; }
-	inline const std::vector<TVec2f>& getTexCoords( void ) const { return _texCoords; }
-	inline const std::vector<unsigned int>& getIndices( void ) const { return _indices; }
+	inline const std::vector<TVec3d>& getVertices() const { return _vertices; }
+	inline const std::vector<TVec2f>& getTexCoords() const { return _texCoords; }
+	inline const std::vector<unsigned int>& getIndices() const { return _indices; }
 
 private:
 	typedef void (APIENTRY *GLU_TESS_CALLBACK)();

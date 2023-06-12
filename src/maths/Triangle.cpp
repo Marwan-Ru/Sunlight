@@ -3,12 +3,14 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
-#include <vector>
 
 #include "Triangle.h"
-#include "Vectors.h"
+#include <citygmls/CityObject.h>
+#include <citygmls/Polygon.h>
+#include <citygmls/Geometry.h>
+#include <citygmls/Tile.h>
 
-#include "citygmls/Tile.h"
+#include <vector>
 
 Triangle::Triangle(TVec3d a, TVec3d b, TVec3d c)
 {

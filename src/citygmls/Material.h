@@ -17,7 +17,7 @@
 #pragma once
 
 #include "Appearance.h"
-#include "maths/Vectors.h"
+#include <maths/Vectors.h>
 
 class Material : virtual public Appearance
 {
@@ -25,12 +25,12 @@ class Material : virtual public Appearance
 public:
     Material( const std::string& id );
 
-    TVec3f getDiffuse( void ) const;
-    TVec3f getEmissive( void ) const;
-    TVec3f getSpecular( void ) const;
-    float getAmbientIntensity( void ) const;
-    float getShininess( void ) const;
-    float getTransparency( void ) const;
+    TVec3f getDiffuse() const;
+    TVec3f getEmissive() const;
+    TVec3f getSpecular() const;
+    float getAmbientIntensity() const;
+    float getShininess() const;
+    float getTransparency() const;
 
 protected:
     TVec3f _diffuse;

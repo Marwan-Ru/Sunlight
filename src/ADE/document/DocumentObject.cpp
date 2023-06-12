@@ -5,6 +5,8 @@
 
 #include "DocumentObject.h"
 
+#include <ctime>
+
 namespace documentADE
 {
    void DocumentObject::setTitle(std::string title)

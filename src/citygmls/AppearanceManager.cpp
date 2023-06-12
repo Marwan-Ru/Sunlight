@@ -18,12 +18,18 @@
 
 #include <set>
 
-AppearanceManager::AppearanceManager( void ) : _lastId( "" ), _lastCoords( 0 )
+#include "Appearance.h"
+#include "Texture.h"
+#include "Tesselator.h"
+#include "Material.h"
+#include "GeoReferencedTexture.h"
+
+AppearanceManager::AppearanceManager() : _lastId( "" ), _lastCoords( 0 )
 {
     _tesselator = new Tesselator();
 }
 
-AppearanceManager::~AppearanceManager( void )
+AppearanceManager::~AppearanceManager()
 {
     for ( unsigned int i = 0; i < _appearances.size(); i++ ) delete _appearances[i];
 
@@ -83,12 +89,12 @@ bool AppearanceManager::getTexCoords( const std::string& nodeid, TexCoords &texC
     return true;
 }
 
-Tesselator* AppearanceManager::getTesselator( void )
+Tesselator* AppearanceManager::getTesselator()
 {
     return _tesselator;
 }
 
-void AppearanceManager::refresh( void )
+void AppearanceManager::refresh()
 {
     _lastCoords = 0;
     _lastId = "";
@@ -151,7 +157,7 @@ bool AppearanceManager::assignTexCoords( TexCoords* tex )
     return true;
 }
 
-void AppearanceManager::finish(void)
+void AppearanceManager::finish()
 {
     std::set<TexCoords*> useLessTexCoords;
 

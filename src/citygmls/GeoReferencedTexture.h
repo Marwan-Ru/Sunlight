@@ -25,7 +25,7 @@ class GeoreferencedTexture : public Texture
 public:
     GeoreferencedTexture( const std::string& id );
 
-    bool getPreferWorldFile( void ) const;
+    bool getPreferWorldFile() const;
 
     // TODO support referencePoint and orientation
     class WorldParams

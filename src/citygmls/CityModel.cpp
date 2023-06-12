@@ -18,6 +18,10 @@
 */
 
 #include "CityModel.h"
+#include "Tesselator.h"
+#include "ParserParams.h"
+#include "Envelope.h"
+#include "URI.h"
 
 #include <string>
 #include <limits>
@@ -25,14 +29,12 @@
 #include <set>
 #include <algorithm>
 
-#include "Tesselator.h"
-
 CityModel::CityModel( const std::string& id)
     : Object( id )
 {
 }
 
-CityModel::~CityModel( void )
+CityModel::~CityModel()
 {
     /*CityObjectsMap::const_iterator it = _cityObjectsMap.begin();
     for ( ; it != _cityObjectsMap.end(); ++it )
@@ -48,24 +50,24 @@ CityModel::~CityModel( void )
 }
 
 // Return the envelope (ie. the bounding box) of the model
-const Envelope& CityModel::getEnvelope( void ) const
+const Envelope& CityModel::getEnvelope() const
 {
     return _envelope;
 }
 
-Envelope& CityModel::getEnvelope( void )
+Envelope& CityModel::getEnvelope()
 {
     return _envelope;
 }
 
 // Return the translation parameters of the model
-const TVec3d& CityModel::getTranslationParameters( void ) const
+const TVec3d& CityModel::getTranslationParameters() const
 {
     return _translation;
 }
 
 // Get the number of city objects
-size_t CityModel::size( void ) const
+size_t CityModel::size() const
 {
     size_t count = 0;
     CityObjectsMap::const_iterator it = _cityObjectsMap.begin();
@@ -73,12 +75,12 @@ size_t CityModel::size( void ) const
     return count;
 }
 
-const CityObjectsMap& CityModel::getCityObjectsMap( void ) const
+const CityObjectsMap& CityModel::getCityObjectsMap() const
 {
     return _cityObjectsMap;
 }
 
-CityObjectsMap& CityModel::getCityObjectsMap( void )
+CityObjectsMap& CityModel::getCityObjectsMap()
 {
     return _cityObjectsMap;
 }
@@ -90,17 +92,17 @@ const CityObjects* CityModel::getCityObjectsByType( CityObjectsType type ) const
 }
 
 // Return the roots elements of the model. You can then navigate the hierarchy using object->getChildren().
-const CityObjects& CityModel::getCityObjectsRoots( void ) const
+const CityObjects& CityModel::getCityObjectsRoots() const
 {
     return _roots;
 }
 
-CityObjects& CityModel::getCityObjectsRoots( void )
+CityObjects& CityModel::getCityObjectsRoots()
 {
     return _roots;
 }
 
-const std::string& CityModel::getSRSName( void ) const
+const std::string& CityModel::getSRSName() const
 {
     return _srsName;
 }

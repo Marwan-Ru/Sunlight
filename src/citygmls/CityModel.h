@@ -20,23 +20,25 @@
 #include <map>
 #include <ostream>
 
-#include "maths/Vectors.h"
+#include <maths/Vectors.h>
 #include "citygmls/Object.h"
-#include "citygmls/Envelope.h"
 #include "citygmls/CityObject.h"
-#include "citygmls/URI.h"
-#include "citygmls/AppearanceManager.h"
+#include "AppearanceManager.h"
 
-#include "ADE/temporal/Version.h"
-#include "ADE/temporal/VersionTransition.h"
-#include "ADE/temporal/Workspace.h"
+#include <ADE/temporal/Version.h>
+#include <ADE/temporal/VersionTransition.h>
+#include <ADE/temporal/Workspace.h>
 
-#include "ADE/document/DocumentObject.h"
-#include "ADE/document/Reference.h"
+#include <ADE/document/DocumentObject.h>
+#include <ADE/document/Reference.h>
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
 #endif
+
+class Envelope;
+class URI;
+class ParserParams;
 
 typedef std::vector< CityObject* > CityObjects;
 typedef std::map< CityObjectsType, CityObjects > CityObjectsMap;
@@ -47,28 +49,28 @@ class CityModel : public Object
 public:
     CityModel( const std::string& id = "CityModel" );
 
-    ~CityModel( void ) override;
+    ~CityModel() override;
 
     // Return the envelope (ie. the bounding box) of the model
-    const Envelope& getEnvelope( void ) const;
-    Envelope& getEnvelope( void );
+    const Envelope& getEnvelope() const;
+    Envelope& getEnvelope();
 
     // Return the translation parameters of the model
-    const TVec3d& getTranslationParameters( void ) const;
+    const TVec3d& getTranslationParameters() const;
 
     // Get the number of city objects
-    size_t size( void ) const;
+    size_t size() const;
 
-    const CityObjectsMap& getCityObjectsMap( void ) const;
-    CityObjectsMap& getCityObjectsMap( void );
+    const CityObjectsMap& getCityObjectsMap() const;
+    CityObjectsMap& getCityObjectsMap();
 
     const CityObjects* getCityObjectsByType( CityObjectsType type ) const;
 
     // Return the roots elements of the model. You can then navigate the hierarchy using object->getChildren().
-    const CityObjects& getCityObjectsRoots( void ) const;
-    CityObjects& getCityObjectsRoots( void );
+    const CityObjects& getCityObjectsRoots() const;
+    CityObjects& getCityObjectsRoots();
 
-    const std::string& getSRSName( void ) const;
+    const std::string& getSRSName() const;
 
     void computeEnvelope();
 

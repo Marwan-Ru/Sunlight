@@ -16,15 +16,17 @@
 
 #pragma once
 
+#include "Object.h"
+#include "Envelope.h"
+
 #include <vector>
 #include <ostream>
 
-#include "citygmls/Object.h"
-#include "citygmls/Envelope.h"
-#include "citygmls/Polygon.h"
-#include "citygmls/ParserParams.h"
-
 class CityObject;
+class Polygon;
+class Appearance;
+class AppearanceManager;
+class ParserParams;
 
 enum GeometryType
 {
@@ -52,27 +54,27 @@ public:
     virtual ~Geometry() override;
 
     // Get the geometry LOD
-    unsigned int getLOD( void ) const;
+    unsigned int getLOD() const;
 
     // Return the envelope (ie. the bounding box) of the object
-    const Envelope& getEnvelope( void ) const;
+    const Envelope& getEnvelope() const;
 
     // Get the polygons
-    size_t size( void ) const;
+    size_t size() const;
     Polygon* operator[]( size_t i );
     const Polygon* operator[]( size_t i ) const;
 
     const std::vector< Polygon* >& getPolygons() const;
     std::vector< Polygon* >& getPolygons();
 
-    GeometryType getType( void ) const;
+    GeometryType getType() const;
 
     const CityObject* getParent() const;
     CityObject* getParent();
 
-    void addPolygon( Polygon* );
+    void addPolygon( Polygon* p);
 
-    void finish( AppearanceManager&, Appearance*, const ParserParams& );
+    void finish(AppearanceManager&, Appearance*, const ParserParams& );
 
     bool merge( Geometry* );
 

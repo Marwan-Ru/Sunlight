@@ -16,6 +16,6 @@
 
 #include "ParserParams.h"
 
-ParserParams::ParserParams( void )
+ParserParams::ParserParams()
     : objectsMask( "All" ), minLOD( 0 ), maxLOD( 4 ), optimize( false ), pruneEmptyObjects( false ), tesselate( true ), temporalImport( true ), destSRS( "" )
 { }

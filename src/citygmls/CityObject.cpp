@@ -19,7 +19,14 @@
 #include <iostream>
 
 #include "Polygon.h"
+#include "Geometry.h"
+#include "LinearRing.h"
+#include "URI.h"
 #include "utils/Utils.h"
+
+#include "Appearance.h"
+#include "AppearanceManager.h"
+#include "ParserParams.h"
 
 CityObject::CityObject(const std::string& id, CityObjectsType type)
    : Object(id), _type(type), m_path(""), m_temporalUse(false)
@@ -36,24 +43,24 @@ CityObject::~CityObject()
 }
 
 // Get the object type
-CityObjectsType CityObject::getType(void) const
+CityObjectsType CityObject::getType() const
 {
    return _type;
 }
 
-std::string CityObject::getTypeAsString(void) const
+std::string CityObject::getTypeAsString() const
 {
    return getCityObjectsClassName(_type);
 }
 
 // Return the envelope (ie. the bounding box) of the object
-const Envelope& CityObject::getEnvelope(void) const
+const Envelope& CityObject::getEnvelope() const
 {
    return _envelope;
 }
 
 // Get the number of geometries contains in the object
-size_t CityObject::size(void) const
+size_t CityObject::size() const
 {
    return _geometries.size();
 }
@@ -75,7 +82,7 @@ const std::vector< Geometry* >& CityObject::getGeometries() const
 }
 
 // Access the children
-size_t CityObject::getChildCount(void) const
+size_t CityObject::getChildCount() const
 {
    return _children.size();
 }
@@ -90,12 +97,12 @@ CityObject* CityObject::getChild(unsigned int i)
    return (i < getChildCount()) ? _children[i] : 0;
 }
 
-const std::vector< CityObject* >& CityObject::getChildren(void) const
+const std::vector< CityObject* >& CityObject::getChildren() const
 {
    return _children;
 }
 
-std::vector< CityObject* >& CityObject::getChildren(void)
+std::vector< CityObject* >& CityObject::getChildren()
 {
    return _children;
 }

@@ -15,6 +15,10 @@
 */
 
 #include "Geometry.h"
+#include "Polygon.h"
+#include "ParserParams.h"
+#include "Appearance.h"
+#include "AppearanceManager.h"
 
 Geometry::Geometry( const std::string& id, GeometryType type, unsigned int lod)
     : Object( id ), _type( type ), _lod( lod )
@@ -27,19 +31,19 @@ Geometry::~Geometry()
 }
 
 // Get the geometry LOD
-unsigned int Geometry::getLOD( void ) const
+unsigned int Geometry::getLOD() const
 {
     return _lod;
 }
 
 // Return the envelope (ie. the bounding box) of the object
-const Envelope& Geometry::getEnvelope( void ) const
+const Envelope& Geometry::getEnvelope() const
 {
     return _envelope;
 }
 
 // Get the polygons
-size_t Geometry::size( void ) const
+size_t Geometry::size() const
 {
     return _polygons.size();
 }
@@ -64,7 +68,7 @@ std::vector< Polygon* >& Geometry::getPolygons()
     return _polygons;
 };
 
-GeometryType Geometry::getType( void ) const
+GeometryType Geometry::getType() const
 {
     return _type;
 }

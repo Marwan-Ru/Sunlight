@@ -14,11 +14,20 @@
 * GNU Lesser General Public License for more details.
 */
 
+#include <fstream>
+#include <iterator> // MT 15/02/2016 (vs2015)
+
 #include "Polygon.h"
 
-#include <fstream>
+#include "citygmls/Geometry.h"
+#include "citygmls/Appearance.h"
+#include "citygmls/AppearanceManager.h"
+#include "Tesselator.h"
+#include "Material.h"
+#include "Texture.h"
+#include "GeoReferencedTexture.h"
 
-#include <iterator> // MT 15/02/2016 (vs2015)
+#include "LinearRing.h"
 
 #ifndef min
 # define min( a, b ) ( ( ( a ) < ( b ) ) ? ( a ) : ( b ) )
@@ -31,7 +40,7 @@ Polygon::Polygon( const std::string& id )
   _materials[ BACK ] = 0;
 }
 
-Polygon::~Polygon( void )
+Polygon::~Polygon()
 {
   delete _exteriorRing;
   std::vector< LinearRing* >::const_iterator it = _interiorRings.begin();
@@ -65,56 +74,56 @@ Polygon::~Polygon( void )
 //  return Poly;
 //}
 
-const std::vector<TVec3d>& Polygon::getVertices( void ) const
+const std::vector<TVec3d>& Polygon::getVertices() const
 {
   return _vertices;
 }
 
 // Get the indices
-const std::vector<unsigned int>& Polygon::getIndices( void ) const
+const std::vector<unsigned int>& Polygon::getIndices() const
 {
   return _indices;
 }
 
 // Get the normals
-const std::vector<TVec3f>& Polygon::getNormals( void ) const
+const std::vector<TVec3f>& Polygon::getNormals() const
 {
   return _normals;
 }
 
 // Get texture coordinates
-TexCoords& Polygon::getTexCoords( void )
+TexCoords& Polygon::getTexCoords()
 {
   return _texCoords;
 }
 
-const TexCoords& Polygon::getTexCoords( void ) const
+const TexCoords& Polygon::getTexCoords() const
 {
   return _texCoords;
 }
 
-const Appearance* Polygon::getAppearance( void ) const
+const Appearance* Polygon::getAppearance() const
 {
   return _appearance;
 } // Deprecated! Use getMaterial and getTexture instead
 
-const Material* Polygon::getMaterial( void ) const
+const Material* Polygon::getMaterial() const
 {
   if ( _materials[ FRONT ] ) { return _materials[ FRONT ]; }
   else { return _materials[ BACK ]; }
 }
 
-const Texture* Polygon::getTexture( void ) const
+const Texture* Polygon::getTexture() const
 {
   return _texture;
 }
 
-const Material* Polygon::getMaterialFront( void ) const
+const Material* Polygon::getMaterialFront() const
 {
   return _materials[ FRONT ];
 }
 
-const Material* Polygon::getMaterialBack( void ) const
+const Material* Polygon::getMaterialBack() const
 {
   return _materials[ BACK ];
 }
@@ -139,12 +148,12 @@ LinearRing* Polygon::getExteriorRing()
   return _exteriorRing;
 }
 
-const Envelope& Polygon::getEnvelope( void ) const
+const Envelope& Polygon::getEnvelope() const
 {
   return _envelope;
 }
 
-TVec3d Polygon::computeNormal( void )
+TVec3d Polygon::computeNormal()
 {
   if ( !_exteriorRing ) return TVec3d();
 
@@ -237,7 +246,7 @@ void Polygon::mergeRings( AppearanceManager &appearanceManager )
       _indices[ p + j ] = (int)(i + j);
 }
 
-void Polygon::clearRings( void )
+void Polygon::clearRings()
 {
   return;
   delete _exteriorRing;

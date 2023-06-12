@@ -23,7 +23,7 @@
 #	include <stdint.h>
 #endif
 
-Tesselator::Tesselator( void )
+Tesselator::Tesselator()
 {
 	_tobj = gluNewTess(); 
 
@@ -47,12 +47,12 @@ void Tesselator::init( size_t verticesCount, const TVec3d& normal, GLenum windin
 	_curIndices.clear();
 }
 
-Tesselator::~Tesselator( void ) 
+Tesselator::~Tesselator() 
 {
 	gluDeleteTess( _tobj );
 }
 
-void Tesselator::compute( void ) 
+void Tesselator::compute() 
 {
 	gluTessEndPolygon( _tobj );  
 }

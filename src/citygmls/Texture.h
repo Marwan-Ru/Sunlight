@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "maths/Vectors.h"
+#include <maths/Vectors.h>
 #include "Appearance.h"
 
 #ifdef _MSC_VER
@@ -39,17 +39,17 @@ public:
 
     Texture( const std::string& id );
 
-    std::string getUrl( void ) const;
+    std::string getUrl() const;
 
     void setUrl(const std::string& url);
 
-    bool getRepeat( void ) const;
+    bool getRepeat() const;
 
-    WrapMode getWrapMode( void ) const;
+    WrapMode getWrapMode() const;
 
-    TVec4f getBorderColor( void ) const;
+    TVec4f getBorderColor() const;
 
-    std::string toString( void ) const;
+    std::string toString() const;
 
 protected:
     std::string _url;

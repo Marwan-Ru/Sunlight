@@ -19,6 +19,8 @@
 #include "maths/RayBox.h"
 #include "utils/DateTime.h"
 
+#include <citygmls/CityObject.h>
+
 ///
 /// \brief SetupFileOrder create a std::queue queueing the files intersected by a given RayBoxCollection and sorted by intersection distance
 /// \param boxes Vector of files' bounding boxes to check intersection with

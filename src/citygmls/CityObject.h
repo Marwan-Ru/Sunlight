@@ -18,18 +18,21 @@
 
 #include <ostream>
 
-#include "citygmls/Object.h"
-#include "citygmls/Geometry.h"
-#include "citygmls/URI.h"
+#include "Object.h"
+#include "Envelope.h"
+#include <maths/Vectors.h>
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
 #endif
 
-
 //forward declaration
 class ADEHandler;
-
+class Geometry;
+class URI;
+class Appearance;
+class AppearanceManager;
+class ParserParams;
 
 enum CityObjectsType {
     COT_GenericCityObject           = 1 << 0,
@@ -80,21 +83,21 @@ public:
     virtual ~CityObject() override;
 
     // Get the object type
-    CityObjectsType getType( void ) const;
+    CityObjectsType getType() const;
 
-    std::string getTypeAsString( void ) const;
+    std::string getTypeAsString() const;
 
     // Return the envelope (ie. the bounding box) of the object
-    const Envelope& getEnvelope( void ) const;
+    const Envelope& getEnvelope() const;
 
 	//Check is CityObject has geometries
 	bool IsEmpty();
 
-    // Get the default diffuse color of this object class
-    virtual TVec4f getDefaultColor( void ) const = 0;
+    //// Get the default diffuse color of this object class
+    //virtual TVec4f getDefaultColor() const = 0;
 
     // Get the number of geometries contains in the object
-    size_t size( void ) const;
+    size_t size() const;
 
     // Access the geometries
     const Geometry* getGeometry( unsigned int i ) const;
@@ -103,15 +106,15 @@ public:
     const std::vector< Geometry* >& getGeometries() const;
 
     // Access the children
-    size_t getChildCount( void ) const;
+    size_t getChildCount() const;
 
     const CityObject* getChild( unsigned int i ) const;
 
     CityObject* getChild( unsigned int i );
 
-    const std::vector< CityObject* >& getChildren( void ) const;
+    const std::vector< CityObject* >& getChildren() const;
 
-    std::vector< CityObject* >& getChildren( void );
+    std::vector< CityObject* >& getChildren();
 
 	//remove all the children of the CityObject (without deleting them)
 	void clearChildren();

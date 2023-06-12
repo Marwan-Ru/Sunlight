@@ -9,7 +9,7 @@
 #include <map>
 #include <vector>
 
-#include "maths/Vectors.h"
+#include <maths/Vectors.h>
 #include "maths/Triangle.h"
 #include "FileInfo.h"
 

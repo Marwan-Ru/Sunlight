@@ -16,13 +16,13 @@
 
 #pragma once
 
-#include <vector>
-#include <string>
-
 #include "Object.h"
 #include "CityGmlTypes.h"
 #include "Envelope.h"
-#include "maths/Vectors.h"
+#include <maths/Vectors.h>
+
+#include <vector>
+#include <string>
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
@@ -35,20 +35,20 @@ class LinearRing : public Object
 public:
     LinearRing( const std::string& id, bool isExterior );
 
-    bool isExterior( void ) const;
+    bool isExterior() const;
 
-    unsigned int size( void ) const;
+    unsigned int size() const;
 
-    const std::vector<TVec3d>& getVertices( void ) const;
+    const std::vector<TVec3d>& getVertices() const;
 
     void addVertex( const TVec3d& v );
 
-    TVec3d computeNormal( void ) const;
+    TVec3d computeNormal() const;
 
     // Return the envelope (ie. the bounding box) of the object
-    const Envelope& getEnvelope( void ) const;
+    const Envelope& getEnvelope() const;
 
-    std::vector<TVec3d>& getVertices( void );
+    std::vector<TVec3d>& getVertices();
 
     void finish( TexCoords* );
 

@@ -18,18 +18,18 @@
 
 #include <vector>
 
-#include "maths/Vectors.h"
+#include <maths/Vectors.h>
 #include "citygmls/Object.h"
-#include "citygmls/Geometry.h"
 #include "citygmls/Envelope.h"
 
-#include "citygmls/Appearance.h"
-#include "citygmls/AppearanceManager.h"
-#include "Material.h"
-#include "Texture.h"
 #include "CityGmlTypes.h"
 
-#include "LinearRing.h"
+class Geometry;
+class Appearance;
+class AppearanceManager;
+class Material;
+class Texture;
+class LinearRing;
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
@@ -50,29 +50,29 @@ public:
 
     Polygon( const std::string& id );
 
-    virtual ~Polygon( void ) override;
+    virtual ~Polygon() override;
 
 	//Polygon* Clone();
 
     // Get the vertices
-    const std::vector<TVec3d>& getVertices( void ) const;
+    const std::vector<TVec3d>& getVertices() const;
 
     // Get the indices
-    const std::vector<unsigned int>& getIndices( void ) const;
+    const std::vector<unsigned int>& getIndices() const;
 
     // Get the normals
-    const std::vector<TVec3f>& getNormals( void ) const;
+    const std::vector<TVec3f>& getNormals() const;
 
     // Get texture coordinates
-    TexCoords& getTexCoords( void );
-    const TexCoords& getTexCoords( void ) const;
+    TexCoords& getTexCoords();
+    const TexCoords& getTexCoords() const;
 
     // Get the appearance
-    const Appearance* getAppearance( void ) const; // Deprecated! Use getMaterial and getTexture instead
-    const Material* getMaterial( void ) const;
-    const Texture* getTexture( void ) const;
-    const Material* getMaterialFront( void ) const;
-    const Material* getMaterialBack( void ) const;
+    const Appearance* getAppearance() const; // Deprecated! Use getMaterial and getTexture instead
+    const Material* getMaterial() const;
+    const Texture* getTexture() const;
+    const Material* getMaterialFront() const;
+    const Material* getMaterialBack() const;
 
     const std::vector<LinearRing*>& getInteriorRings() const;
     std::vector<LinearRing*>& getInteriorRings();
@@ -81,7 +81,7 @@ public:
     LinearRing* getExteriorRing();
 
     // Return the envelope (ie. the bounding box) of the object
-    const Envelope& getEnvelope( void ) const;
+    const Envelope& getEnvelope() const;
 
 //	protected:
     void finish( AppearanceManager&, bool doTesselate );
@@ -91,9 +91,9 @@ public:
 
     void tesselate( AppearanceManager &, const TVec3d& );
     void mergeRings( AppearanceManager & );
-    void clearRings( void );
+    void clearRings();
 
-    TVec3d computeNormal( void );
+    TVec3d computeNormal();
 
     bool merge( Polygon* );
 

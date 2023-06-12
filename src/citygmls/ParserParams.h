@@ -38,7 +38,7 @@
 class ParserParams
 {
 public:
-    ParserParams( void );
+    ParserParams();
 
 public:
     std::string objectsMask;

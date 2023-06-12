@@ -7,7 +7,7 @@
 
 #include <vector>
 
-#include "maths/Vectors.h"
+#include <maths/Vectors.h>
 
 struct Hit;
 struct RayCollection;

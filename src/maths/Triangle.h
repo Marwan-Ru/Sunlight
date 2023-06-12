@@ -5,11 +5,14 @@
 
 #pragma once
 
-#include "citygmls/CityObject.h"
+#include <vector>
+#include <maths/Vectors.h>
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4251) // VC++ DLL jejune complains on STL _Id member
 #endif
+
+enum CityObjectsType;
 
 /**
 *	@brief A triangle created from a citygml polygon

@@ -20,20 +20,20 @@ Appearance::Appearance( const std::string& id, const std::string& typeString )
 : Object( id ), _typeString( typeString ), _isFront(true)
 {}
   
-Appearance::~Appearance( void )
+Appearance::~Appearance()
 {}
   
-std::string Appearance::getType( void ) const
+std::string Appearance::getType() const
 {
 return _typeString;
 }
   
-bool Appearance::getIsFront( void ) const
+bool Appearance::getIsFront() const
 {
 return _isFront;
 }
   
-std::string Appearance::toString( void ) const
+std::string Appearance::toString() const
 {
 return _typeString + " " + _id;
 }

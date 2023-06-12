@@ -6,9 +6,8 @@
 #pragma once
 
 #include "citygmls/CityObject.h"
-
-#include <ctime>
 #include "Tag.h"
+#include "citygmls/URI.h"
 
 namespace documentADE
 {
@@ -56,10 +55,10 @@ namespace documentADE
   {
   public:
       DocumentObject( const std::string& id ) : CityObject( id, COT_GenericCityObject ){}
-      inline TVec4f getDefaultColor( void ) const
-      {
-         return MAKE_RGB( 10, 230, 1 );
-      }
+      //inline TVec4f getDefaultColor() const
+      //{
+      //   return MAKE_RGB( 10, 230, 1 );
+      //}
       void setTitle(std::string);
       void setTheme(std::string);
       void setClass(std::string );
@@ -104,7 +103,7 @@ namespace documentADE
       CreatorType getCreatorType();
       CurrentKnownPossessorType getCurrentKnownPossessorType();
       CurrentRightsHolderType getCurrentRightsHolderType();
-      void addTag(Tag*);
+      void addTag(Tag* tag);
 
   private:
     std::string _title;

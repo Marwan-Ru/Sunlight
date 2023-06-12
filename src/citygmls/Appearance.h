@@ -22,19 +22,18 @@
 # pragma warning(disable:4251) // gdal-1.11.4 internals (cpl_string.h) when
 #endif 
 
-
 class Appearance : public Object
 {
     friend class CityGMLHandler;
 public:
     Appearance( const std::string& id, const std::string& typeString );
 
-    virtual ~Appearance( void );
+    virtual ~Appearance();
 
-    std::string getType( void ) const;
-    bool getIsFront( void ) const;
+    std::string getType() const;
+    bool getIsFront() const;
 
-    virtual std::string toString( void ) const;
+    virtual std::string toString() const;
 
 protected:
     std::string _typeString;

@@ -37,9 +37,9 @@ class Object
     friend std::ostream& operator<<( std::ostream&, const Object & );
 public:
     Object( const std::string& id );
-    virtual ~Object( void );
+    virtual ~Object();
 
-    const std::string& getId( void ) const;
+    const std::string& getId() const;
 
     std::string getAttribute( const std::string& name ) const;
 

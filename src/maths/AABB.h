@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <maths/Vectors.h>
+
 #include <string>
 #include <vector>
 #include <float.h>

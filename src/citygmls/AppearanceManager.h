@@ -18,23 +18,24 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
-#include "Appearance.h"
-#include "Texture.h"
-#include "Tesselator.h"
 #include "CityGmlTypes.h"
-#include "Material.h"
 
-#include "GeoReferencedTexture.h"
+class Appearance;
+class Texture;
+class Material;
+class Tesselator;
+class GeoreferencedTexture;
 
 class AppearanceManager
 {
     friend class CityGMLHandler;
     friend class CityModel;
 public:
-    AppearanceManager( void );
+    AppearanceManager();
 
-    ~AppearanceManager( void );
+    ~AppearanceManager();
 
     enum ForSide
     {
@@ -58,16 +59,16 @@ public:
 
     bool getTexCoords( const std::string& nodeid, TexCoords &texCoords) const;
 
-    Tesselator* getTesselator( void );
+    Tesselator* getTesselator();
 
-    void refresh( void );
+    void refresh();
 
     template < typename AppType > AppType getAppearance( const std::string& nodeid, ForSide side = FS_ANY ) const;
     void addAppearance( Appearance* );
     void assignNode( const std::string& nodeid );
     bool assignTexCoords( TexCoords* );
 
-    void finish( void );
+    void finish();
 
     std::string m_basePath;
 

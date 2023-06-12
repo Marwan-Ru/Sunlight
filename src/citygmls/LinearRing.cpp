@@ -15,6 +15,7 @@
 */
 
 #include "LinearRing.h"
+#include "Envelope.h"
 
 #include <limits>
 
@@ -53,7 +54,7 @@ std::vector<TVec3d>& LinearRing::getVertices()
     return _vertices;
 }
 
-TVec3d LinearRing::computeNormal( void ) const
+TVec3d LinearRing::computeNormal() const
 {
     unsigned int len = size();
     if ( len < 3 ) return TVec3d();

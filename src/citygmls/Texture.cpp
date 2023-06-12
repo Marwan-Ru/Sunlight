@@ -20,7 +20,7 @@ Texture::Texture( const std::string& id )
     : Appearance( id, "Texture" ), _repeat( false ), _wrapMode( WM_NONE )
 {}
 
-std::string Texture::getUrl( void ) const
+std::string Texture::getUrl() const
 {
     return _url;
 }
@@ -30,22 +30,22 @@ void Texture::setUrl(const std::string& url)
     _url = url;
 }
 
-bool Texture::getRepeat( void ) const
+bool Texture::getRepeat() const
 {
     return _repeat;
 }
 
-Texture::WrapMode Texture::getWrapMode( void ) const
+Texture::WrapMode Texture::getWrapMode() const
 {
     return _wrapMode;
 }
 
-TVec4f Texture::getBorderColor( void ) const
+TVec4f Texture::getBorderColor() const
 {
     return _borderColor;
 }
 
-std::string Texture::toString( void ) const
+std::string Texture::toString() const
 {
     return Appearance::toString() + " (url: " + _url + ")";
 }

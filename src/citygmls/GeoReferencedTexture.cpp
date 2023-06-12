@@ -20,7 +20,7 @@ GeoreferencedTexture::GeoreferencedTexture( const std::string& id )
     : Appearance( id, "GeoreferencedTexture" ), Texture( id ), m_initWParams(false), _preferWorldFile(true)
 {}
 
-inline bool GeoreferencedTexture::getPreferWorldFile( void ) const
+inline bool GeoreferencedTexture::getPreferWorldFile() const
 {
     return _preferWorldFile;
 }

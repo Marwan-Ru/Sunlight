@@ -6,7 +6,7 @@
 #pragma once
 
 #include <array>
-#include "maths/Vectors.h"
+#include <maths/Vectors.h>
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4251) // VC++ DLL jejune complains on STL members

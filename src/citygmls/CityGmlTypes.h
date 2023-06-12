@@ -6,5 +6,6 @@
 #pragma once
 
 #include <vector>
+#include <maths/Vectors.h>
 
 typedef std::vector<TVec2f> TexCoords;
