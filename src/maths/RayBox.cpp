@@ -8,6 +8,7 @@
 #endif                         // including ogrsf_frmts.h on VCC++
 
 #include "RayBox.h"
+#include "RayTracing.h"
 
 //RayBoxHit
 

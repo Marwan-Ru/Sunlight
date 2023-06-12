@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "citygmls/CityObject.h"
+#include <citygmls/CityObject.h>
 
 namespace temporal
 {

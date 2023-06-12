@@ -9,13 +9,14 @@
 #include <map>
 #include <string>
 
-#include "citygmls/CityObject.h"
-#include "citygmls/CityModel.h"
-#include "citygmls/URI.h"
-
 #ifdef _MSC_VER
 #pragma warning(disable: 4251) // VC++ DLL jejune complains on STL _Id member
 #endif
+
+class CityModel;
+class CityObject;
+class URI;
+class Envelope;
 
 /// \brief The Tile class
 /// Holds citygml, shp data

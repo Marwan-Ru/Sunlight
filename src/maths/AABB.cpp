@@ -4,15 +4,16 @@
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
 #include "AABB.h"
+#include "Triangle.h"
+#include <parsers/TiledFilesLayout.h>
+#include <citygmls/Tile.h>
+#include <citygmls/CityObject.h>
+#include <citygmls/CityModel.h>
 
 #include <filesystem>
 #include <iostream>
 #include <fstream>
 #include <map>
-
-#include "Triangle.h"
-#include "parsers/TiledFilesLayout.h"
-#include "citygmls/Tile.h"
 
 namespace fs = std::filesystem;
 

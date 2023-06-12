@@ -7,8 +7,8 @@
 
 #include <vector>
 
-#include "RayTracing.h"
 #include "AABB.h"
+#include "Ray.h"
 
 /**
 *	@brief A hit between a ray and a bounding box

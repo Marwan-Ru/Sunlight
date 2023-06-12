@@ -21,8 +21,8 @@
 #include <ostream>
 
 #include <maths/Vectors.h>
-#include "citygmls/Object.h"
-#include "citygmls/CityObject.h"
+#include <citygmls/Object.h>
+#include <citygmls/CityObject.h>
 #include "AppearanceManager.h"
 
 #include <ADE/temporal/Version.h>

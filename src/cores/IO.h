@@ -10,8 +10,9 @@
 #include <vector>
 
 #include <maths/Vectors.h>
-#include "maths/Triangle.h"
-#include "FileInfo.h"
+
+class Triangle;
+class FileInfo;
 
 ///
 /// \brief createOutputFolders Prepare folder layout hierarchy:

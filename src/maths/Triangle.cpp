@@ -6,6 +6,7 @@
 
 #include "Triangle.h"
 #include <citygmls/CityObject.h>
+#include <citygmls/CityModel.h>
 #include <citygmls/Polygon.h>
 #include <citygmls/Geometry.h>
 #include <citygmls/Tile.h>

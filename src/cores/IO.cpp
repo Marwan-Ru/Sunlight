@@ -4,13 +4,13 @@
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
 #include "IO.h"
+#include "FileInfo.h"
+#include <maths/Triangle.h>
+#include <utils/DateTime.h>
+#include "maths/Quaternion.h"
 
 #include <fstream>
 #include <filesystem>
-
-#include "maths/Triangle.h"
-#include "utils/DateTime.h"
-#include "maths/Quaternion.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846

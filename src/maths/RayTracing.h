@@ -7,9 +7,9 @@
 
 #include <vector>
 
-#include "Ray.h"
-#include "Triangle.h"
-#include "Hit.h"
+struct Hit;
+struct Ray;
+struct TriangleList;
 
 /**
 *	@build Perform raytracing algorithm on a set of triangles

@@ -11,14 +11,13 @@
 #include "SunlightDetection.h"
 #include "IO.h"
 #include "FileInfo.h"
-
-#include "maths/AABB.h"
-#include "maths/Triangle.h"
+#include <maths/Vectors.h>
+#include <maths/AABB.h>
+#include <maths/Triangle.h>
 #include "maths/RayTracing.h"
-#include "maths/Hit.h"
-#include "maths/RayBox.h"
-#include "utils/DateTime.h"
-
+#include <maths/Hit.h>
+#include <maths/RayBox.h>
+#include <utils/DateTime.h>
 #include <citygmls/CityObject.h>
 
 ///

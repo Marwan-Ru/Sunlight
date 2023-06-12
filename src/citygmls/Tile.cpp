@@ -5,11 +5,11 @@
 
 #include "Tile.h"
 
-#include "citygmls/Envelope.h"
-
-#include <osg/PositionAttitudeTransform>
-#include <osg/ValueObject>
-#include "gui/osg/osgCityGML.hpp"
+#include <citygmls/Envelope.h>
+#include <citygmls/ParserParams.h>
+#include <citygmls/CityObject.h>
+#include <citygmls/CityModel.h>
+#include <citygmls/URI.h>
 
 Tile::Tile()
     : m_root(nullptr)
@@ -51,51 +51,51 @@ void Tile::computeEnvelope()
     //m_envelope.merge(m_root->getEnvelope());
 }
 
-void loadRec(CityObject* node, ReaderOsgCityGML& reader)
-{
-    //FIXME: remove this method since all its code is commented out
-
-    //node->computeEnvelope();
-    /*osg::ref_ptr<osg::Group> grp = reader.createCityObject(node);
-
-    if(node->getType() == COT_Building)
-    {
-        int yearOfConstruction = 0;
-        int yearOfDemolition = 0;
-
-        if(node->getAttribute("yearOfConstruction") != "")
-        {
-            std::istringstream(node->getAttribute("yearOfConstruction")) >> yearOfConstruction;
-            grp->setUserValue("yearOfConstruction", yearOfConstruction);
-        }
-        if(node->getAttribute("yearOfDemolition") != "")
-        {
-            std::istringstream(node->getAttribute("yearOfDemolition")) >> yearOfDemolition;
-            grp->setUserValue("yearOfDemolition", yearOfDemolition);
-        }*/
-
-
-
-
-        /*grp->getUserValue("yearOfConstruction", yearOfConstruction);
-        grp->getUserValue("yearOfDemolition", yearOfDemolition);*/
-
-        /*std::cout << "yearOfConstruction : " << yearOfConstruction << std::endl;
-        std::cout << "yearOfDemolition : " << yearOfDemolition << std::endl;
-
-        std::cout << "yearOfConstruction2 : " << node->getAttribute("yearOfConstruction") << std::endl;
-        std::cout << "yearOfDemolition2 : " << node->getAttribute("yearOfDemolition") << std::endl;*/
-        //}
-
-        //node->setOsgNode(grp);
-
-        /*CityObjects& cityObjects = node->getChildren();
-        CityObjects::iterator it = cityObjects.begin();
-        for( ; it != cityObjects.end(); ++it)
-        {
-            loadRec(*it, reader);
-        }*/
-}
+//void loadRec(CityObject* node, ReaderOsgCityGML& reader)
+//{
+//    //FIXME: remove this method since all its code is commented out
+//
+//    //node->computeEnvelope();
+//    /*osg::ref_ptr<osg::Group> grp = reader.createCityObject(node);
+//
+//    if(node->getType() == COT_Building)
+//    {
+//        int yearOfConstruction = 0;
+//        int yearOfDemolition = 0;
+//
+//        if(node->getAttribute("yearOfConstruction") != "")
+//        {
+//            std::istringstream(node->getAttribute("yearOfConstruction")) >> yearOfConstruction;
+//            grp->setUserValue("yearOfConstruction", yearOfConstruction);
+//        }
+//        if(node->getAttribute("yearOfDemolition") != "")
+//        {
+//            std::istringstream(node->getAttribute("yearOfDemolition")) >> yearOfDemolition;
+//            grp->setUserValue("yearOfDemolition", yearOfDemolition);
+//        }*/
+//
+//
+//
+//
+//        /*grp->getUserValue("yearOfConstruction", yearOfConstruction);
+//        grp->getUserValue("yearOfDemolition", yearOfDemolition);*/
+//
+//        /*std::cout << "yearOfConstruction : " << yearOfConstruction << std::endl;
+//        std::cout << "yearOfDemolition : " << yearOfDemolition << std::endl;
+//
+//        std::cout << "yearOfConstruction2 : " << node->getAttribute("yearOfConstruction") << std::endl;
+//        std::cout << "yearOfDemolition2 : " << node->getAttribute("yearOfDemolition") << std::endl;*/
+//        //}
+//
+//        //node->setOsgNode(grp);
+//
+//        /*CityObjects& cityObjects = node->getChildren();
+//        CityObjects::iterator it = cityObjects.begin();
+//        for( ; it != cityObjects.end(); ++it)
+//        {
+//            loadRec(*it, reader);
+//        }*/
+//}
 
 void Tile::load(const std::string& filepath)
 {

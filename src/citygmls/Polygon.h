@@ -19,7 +19,7 @@
 #include <vector>
 
 #include <maths/Vectors.h>
-#include "citygmls/Object.h"
+#include <citygmls/Object.h>
 #include "citygmls/Envelope.h"
 
 #include "CityGmlTypes.h"

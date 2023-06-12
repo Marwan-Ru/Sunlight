@@ -5,8 +5,6 @@
 
 #pragma once
 
-#include <maths/Vectors.h>
-
 #include <vector>
 #include <string>
 

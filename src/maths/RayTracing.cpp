@@ -3,11 +3,12 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
-#include "RayTracing.h"
-
-#include "Hit.h"
-
 #include <thread>
+
+#include "RayTracing.h"
+#include "Ray.h"
+#include "Triangle.h"
+#include "Hit.h"
 
 /**
 *	@brief Data used by a ray tracing thread

@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "citygmls/CityObject.h"
+#include <citygmls/CityObject.h>
 #include "Tag.h"
 #include "citygmls/URI.h"
 

@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "citygmls/CityObject.h"
+#include <citygmls/CityObject.h>
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
