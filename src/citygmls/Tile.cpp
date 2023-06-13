@@ -10,8 +10,7 @@
 #include <citygmls/CityObject.h>
 #include <citygmls/CityModel.h>
 #include <citygmls/URI.h>
-
-#include <parsers/ParserLibXml2.cpp>
+#include <parsers/ParserLibXml2.h>
 
 Tile::Tile()
     : m_root(nullptr)
@@ -21,7 +20,7 @@ Tile::Tile()
 Tile::Tile(const std::string& filepath)
     : m_root(nullptr)
 {
-    load(filepath);
+    loadTiles(filepath);
     //computeEnvelope();
 }
 
@@ -99,7 +98,7 @@ void Tile::computeEnvelope()
 //        }*/
 //}
 
-void Tile::load(const std::string& filepath)
+void Tile::loadTiles(const std::string& filepath)
 {
     ParserParams params;
     delete m_root;

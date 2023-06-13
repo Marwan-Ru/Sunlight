@@ -18,12 +18,15 @@
 
 //#ifdef USE_LIBXML2
 
-#include <citygmls/CityModel.h>
+#include <libxml/SAX.h>
+#include <libxml/parser.h>
+
+#include "ParserLibXml2.h"
 #include "Parser.h"
+#include <citygmls/ParserParams.h>
+#include <citygmls/CityModel.h>
 //#include <cstdarg>
 //#include <cstdio>
-#include <libxml/parser.h>
-#include <libxml/SAX.h>
 
 #ifdef _MSC_VER
 #pragma warning(disable : 4996) // TEMP MT

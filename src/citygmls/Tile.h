@@ -38,7 +38,7 @@ public:
   /// Compute envoloppe
   void computeEnvelope();
 
-  void load(const std::string& filepath);
+  void loadTiles(const std::string& filepath);
   //osg::ref_ptr<osg::Node> buildOsgData();
 
   CityModel* getCityModel();

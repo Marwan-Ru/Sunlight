@@ -3,14 +3,16 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
-#include "DocumentHandler.h"
-#include <utils/Utils.h>
 #include <libxml/parser.h>
 #include <libxml/SAX.h>
 #include <libxml/xlink.h>
 #include <libxml/xpath.h>
 #include <boost/algorithm/string.hpp>
 //#include "../../object.hpp"
+
+#include "DocumentHandler.h"
+#include <citygmls/CityGml.h>
+#include <utils/Utils.h>
 
 DocumentHandler::DocumentHandler(void):ADEHandler()
 {
@@ -54,7 +56,7 @@ std::string DocumentHandler::getIDfromQuery(std::string query)
     return "";
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////
 //
 // Parsing routines
 

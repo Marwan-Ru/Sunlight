@@ -3,13 +3,14 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
-#include "TemporalHandler.h"
-#include <utils/Utils.h>
-
 #include <libxml/parser.h>
 #include <libxml/SAX.h>
 #include <libxml/xlink.h>
 #include <libxml/xpath.h>
+
+#include "TemporalHandler.h"
+#include <citygmls/CityGml.h>
+#include <utils/Utils.h>
 
 TempHandler::TempHandler(void):ADEHandler()
 {
@@ -63,7 +64,7 @@ std::string TempHandler::getIDfromQuery(std::string query)
 	return "";
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////
 //
 // Parsing routines
 

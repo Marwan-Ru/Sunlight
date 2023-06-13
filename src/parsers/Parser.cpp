@@ -21,6 +21,7 @@
 
 #include "Parser.h"
 #include <utils/Utils.h>
+#include <citygmls/CityGml.h>
 #include <citygmls/LinearRing.h>
 #include <citygmls/Polygon.h>
 #include <citygmls/Geometry.h>
@@ -29,7 +30,7 @@
 #include <citygmls/Appearance.h>
 #include <citygmls/GeoReferencedTexture.h>
 #include <citygmls/GeoTransform.h>
-#include "ADE/ADE.h"
+#include <ADE/ADE.h>
 
 #ifndef MSVC
 	#include <typeinfo>
