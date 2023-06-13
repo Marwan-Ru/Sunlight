@@ -33,8 +33,6 @@
 
 *.user
 
-*.vcxproj
-
 x64/Debug/
 
 .vs/
