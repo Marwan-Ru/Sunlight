@@ -29,12 +29,13 @@
 #ifdef __APPLE__
   #include <OpenGL/glu.h>
 #else
-  // Win32 caveat emptor: must always be _preceded_ (as opposed to
-  // succeeded) by the inclusion of windows.h
-  #include <GL/glu.h>
+
 #endif
 
 #include <maths/Vectors.h>
+// Win32 caveat emptor: must always be _preceded_ (as opposed to
+// succeeded) by the inclusion of windows.h
+#include <gl/GLU.h>
 
 // GLU based polygon tesselator
 class Tesselator 
