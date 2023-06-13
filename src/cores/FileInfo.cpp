@@ -10,7 +10,7 @@ FileInfo::FileInfo(std::string filepath)
     m_filepath = filepath;
 
     //Find filename
-    size_t pos_lastfolder = filepath.find_last_of("/");
+    size_t pos_lastfolder = filepath.find_last_of("\\");
     size_t pos_extension = filepath.find(".gml");
 
     m_filename = filepath.substr(pos_lastfolder + 1, pos_extension - pos_lastfolder - 1);

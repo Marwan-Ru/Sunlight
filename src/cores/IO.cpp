@@ -20,15 +20,15 @@
 void createOutputFolders(const std::string& sOutputDir)
 {
     //*** Create output folders
-    std::filesystem::path outputDirSunlight(sOutputDir + "SunlightOutput/");
+    std::filesystem::path outputDirSunlight(sOutputDir + "Sunlight/");
     if (!std::filesystem::exists(outputDirSunlight))
         std::filesystem::create_directory(outputDirSunlight);
 
-    std::filesystem::path outputDirBati(sOutputDir + "SunlightOutput/_BATI");
+    std::filesystem::path outputDirBati(sOutputDir + "Sunlight/_BATI");
     if (!std::filesystem::exists(outputDirBati))
         std::filesystem::create_directory(outputDirBati);
 
-    std::filesystem::path outputDirMnt(sOutputDir + "SunlightOutput/_MNT");
+    std::filesystem::path outputDirMnt(sOutputDir + "Sunlight/_MNT");
     if (!std::filesystem::exists(outputDirMnt))
         std::filesystem::create_directory(outputDirMnt);
 }
@@ -36,7 +36,7 @@ void createOutputFolders(const std::string& sOutputDir)
 void createFileFolder(FileInfo* file, const std::string& sOutputDir)
 {
     //Create folder corresponding to file
-    std::filesystem::path path(sOutputDir + "SunlightOutput/" + file->WithPrevFolder() + "/");
+    std::filesystem::path path(sOutputDir + "Sunlight/" + file->WithPrevFolder() + "/");
     if (!std::filesystem::exists(path))
         std::filesystem::create_directory(path);
 }
@@ -54,7 +54,7 @@ void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* f
 
         //Create and open file
         std::ofstream ofs;
-        ofs.open(outputDir + "/SunlightOutput/" + file->WithPrevFolder() + "/" + day + ".csv", std::ofstream::app);
+        ofs.open(outputDir + "/Sunlight/" + file->WithPrevFolder() + "/" + day + ".csv", std::ofstream::app);
 
         for (int i = 0; i < 24; ++i) //For each hour
         {
