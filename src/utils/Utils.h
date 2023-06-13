@@ -19,6 +19,11 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <fstream>
+#include <filesystem>
+#include <iterator>
+
+namespace fs = std::filesystem;
 
 // Helpers
 
@@ -63,4 +68,22 @@ inline std::string trim_right( const std::string& s, const std::string& t = " \t
 inline std::string trim( const std::string& s, const std::string& t = " \t\r\n" )
 {
 	return trim_left( trim_right( s, t ), t );
+}
+
+static bool areFilesIdentical(const std::string& file1, const std::string& file2)
+{
+	std::ifstream ifs1(file1);
+	std::ifstream ifs2(file2);
+
+	// Failed to open one or both files
+	if (!ifs1.is_open() || !ifs2.is_open())
+	{
+		return false;
+	}
+
+	return std::equal(
+		std::istreambuf_iterator<char>(ifs1),
+		std::istreambuf_iterator<char>(),
+		std::istreambuf_iterator<char>(ifs2)
+	);
 }
