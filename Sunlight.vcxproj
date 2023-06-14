@@ -175,7 +175,6 @@
     <ClCompile Include="src\cores\SunlightDetection.cpp" />
     <ClCompile Include="src\maths\AABB.cpp" />
     <ClCompile Include="src\maths\Hit.cpp" />
-    <ClCompile Include="src\maths\Quaternion.cpp" />
     <ClCompile Include="src\maths\Ray.cpp" />
     <ClCompile Include="src\maths\RayBox.cpp" />
     <ClCompile Include="src\maths\RayTracing.cpp" />
@@ -222,7 +221,6 @@
     <ClInclude Include="src\cores\SunlightDetection.h" />
     <ClInclude Include="src\maths\AABB.h" />
     <ClInclude Include="src\maths\Hit.h" />
-    <ClInclude Include="src\maths\Quaternion.h" />
     <ClInclude Include="src\maths\Ray.h" />
     <ClInclude Include="src\maths\RayBox.h" />
     <ClInclude Include="src\maths\RayTracing.h" />
