@@ -8,6 +8,8 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <glm/vec3.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 #include <maths/Vectors.h>
 
@@ -66,3 +68,9 @@ void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* f
 /// \return
 ///
 std::map<int, TVec3d> loadSunpathFile(std::string sunpathFile, int iStartDate, int iEndDate);
+
+
+/// \brief Compute sun rotation given an azimut and elevation angle
+/// \param azimutAngleInDegrees Azimut angle of the sun</param>
+/// \param elevationAngleInDegrees Elevation angle of the sun
+glm::quat computeSunRotation(float azimutAngleInRadians, float elevationAngleInRadians);
