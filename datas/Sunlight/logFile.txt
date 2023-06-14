@@ -72,3 +72,11 @@ File _BATI/26_HOTEL_POLICE_LYON.gml
 Triangles Number : 1613
 Triangles Number : 1613
 
+File _BATI/26_HOTEL_POLICE_LYON.gml
+Triangles Number : 1613
+Triangles Number : 1613
+
+File _BATI/26_HOTEL_POLICE_LYON.gml
+Triangles Number : 1613
+Triangles Number : 1613
+
