@@ -35,10 +35,15 @@ void createOutputFolders(const std::string& sOutputDir)
 
 void createFileFolder(FileInfo* file, const std::string& sOutputDir)
 {
+
     //Create folder corresponding to file
     std::filesystem::path path(sOutputDir + "Sunlight/" + file->WithPrevFolder() + "/");
-    if (!std::filesystem::exists(path))
-        std::filesystem::create_directory(path);
+
+    // Replace all existant datas to the lastet computation
+    if (std::filesystem::exists(path))
+        std::filesystem::remove_all(path);
+
+    std::filesystem::create_directory(path);
 }
 
 void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* file, int iStartDate, int iEndDate, std::string& outputDir)

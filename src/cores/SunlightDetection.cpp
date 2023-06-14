@@ -223,7 +223,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     createOutputFolders(outputDir);
 
     //Log file
-    std::string logFilePath = outputDir + "/SunlightOutput/logFile.txt";
+    std::string logFilePath = outputDir + "/Sunlight/logFile.txt";
 
     //Convert dates to integer
     int iStartDate = encodeDateTime(startDate, 0);

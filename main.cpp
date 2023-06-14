@@ -1,20 +1,30 @@
 // main.cpp : Ce fichier contient la fonction 'main'. L'exécution du programme commence et se termine à cet endroit.
 //
 
-#include <iostream>
+#include <vector>
+#include <string>
+#include <cassert>
+
+#include <cores/SunlightDetection.h>
+#include <cores/FileInfo.h>
+#include <utils/Utils.h>
+
+namespace fs = std::filesystem;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    /// <summary>
+    /// Testing if the computed output is identical to the expected output (old 3DUSE)
+    /// </summary>
+    const std::string rootDirectory(".\\datas\\");
+    const std::string sunlightCsv(rootDirectory + "AnnualSunPath_Lyon.csv");
+    const std::vector<FileInfo*> testingFiles({ new FileInfo(rootDirectory + "_BATI\\26_HOTEL_POLICE_LYON.gml") });
+
+    // Compute with the current version of sunlight computation
+    SunlightDetection(rootDirectory, testingFiles, sunlightCsv, "2016-01-01", "2016-01-01", rootDirectory);
+
+    // Compare computed and expected output
+    const std::string computedSunlight(rootDirectory + "Sunlight\\_BATI\\26_HOTEL_POLICE_LYON\\2016-01-01.csv");
+    const std::string expectedOutput(rootDirectory + "3DUSE_Output\\_BATI\\26_HOTEL_POLICE_LYON\\2016-01-01.csv");
+    assert(areFilesIdentical(computedSunlight, expectedOutput) && L"Shading calculation differs from original.");
 }
-
-// Exécuter le programme : Ctrl+F5 ou menu Déboguer > Exécuter sans débogage
-// Déboguer le programme : F5 ou menu Déboguer > Démarrer le débogage
-
-// Astuces pour bien démarrer : 
-//   1. Utilisez la fenêtre Explorateur de solutions pour ajouter des fichiers et les gérer.
-//   2. Utilisez la fenêtre Team Explorer pour vous connecter au contrôle de code source.
-//   3. Utilisez la fenêtre Sortie pour voir la sortie de la génération et d'autres messages.
-//   4. Utilisez la fenêtre Liste d'erreurs pour voir les erreurs.
-//   5. Accédez à Projet > Ajouter un nouvel élément pour créer des fichiers de code, ou à Projet > Ajouter un élément existant pour ajouter des fichiers de code existants au projet.
-//   6. Pour rouvrir ce projet plus tard, accédez à Fichier > Ouvrir > Projet et sélectionnez le fichier .sln.
