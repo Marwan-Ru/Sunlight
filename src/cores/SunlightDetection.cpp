@@ -19,6 +19,7 @@
 #include <maths/RayBox.h>
 #include <utils/DateTime.h>
 #include <citygmls/CityObject.h>
+#include <utils/Timer.h>
 
 ///
 /// \brief SetupFileOrder create a std::queue queueing the files intersected by a given RayBoxCollection and sorted by intersection distance
@@ -214,8 +215,8 @@ void writeInLogFile(const std::string& filepath, const std::string& text)
 
 void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, std::string outputDir)
 {
-    //QTime time;
-    //time.start();
+    Timer timer;
+    timer.start();
 
     std::cout << "Sunlight Calculation started." << std::endl;
 
@@ -427,17 +428,17 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
         //Delete TriangleList
         delete trianglesfile;
 
-        //std::cout << "===================================================" << std::endl;
-        //std::cout << "file " << cpt_files << " of " << filenames.size() << " done in : " << static_cast<double>(time.elapsed()) / 1000.0 << "s" << std::endl;
-        //std::cout << "===================================================" << std::endl;
+        std::cout << "===================================================" << std::endl;
+        std::cout << "file " << cpt_files << " of " << filenames.size() << " done in : " << timer.getElapsedInSeconds() << "s" << std::endl;
+        std::cout << "===================================================" << std::endl;
 
         //Log file
-        //text = "Computation time : " + std::to_string(static_cast<double>(time.elapsed()) / 1000.0) + " s";
+        text = "Computation time : " + std::to_string(timer.getElapsedInSeconds()) + " s";
         writeInLogFile(logFilePath, text);
         writeInLogFile(logFilePath, ""); //Skip one line
 
-        //time_tot += static_cast<double>(time.elapsed()) / 1000.0;
-        //time.restart();
+        time_tot += timer.getElapsedInSeconds();
+        timer.restart();
         ++cpt_files;
     }
 
@@ -445,5 +446,5 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     for (unsigned int i = 0; i < filenames.size(); ++i)
         delete filenames[i];
 
-    //std::cout << "Total time : " << time_tot << "s" << std::endl;
+    std::cout << "Total time : " << time_tot << "s" << std::endl;
 }

@@ -184,6 +184,7 @@
     <ClCompile Include="src\parsers\ParserLibXml2.cpp" />
     <ClCompile Include="src\parsers\TiledFilesLayout.cpp" />
     <ClCompile Include="src\utils\DateTime.cpp" />
+    <ClCompile Include="src\utils\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ADE\ADE.h" />
@@ -231,6 +232,7 @@
     <ClInclude Include="src\parsers\ParserLibXml2.h" />
     <ClInclude Include="src\parsers\TiledFilesLayout.h" />
     <ClInclude Include="src\utils\DateTime.h" />
+    <ClInclude Include="src\utils\Timer.h" />
     <ClInclude Include="src\utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>
