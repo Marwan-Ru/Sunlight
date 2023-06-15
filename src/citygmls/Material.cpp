@@ -20,17 +20,17 @@ Material::Material( const std::string& id )
     : Appearance( id, "Material" ), _ambientIntensity( 0.f ), _shininess( 0.f ), _transparency( 0.f )
 {}
 
-TVec3f Material::getDiffuse() const
+glm::vec3 Material::getDiffuse() const
 {
     return _diffuse;
 }
 
-TVec3f Material::getEmissive() const
+glm::vec3 Material::getEmissive() const
 {
     return _emissive;
 }
 
-TVec3f Material::getSpecular() const
+glm::vec3 Material::getSpecular() const
 {
     return _specular;
 }

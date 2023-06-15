@@ -11,7 +11,7 @@
 #include "SunlightDetection.h"
 #include "IO.h"
 #include "FileInfo.h"
-#include <maths/Vectors.h>
+#include <glm/vec3.hpp>
 #include <maths/AABB.h>
 #include <maths/Triangle.h>
 #include "maths/RayTracing.h"
@@ -178,7 +178,7 @@ void RayTraceTriangles(const std::string& filepath, const CityObjectsType& fileT
     //Get the triangle list of files matching intersected AABB
     TriangleList* trianglesTemp;
 
-    trianglesTemp = BuildTriangleList(filepath, fileType, cityObjId, rayColl.rays.at(0)->ori.z);
+    trianglesTemp = BuildTriangleList(filepath, fileType, cityObjId, rayColl.rays.at(0)->origin.z);
 
     //Perform raytracing
     std::vector<Hit*>* tmpHits = RayTracing(trianglesTemp, rayColl.rays, true);
@@ -231,7 +231,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     int iEndDate = encodeDateTime(endDate, 23);
 
     // *** Compute sun's beam direction from sunpathFile and associate them to an hour encoded as an int. *** //
-    std::map<int, TVec3d> SunsBeamsDir = loadSunpathFile(sunpathFile, iStartDate, iEndDate);
+    std::map<int, glm::highp_dvec3> SunsBeamsDir = loadSunpathFile(sunpathFile, iStartDate, iEndDate);
 
     // *** Build datetime_sunnyMap : result map associating a datetime to sunny info *** //
     //This map is created once as the sun beams are always the same in one simulation and will be associated with each triangle
@@ -239,7 +239,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
     for (auto const& beamdir : SunsBeamsDir) //For all sun beams
     {
-        if (beamdir.second == TVec3d(0.0, 0.0, 0.0)) //If beam direction is nul, i.e. sun is down
+        if (beamdir.second == glm::highp_dvec3(0.0, 0.0, 0.0)) //If beam direction is nul, i.e. sun is down
             datetime_sunnyMap[beamdir.first] = false; //sunny = false
         else
             datetime_sunnyMap[beamdir.first] = true; // sunny = true
@@ -299,10 +299,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
             std::map<int, bool> datetimeSunInfo = datetime_sunnyMap;
 
             //Compute Barycenter of triangle
-            TVec3d barycenter = TVec3d();
-            barycenter.x = (t->a.x + t->b.x + t->c.x) / 3;
-            barycenter.y = (t->a.y + t->b.y + t->c.y) / 3;
-            barycenter.z = (t->a.z + t->b.z + t->c.z) / 3;
+            glm::highp_dvec3 barycenter ((t->a + t->b + t->c) / 3.0);
 
             //Create rayBoxCollection (All the rays for this triangle)
             RayBoxCollection* raysboxes = new RayBoxCollection();
@@ -310,11 +307,11 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
             for (auto const& beamdir : SunsBeamsDir)
             {
                 //If direction is null (ie sun is too low) leave triangle in the shadow and go to next iteration
-                if (beamdir.second == TVec3d(0.0, 0.0, 0.0))
+                if (beamdir.second == glm::highp_dvec3(0.0, 0.0, 0.0))
                     continue;
 
                 //if triangle is not oriented towards the sun, it is in the shadow
-                if (t->GetNormal().dot(beamdir.second) < 0.0)
+                if (glm::dot(t->GetNormal(), beamdir.second) < 0.0)
                 {
                     datetimeSunInfo[beamdir.first] = false;
                     continue;
@@ -322,10 +319,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
                 //Add an offset for raytracing. Without this offset, origin of the ray might be behind the barycenter,
                 //which will result in a collision between the ray its origin triangle
-                TVec3d tmpBarycenter = TVec3d(0.0, 0.0, 0.0);
-                tmpBarycenter.x = barycenter.x + 0.01f * beamdir.second.x;
-                tmpBarycenter.y = barycenter.y + 0.01f * beamdir.second.y;
-                tmpBarycenter.z = barycenter.z + 0.01f * beamdir.second.z;
+                glm::highp_dvec3 tmpBarycenter ( barycenter + 0.01 * beamdir.second);
 
                 //Add ray to list
                 RayBox* raybox = new RayBox(tmpBarycenter, beamdir.second, beamdir.first);

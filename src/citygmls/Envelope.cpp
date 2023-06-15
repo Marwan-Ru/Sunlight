@@ -14,26 +14,27 @@
 * GNU Lesser General Public License for more details.
 */
 
-#include "Envelope.h"
-
 #include <limits>
+
+#include "Envelope.h"
+#include <utils/Utils.h>
 
 Envelope::Envelope()
 : _lowerBound(std::numeric_limits<double>::max(),std::numeric_limits<double>::max(),std::numeric_limits<double>::max()),
   _upperBound(std::numeric_limits<double>::min(),std::numeric_limits<double>::min(),std::numeric_limits<double>::min())
 {}
 
-Envelope::Envelope(const TVec3d& lowerBound, const TVec3d& upperBound)
+Envelope::Envelope(const glm::highp_dvec3& lowerBound, const glm::highp_dvec3& upperBound)
     : _lowerBound(lowerBound), _upperBound(upperBound)
 {
 }
 
-const TVec3d& Envelope::getLowerBound() const
+const glm::highp_dvec3& Envelope::getLowerBound() const
 {
     return _lowerBound;
 }
 
-const TVec3d& Envelope::getUpperBound() const
+const glm::highp_dvec3& Envelope::getUpperBound() const
 {
     return _upperBound;
 }
@@ -44,7 +45,7 @@ void Envelope::merge(const Envelope& e)
     merge(e._upperBound);
 }
 
-void Envelope::merge(const TVec3d& p)
+void Envelope::merge(const glm::highp_dvec3& p)
 {
     if(p.x < _lowerBound.x) _lowerBound.x = p.x;
     /*else*/if(p.x > _upperBound.x) _upperBound.x = p.x;

@@ -70,17 +70,17 @@ void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* f
     }
 }
 
-glm::vec3 RotateVector(const glm::vec3& vec, const glm::quat& q)
+glm::highp_dvec3 RotateVector(const glm::highp_dvec3& vec, const glm::dquat& q)
 {
-    glm::quat qConj = glm::conjugate(q);
-    glm::quat qTemp = qConj * glm::quat(0.0f, vec.x, vec.y, vec.z) * q;
-    return glm::vec3(qTemp.x, qTemp.y, qTemp.z);
+    glm::dquat qConj = glm::conjugate(q);
+    glm::dquat qTemp = qConj * glm::dquat(0.0f, vec.x, vec.y, vec.z) * q;
+    return glm::highp_dvec3(qTemp.x, qTemp.y, qTemp.z);
 }
 
-glm::quat computeSunRotation(float azimutAngleInRadians, float elevationAngleInRadians)
+glm::dquat computeSunRotation(double azimutAngleInRadians, double elevationAngleInRadians)
 {
-    glm::quat elevationQuaternion(glm::vec3(-elevationAngleInRadians, 0, 0));
-    glm::quat azimutQuaternion(glm::vec3(0, 0, azimutAngleInRadians));
+    glm::dquat elevationQuaternion(glm::highp_dvec3(-elevationAngleInRadians, 0, 0));
+    glm::dquat azimutQuaternion(glm::highp_dvec3(0, 0, azimutAngleInRadians));
 
     return elevationQuaternion * azimutQuaternion;
 }
@@ -91,30 +91,30 @@ glm::quat computeSunRotation(float azimutAngleInRadians, float elevationAngleInR
 /// \param elevationAngle Elevation angle of the sun
 /// \return Beam normalized direction vector
 ///
-glm::vec3 computeBeamDir(double azimutAngle, double elevationAngle)
+glm::highp_dvec3 computeBeamDir(double azimutAngle, double elevationAngle)
 {
     //if sun to low (angle < 1 degree), return nul beam direction
     if (elevationAngle <= 0.01 || azimutAngle <= 0.01)
-        return glm::vec3(0.0, 0.0, 0.0);
+        return glm::highp_dvec3(0.0, 0.0, 0.0);
    
     //Lambert 93 Coordinates
-	glm::vec3 originOffset (1843927.29, 5173886.65, 0.0);
+	glm::highp_dvec3 originOffset (1843927.29, 5173886.65, 0.0);
     //SunPos is the first position of the sun (north) from which the angles are expressed
-	glm::vec3 sunBasePosition (glm::vec3(0.0, 60000.0, 0.0));
+	glm::highp_dvec3 sunBasePosition (glm::highp_dvec3(0.0, 60000.0, 0.0));
     
     // Rotate the sun base position with the rotation at a given time (or azimut / elevation)
-    glm::quat finalRotation(computeSunRotation(azimutAngle, elevationAngle));
-    glm::vec3 sunPositionAfterRotation (RotateVector(sunBasePosition, finalRotation) + originOffset);
+    glm::dquat finalRotation(computeSunRotation(azimutAngle, elevationAngle));
+    glm::highp_dvec3 sunPositionAfterRotation (RotateVector(sunBasePosition, finalRotation) + originOffset);
 
     //Compute sun beam direction
-    glm::vec3 directionToSun (sunPositionAfterRotation - originOffset);
+    glm::highp_dvec3 directionToSun (sunPositionAfterRotation - originOffset);
 
     return glm::normalize(directionToSun);
 }
 
-std::map<int, TVec3d> loadSunpathFile(std::string sunpathFile, int iStartDate, int iEndDate)
+std::map<int, glm::highp_dvec3> loadSunpathFile(std::string sunpathFile, int iStartDate, int iEndDate)
 {
-    std::map<int, TVec3d> SunBeamDir;
+    std::map<int, glm::highp_dvec3> SunBeamDir;
 
     std::ifstream file(sunpathFile); //Load file
     std::string line;
@@ -184,8 +184,7 @@ std::map<int, TVec3d> loadSunpathFile(std::string sunpathFile, int iStartDate, i
                 int dateTime = encodeDateTime(sCurrentDate, hour);
 
                 //Compute Sun's beam Direction
-                glm::vec3 temp(computeBeamDir(azimutAngle, elevationAngle));
-                SunBeamDir[dateTime] = TVec3d(temp.x, temp.y, temp.z);
+                SunBeamDir[dateTime] = computeBeamDir(azimutAngle, elevationAngle);
 
                 ++hour;
             }
@@ -198,7 +197,7 @@ std::map<int, TVec3d> loadSunpathFile(std::string sunpathFile, int iStartDate, i
             {
                 //Add nul beam direction for last hour of the day
                 int dateTime = encodeDateTime(sCurrentDate, hour);
-                SunBeamDir[dateTime] = TVec3d(0.0, 0.0, 0.0);
+                SunBeamDir[dateTime] = glm::highp_dvec3(0.0, 0.0, 0.0);
             }
 
             //*** End of the part which needs to be commented out

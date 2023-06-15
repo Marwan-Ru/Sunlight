@@ -163,7 +163,6 @@
     <ClCompile Include="src\citygmls\LinearRing.cpp" />
     <ClCompile Include="src\citygmls\Material.cpp" />
     <ClCompile Include="src\citygmls\Object.cpp" />
-    <ClCompile Include="src\citygmls\OsgCityGML.cpp" />
     <ClCompile Include="src\citygmls\ParserParams.cpp" />
     <ClCompile Include="src\citygmls\Polygon.cpp" />
     <ClCompile Include="src\citygmls\Tesselator.cpp" />
@@ -174,7 +173,6 @@
     <ClCompile Include="src\cores\IO.cpp" />
     <ClCompile Include="src\cores\SunlightDetection.cpp" />
     <ClCompile Include="src\maths\AABB.cpp" />
-    <ClCompile Include="src\maths\Hit.cpp" />
     <ClCompile Include="src\maths\Ray.cpp" />
     <ClCompile Include="src\maths\RayBox.cpp" />
     <ClCompile Include="src\maths\RayTracing.cpp" />
@@ -184,6 +182,7 @@
     <ClCompile Include="src\parsers\TiledFilesLayout.cpp" />
     <ClCompile Include="src\utils\DateTime.cpp" />
     <ClCompile Include="src\utils\Timer.cpp" />
+    <ClCompile Include="src\utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ADE\ADE.h" />
@@ -209,7 +208,6 @@
     <ClInclude Include="src\citygmls\LinearRing.h" />
     <ClInclude Include="src\citygmls\Material.h" />
     <ClInclude Include="src\citygmls\Object.h" />
-    <ClInclude Include="src\citygmls\OsgCityGML.h" />
     <ClInclude Include="src\citygmls\ParserParams.h" />
     <ClInclude Include="src\citygmls\Polygon.h" />
     <ClInclude Include="src\citygmls\Tesselator.h" />
@@ -225,7 +223,6 @@
     <ClInclude Include="src\maths\RayBox.h" />
     <ClInclude Include="src\maths\RayTracing.h" />
     <ClInclude Include="src\maths\Triangle.h" />
-    <ClInclude Include="src\maths\Vectors.h" />
     <ClInclude Include="src\parsers\Parser.h" />
     <ClInclude Include="src\parsers\ParserLibXml2.h" />
     <ClInclude Include="src\parsers\TiledFilesLayout.h" />

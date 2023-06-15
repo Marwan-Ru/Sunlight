@@ -11,9 +11,9 @@
 #include <glm/vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-#include <maths/Vectors.h>
+#include <glm/vec3.hpp>
 
-class Triangle;
+struct Triangle;
 class FileInfo;
 
 ///
@@ -67,10 +67,10 @@ void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* f
 /// \param iEndDate end date of sunlight computation encoded as int
 /// \return
 ///
-std::map<int, TVec3d> loadSunpathFile(std::string sunpathFile, int iStartDate, int iEndDate);
+std::map<int, glm::highp_dvec3> loadSunpathFile(std::string sunpathFile, int iStartDate, int iEndDate);
 
 
 /// \brief Compute sun rotation given an azimut and elevation angle
 /// \param azimutAngleInDegrees Azimut angle of the sun</param>
 /// \param elevationAngleInDegrees Elevation angle of the sun
-glm::quat computeSunRotation(float azimutAngleInRadians, float elevationAngleInRadians);
+glm::dquat computeSunRotation(double azimutAngleInRadians, double elevationAngleInRadians);

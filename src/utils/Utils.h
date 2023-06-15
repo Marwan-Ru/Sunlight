@@ -22,6 +22,8 @@
 #include <fstream>
 #include <filesystem>
 #include <iterator>
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 
 namespace fs = std::filesystem;
 
@@ -87,3 +89,29 @@ static bool areFilesIdentical(const std::string& file1, const std::string& file2
 		std::istreambuf_iterator<char>(ifs2)
 	);
 }
+
+/// <summary>
+/// Add vector 3 information in the stream,
+/// because glm doesn't provide one
+/// </summary>
+/// <param name="os"></param>
+/// <param name="v"></param>
+/// <returns></returns>
+std::ostream& operator<<(std::ostream& os, const glm::highp_dvec3& v);
+
+std::ostream& operator<<(std::ostream& os, const glm::vec3& v);
+
+/// <summary>
+/// Add vector 2 information in the stream,
+/// because glm doesn't provide one
+/// </summary>
+/// <param name="os"></param>
+/// <param name="v"></param>
+/// <returns></returns>
+std::ostream& operator<<(std::ostream& os, const glm::vec2& v);
+
+std::istream& operator>>(std::istream& is, glm::highp_dvec3& v);
+
+std::istream& operator>>(std::istream& is, glm::vec3& v);
+
+std::istream& operator>>(std::istream& is, glm::vec2& v);

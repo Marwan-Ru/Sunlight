@@ -20,7 +20,7 @@
 
 #include "Object.h"
 #include "Envelope.h"
-#include <maths/Vectors.h>
+#include <glm/vec3.hpp>
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
@@ -94,7 +94,7 @@ public:
 	bool IsEmpty();
 
     //// Get the default diffuse color of this object class
-    //virtual TVec4f getDefaultColor() const = 0;
+    //virtual glm::vec4 getDefaultColor() const = 0;
 
     // Get the number of geometries contains in the object
     size_t size() const;
@@ -144,7 +144,7 @@ protected:
 
     Envelope _envelope;
 	bool _isEmpty;
-    TVec3d _centroid;
+    glm::highp_dvec3 _centroid;
 
     std::vector< Geometry* > _geometries;
     std::vector< CityObject* > _children;

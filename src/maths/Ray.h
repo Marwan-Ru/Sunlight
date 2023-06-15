@@ -7,7 +7,8 @@
 
 #include <vector>
 
-#include <maths/Vectors.h>
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 
 struct Hit;
 struct RayCollection;
@@ -25,7 +26,7 @@ struct Ray
     *	@param dir Direction of the ray
     *   @param Id oh the ray
     */
-    Ray(TVec3d ori = TVec3d(0.0, 0.0, 0.0), TVec3d dir = TVec3d(1.0, 1.0, 1.0), int id = -1);
+    Ray(glm::highp_dvec3 ori = glm::highp_dvec3(0.0, 0.0, 0.0), glm::highp_dvec3 dir = glm::highp_dvec3(1.0, 1.0, 1.0), int id = -1);
 
     /**
     *	@brief To know if the ray instersect a given triangle
@@ -35,14 +36,11 @@ struct Ray
     */
     bool Intersect(Triangle* triangle, Hit* hit = nullptr);
 
-    static float DotCross(TVec3d v0, TVec3d v1, TVec3d v2);
-    static TVec3d Normalized(TVec3d vec);
-
     int id;///< Id of the ray
-    TVec2d fragCoord;///< Fragment coordinate of the ray
-    TVec3d ori;///< Origin of the ray
-    TVec3d dir;///< Direction of the ray
-    TVec3d inv_dir;///< inv Direction of the ray
+    glm::highp_dvec2 fragCoord;///< Fragment coordinate of the ray
+    glm::highp_dvec3 origin;///< Origin of the ray
+    glm::highp_dvec3 direction;///< Direction of the ray
+    glm::highp_dvec3 inv_direction;///< inv Direction of the ray
     int sign[3];
 };
 

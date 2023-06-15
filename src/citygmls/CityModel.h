@@ -20,7 +20,6 @@
 #include <map>
 #include <ostream>
 
-#include <maths/Vectors.h>
 #include <citygmls/Object.h>
 #include <citygmls/CityObject.h>
 #include "AppearanceManager.h"
@@ -56,7 +55,7 @@ public:
     Envelope& getEnvelope();
 
     // Return the translation parameters of the model
-    const TVec3d& getTranslationParameters() const;
+    const glm::highp_dvec3& getTranslationParameters() const;
 
     // Get the number of city objects
     size_t size() const;
@@ -124,7 +123,7 @@ protected:
 
     std::string _srsName;
 
-    TVec3d _translation;
+    glm::highp_dvec3 _translation;
 
 	std::vector<temporal::Version*> _versions;
 	std::vector<temporal::VersionTransition*> _versionTransitions;

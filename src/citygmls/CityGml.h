@@ -16,11 +16,11 @@
 
 #pragma once
 
-#include "CityObject.h"
-//#include "citymodel.hpp"
-//#include "citygml_export.h"
+#include <glm/vec4.hpp>
 
-#define MAKE_RGBA( _r_, _g_, _b_, _a_ ) TVec4f( _r_/255.f, _g_/255.f, _b_/255.f, _a_/255.f )
+#include "CityObject.h"
+
+#define MAKE_RGBA( _r_, _g_, _b_, _a_ ) glm::vec4( _r_/255.f, _g_/255.f, _b_/255.f, _a_/255.f )
 #define MAKE_RGB( _r_, _g_, _b_ ) MAKE_RGBA( _r_, _g_, _b_, 255 )
 
 	// Helper macro to declare a new CityObject type from its name & default color
@@ -29,7 +29,7 @@
 	{\
 	public:\
 	_name_( const std::string& id ) : CityObject( id, COT_ ## _name_ ) {}\
-	inline TVec4f getDefaultColor() const { return _defcolor_; }\
+	inline glm::vec4 getDefaultColor() const { return _defcolor_; }\
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -99,7 +99,7 @@ class LandUse : public CityObject
 public:
     LandUse( const std::string& id ) : CityObject( id, COT_LandUse ) {}
 
-    inline TVec4f getDefaultColor() const
+    inline glm::vec4 getDefaultColor() const
     {
         std::string c = getAttribute( "class" );
         if ( c != "" )

@@ -24,7 +24,8 @@
 #include <string>
 #include <algorithm>
 #include <stack>
-//#include <fstream> // MT 09/03/2016
+#include <iostream>
+#include <sstream>
 #include <set>
 
 #include <citygmls/ParserParams.h>
@@ -317,7 +318,7 @@ public: // MT (MAC OS X problem...)
 		
 	CityModel* _model;
 
-	TVec3d _translate;
+	glm::highp_dvec3 _translate;
 
 	CityObject* _currentCityObject;
 	std::stack<CityObject*> _cityObjectStack;
@@ -343,7 +344,7 @@ public: // MT (MAC OS X problem...)
 	bool _filterNodeType;
 	unsigned int _filterDepth;
 
-	std::vector<TVec3d> _points;
+	std::vector<glm::highp_dvec3> _points;
 
 	int _srsDimension;
 
