@@ -356,7 +356,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                         rb->boxes.clear();
 
                     //Load Building AABB (B_AABB)
-                    int extensionPos = fBoxHit.m_filepath.find(".gml");
+                    size_t extensionPos = fBoxHit.m_filepath.find(".gml");
                     std::string path_B_AABB = fBoxHit.m_filepath.substr(0, extensionPos) + "_Building_AABB.dat";
 
                     std::vector<AABB> B_AABB = LoadAABBFile(path_B_AABB);

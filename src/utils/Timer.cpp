@@ -18,7 +18,7 @@ void Timer::restart()
     start();
 }
 
-double Timer::getElapsedInMilliseconds() const
+long long Timer::getElapsedInMilliseconds() const
 {
     std::chrono::time_point<std::chrono::steady_clock> endTime;
 
@@ -34,7 +34,7 @@ double Timer::getElapsedInMilliseconds() const
     return std::chrono::duration_cast<std::chrono::milliseconds>(endTime - m_StartTime).count();
 }
 
-double Timer::getElapsedInSeconds() const
+long long Timer::getElapsedInSeconds() const
 {
-    return getElapsedInMilliseconds() / 1000.0;
+    return getElapsedInMilliseconds() / 1000;
 }

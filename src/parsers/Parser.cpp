@@ -294,7 +294,7 @@ template<class T> inline void parseValue( std::stringstream &s, T &v, GeoTransfo
 template<class T> inline void parseVecList( std::stringstream &s, std::vector<T> &vec ) 
 {
 	T v;
-	unsigned int oldSize( vec.size() );
+	size_t oldSize( vec.size() );
 	while ( s >> v )
 		vec.push_back( v );
 	if ( !s.eof() )
@@ -307,7 +307,7 @@ template<class T> inline void parseVecList( std::stringstream &s, std::vector<T>
 template<class T> inline void parseVecList( std::stringstream &s, std::vector<T> &vec, GeoTransform* transform, const glm::highp_dvec3 &translate ) 
 {
 	T v;
-	unsigned int oldSize( vec.size() );
+	size_t oldSize( vec.size() );
 	while ( s >> v )
 	{
 		if ( transform ) transform->transform( v );
@@ -322,7 +322,7 @@ template<class T> inline void parseVecList( std::stringstream &s, std::vector<T>
 	if ( !s.eof() )
 	{
 		std::cerr << "Error ! Mismatch type: " << typeid(T).name() << " expected. Ring/Polygon discarded!" << std::endl;
-		vec.resize( oldSize );
+		vec.resize(oldSize );
 	}
 }
 
@@ -337,7 +337,7 @@ std::string CityGMLHandler::getNodeName( const std::string& name )
 
 	std::string nspace = name.substr( 0, pos );
 
-	for ( int i = s_knownNamespace.size() - 1; i >= 0; i-- ) 
+	for ( auto i = s_knownNamespace.size() - 1; i >= 0; i-- ) 
 		if ( nspace == s_knownNamespace[i] ) 
 			return name.substr( s_knownNamespace[i].length() + 1 );
 

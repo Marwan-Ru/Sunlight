@@ -151,7 +151,7 @@ CityModel* load( std::istream& stream, const ParserParams& params )
     while ( std::getline( stream, line ) )
     {
       line += '\n';
-      xmlParseChunk( context, line.c_str(), line.length(), 0 );
+      xmlParseChunk( context, line.c_str(), static_cast<int>(line.length()), 0 );
     }
 
     xmlParseChunk( context, 0, 0, 1 );     

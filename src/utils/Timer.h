@@ -17,8 +17,8 @@ public:
     void stop();
     void restart();
 
-    double getElapsedInMilliseconds() const;
-    double getElapsedInSeconds() const;
+    long long getElapsedInMilliseconds() const;
+    long long getElapsedInSeconds() const;
 
 private:
     std::chrono::time_point<std::chrono::steady_clock> m_StartTime;

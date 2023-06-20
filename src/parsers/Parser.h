@@ -233,8 +233,8 @@ protected:
 
 	inline int searchInNodePath( const std::string& name ) const 
 	{
-		for ( int i = _nodePath.size() - 1; i >= 0; i-- )
-			if ( _nodePath[i] == name ) return i;
+		for ( auto i = _nodePath.size() - 1; i >= 0; i-- )
+			if ( _nodePath[i] == name ) return static_cast<int>(i);
 		return -1;
 	}
 
@@ -248,7 +248,7 @@ protected:
 
 	inline std::string getPrevNode() const { return _nodePath.size() > 2 ? _nodePath[ _nodePath.size() - 2 ] : ""; }
 
-	inline unsigned int getPathDepth() const { return _nodePath.size(); }
+	inline unsigned int getPathDepth() const { return static_cast<unsigned int>(_nodePath.size()); }
 
 	inline CityGMLNodeType getPrevNodeType() const { return getNodeTypeFromName( getPrevNode() ); }
 

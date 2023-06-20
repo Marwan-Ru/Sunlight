@@ -22,7 +22,7 @@ void ADEHandlerFactory::getInstances(std::map<std::string,ADEHandler*>* map)
 //some gmlHandler methods
 std::string ADEHandler::getGmlIdAttribute( void* attributes ) {
     return getAttribute( attributes, "gml:id", "" ); }
-unsigned int ADEHandler::getPathDepth() { return (getNodePath())->size(); }
+unsigned int ADEHandler::getPathDepth() { return static_cast<unsigned int>(getNodePath()->size()); }
 void ADEHandler::pushCityObject( CityObject* object )
 {
 	CityObject** currentCityObject = getCurrentCityObject();

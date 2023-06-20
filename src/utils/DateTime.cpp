@@ -41,24 +41,6 @@ int encodeDateTime(const std::string& date, int hour)
     return encodeDateTime(year, month, day, hour);
 }
 
-int encodeDateTime(const std::string& datetime)
-{
-    //Split string
-    std::string sYear = datetime.substr(0, 4);
-    int year = std::stoi(sYear);
-
-    std::string sMonth = datetime.substr(5, 2);
-    int month = std::stoi(sMonth);
-
-    std::string sDay = datetime.substr(8, 2);
-    int day = std::stoi(sDay);
-
-    std::string sHour = datetime.substr(11, 2);
-    int hour = std::stoi(sHour);
-
-    return encodeDateTime(year, month, day, hour);
-}
-
 //Partly taken from http://howardhinnant.github.io/date_algorithms.html
 std::string decodeDateTime(int dateTime)
 {

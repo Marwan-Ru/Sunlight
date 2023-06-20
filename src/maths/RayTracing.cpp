@@ -53,7 +53,7 @@ void RayLoop(const RayTracingData& data)
 std::vector<Hit*>* RayTracing(TriangleList* triangles, const std::vector<Ray*>& rays, bool breakOnFirstInter)
 {
     unsigned int tCount = std::thread::hardware_concurrency() - 1;//Get how many thread we have
-    unsigned int rayPerThread = rays.size() / tCount;
+    unsigned int rayPerThread = static_cast<unsigned int>(rays.size()) / tCount;
 
     //List of rays and their frag coord
     std::vector<Ray*>* toDo = new std::vector<Ray*>[tCount];//List of rays for each threads

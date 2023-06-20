@@ -81,7 +81,7 @@ void LinearRing::finish( TexCoords* texCoords )
    unsigned int len = (unsigned int)_vertices.size();
    if ( len < 2 ) return;
 
-   float lengthSquare(glm::length2(_vertices[0] - _vertices[len - 1]));
+   double lengthSquare(glm::length2(_vertices[0] - _vertices[len - 1]));
    if (lengthSquare <= std::numeric_limits<double>::epsilon())
       _vertices.erase( _vertices.begin() + len - 1 );
 }

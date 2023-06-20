@@ -51,12 +51,12 @@ RayBox::RayBox(glm::highp_dvec3 ori, glm::highp_dvec3 dir, int id)
 //License : http://www.pbrt.org/LICENSE.txt
 bool RayBox::Intersect(AABB box, float* hitt0, float* hitt1)
 {
-    float t0 = 0, t1 = FLT_MAX;
+    double t0 = 0, t1 = FLT_MAX;
     for (int i = 0; i < 3; ++i) {
         // Update interval for _i_th bounding box slab
-        float invRayDir = 1.f / direction[i];
-        float tNear = (box.min[i] - origin[i]) * invRayDir;
-        float tFar = (box.max[i] - origin[i]) * invRayDir;
+        double invRayDir = 1. / direction[i];
+        double tNear = (box.min[i] - origin[i]) * invRayDir;
+        double tFar = (box.max[i] - origin[i]) * invRayDir;
 
         // Update parametric interval from slab intersection $t$s
         if (tNear > tFar) std::swap(tNear, tFar);
@@ -64,7 +64,7 @@ bool RayBox::Intersect(AABB box, float* hitt0, float* hitt1)
         t1 = tFar < t1 ? tFar : t1;
         if (t0 > t1) return false;
     }
-    if (hitt0) *hitt0 = t0;
-    if (hitt1) *hitt1 = t1;
+    if (hitt0) *hitt0 = static_cast<float>(t0);
+    if (hitt1) *hitt1 = static_cast<float>(t1);
     return true;
 }

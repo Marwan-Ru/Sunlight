@@ -60,7 +60,7 @@ void TiledFiles::BuildListofLayers()
             // TODO test if it's the correct base name (directory parent of current file)
             std::string Tile = TileFolder.path().filename().string();
 
-            int SplitPos = Tile.find("_"); //Position of the split character "_" between X and Y coordinates of the current tile
+            size_t SplitPos = Tile.find("_"); //Position of the split character "_" between X and Y coordinates of the current tile
 
             std::string X = Tile.substr(0, SplitPos);
             std::string Y = Tile.substr(SplitPos + 1);
