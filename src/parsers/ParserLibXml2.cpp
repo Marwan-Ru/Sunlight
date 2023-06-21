@@ -37,40 +37,40 @@
 class CityGMLHandlerLibXml2 : public CityGMLHandler
 {
 public:
-	CityGMLHandlerLibXml2( const ParserParams& params ) : CityGMLHandler( params ) {}
+    CityGMLHandlerLibXml2( const ParserParams& params ) : CityGMLHandler( params ) {}
     virtual ~CityGMLHandlerLibXml2() { xmlCleanupParser(); }
 
   using CityGMLHandler::startElement;
-	void startElement( const xmlChar* name, const xmlChar** attrs ) 
-	{
-		CityGMLHandler::startElement( wstos( name ), attrs );
-	}
+    void startElement( const xmlChar* name, const xmlChar** attrs ) 
+    {
+        CityGMLHandler::startElement( wstos( name ), attrs );
+    }
 
   using CityGMLHandler::endElement;
-	void endElement( const xmlChar* name )
-	{
-		CityGMLHandler::endElement( wstos( name ) );
-	}
+    void endElement( const xmlChar* name )
+    {
+        CityGMLHandler::endElement( wstos( name ) );
+    }
 
-	void characters( const xmlChar *chars, int length ) 
-	{
-		for ( int i = 0; i < length; i++ ) _buff << (char)chars[i]; 
-	}
+    void characters( const xmlChar *chars, int length ) 
+    {
+        for ( int i = 0; i < length; i++ ) _buff << (char)chars[i]; 
+    }
 
-	static inline std::string wstos( const xmlChar* const str ) 
-	{
-		return std::string( (const char*)str );
-	}
+    static inline std::string wstos( const xmlChar* const str ) 
+    {
+        return std::string( (const char*)str );
+    }
 
 protected:
-	std::string getAttribute( void* attributes, const std::string& attname, const std::string& defvalue = "" )
-	{
-		const xmlChar **attrs = (const xmlChar**)attributes;
-		if ( !attrs ) return defvalue;
-		for ( int i = 0; attrs[i] != 0; i += 2 ) 
-			if ( wstos( attrs[i] ) == attname ) return wstos( attrs[ i + 1 ] );
-		return defvalue;
-	}
+    std::string getAttribute( void* attributes, const std::string& attname, const std::string& defvalue = "" )
+    {
+        const xmlChar **attrs = (const xmlChar**)attributes;
+        if ( !attrs ) return defvalue;
+        for ( int i = 0; attrs[i] != 0; i += 2 ) 
+            if ( wstos( attrs[i] ) == attname ) return wstos( attrs[ i + 1 ] );
+        return defvalue;
+    }
 };
 
 
@@ -151,7 +151,7 @@ CityModel* load( std::istream& stream, const ParserParams& params )
     while ( std::getline( stream, line ) )
     {
       line += '\n';
-      xmlParseChunk( context, line.c_str(), line.length(), 0 );
+      xmlParseChunk( context, line.c_str(), static_cast<int>(line.length()), 0 );
     }
 
     xmlParseChunk( context, 0, 0, 1 );     

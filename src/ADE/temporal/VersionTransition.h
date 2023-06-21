@@ -12,40 +12,40 @@ namespace temporal
 {
 enum TransitionValue
 {
-	PLANNED,
-	REALIZED,
-	HISTORICAL_SUCCESSION,
-	FORK,
-	MERGE
+    PLANNED,
+    REALIZED,
+    HISTORICAL_SUCCESSION,
+    FORK,
+    MERGE
 };
 
 class VersionTransition : public Object
 {
 public:
-	VersionTransition (const std::string& id);
-	virtual ~VersionTransition() override;
+    VersionTransition (const std::string& id);
+    virtual ~VersionTransition() override;
 
-	void setReason(std::string);
-	void setClone(bool);
-	void setType(TransitionValue);
-	void setFrom(Version*);
-	Version* from();
-	void setTo(Version*);
-	Version* to();
+    void setReason(std::string);
+    void setClone(bool);
+    void setType(TransitionValue);
+    void setFrom(Version*);
+    Version* from();
+    void setTo(Version*);
+    Version* to();
 
-	void addTransaction(Transaction*);
-	std::vector<Transaction*>* getTransactions();
+    void addTransaction(Transaction*);
+    std::vector<Transaction*>* getTransactions();
 
 protected:
 
-	bool _clonePredecessor;
-	std::string _reason;
-	TransitionValue _type;
+    bool _clonePredecessor;
+    std::string _reason;
+    TransitionValue _type;
 
-	Version* _from;
-	Version* _to;
+    Version* _from;
+    Version* _to;
 
-	std::vector<Transaction*> _transactions;
+    std::vector<Transaction*> _transactions;
 };
 
 } //namespace temporal

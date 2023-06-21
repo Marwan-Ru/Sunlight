@@ -7,11 +7,15 @@
 #include <queue>
 #include <fstream>
 #include <string>
+#include <glm/vec3.hpp>
+// Log in console
+#include <spdlog/spdlog.h>
+// Log in file
+#include "spdlog/sinks/rotating_file_sink.h"
 
 #include "SunlightDetection.h"
 #include "IO.h"
 #include "FileInfo.h"
-#include <maths/Vectors.h>
 #include <maths/AABB.h>
 #include <maths/Triangle.h>
 #include "maths/RayTracing.h"
@@ -19,6 +23,7 @@
 #include <maths/RayBox.h>
 #include <utils/DateTime.h>
 #include <citygmls/CityObject.h>
+#include <utils/Timer.h>
 
 ///
 /// \brief SetupFileOrder create a std::queue queueing the files intersected by a given RayBoxCollection and sorted by intersection distance
@@ -177,7 +182,7 @@ void RayTraceTriangles(const std::string& filepath, const CityObjectsType& fileT
     //Get the triangle list of files matching intersected AABB
     TriangleList* trianglesTemp;
 
-    trianglesTemp = BuildTriangleList(filepath, fileType, cityObjId, rayColl.rays.at(0)->ori.z);
+    trianglesTemp = BuildTriangleList(filepath, fileType, cityObjId, rayColl.rays.at(0)->origin.z);
 
     //Perform raytracing
     std::vector<Hit*>* tmpHits = RayTracing(trianglesTemp, rayColl.rays, true);
@@ -197,40 +202,30 @@ void RayTraceTriangles(const std::string& filepath, const CityObjectsType& fileT
     delete tmpHits;
 }
 
-///
-/// \brief writeInLogFile Print a text in an output txt file.
-/// \param filepath path to the output file.
-/// \param text text to print.
-///
-void writeInLogFile(const std::string& filepath, const std::string& text)
-{
-    std::ofstream logfile;
-    logfile.open(filepath, std::ofstream::app);
-
-    logfile << text << std::endl;
-
-    logfile.close();
-}
-
 void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, std::string outputDir)
 {
-    //QTime time;
-    //time.start();
+    Timer timer;
+    timer.start();
 
-    std::cout << "Sunlight Calculation started." << std::endl;
+    spdlog::info("Sunlight Calculation started.");
 
     //Create output folders
     createOutputFolders(outputDir);
 
     //Log file
-    std::string logFilePath = outputDir + "/Sunlight/logFile.txt";
+    const auto LOG_FILE_PATH(outputDir + "/Sunlight/logFile.txt");
+    
+    // Create a file rotating logger with 5 MB size max and 3 rotated files
+    const auto MAX_LOG_SIZE = 1048576 * 5;
+    const auto MAX_LOG_FILES = 3;
+    auto fileLogger = spdlog::rotating_logger_mt("some_logger_name", LOG_FILE_PATH, MAX_LOG_SIZE, MAX_LOG_FILES);
 
     //Convert dates to integer
     int iStartDate = encodeDateTime(startDate, 0);
     int iEndDate = encodeDateTime(endDate, 23);
 
     // *** Compute sun's beam direction from sunpathFile and associate them to an hour encoded as an int. *** //
-    std::map<int, TVec3d> SunsBeamsDir = loadSunpathFile(sunpathFile, iStartDate, iEndDate);
+    std::map<int, glm::highp_dvec3> SunsBeamsDir = loadSunpathFile(sunpathFile, iStartDate, iEndDate);
 
     // *** Build datetime_sunnyMap : result map associating a datetime to sunny info *** //
     //This map is created once as the sun beams are always the same in one simulation and will be associated with each triangle
@@ -238,7 +233,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
     for (auto const& beamdir : SunsBeamsDir) //For all sun beams
     {
-        if (beamdir.second == TVec3d(0.0, 0.0, 0.0)) //If beam direction is nul, i.e. sun is down
+        if (beamdir.second == glm::highp_dvec3(0.0, 0.0, 0.0)) //If beam direction is nul, i.e. sun is down
             datetime_sunnyMap[beamdir.first] = false; //sunny = false
         else
             datetime_sunnyMap[beamdir.first] = true; // sunny = true
@@ -263,13 +258,14 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
     for (FileInfo* f : filenames) //Loop through files
     {
-        std::cout << "===================================================" << std::endl;
-        std::cout << "Computation of file " << f->WithPrevFolderAndGMLExtension() << "..." << std::endl;
-        std::cout << "===================================================" << std::endl;
+        spdlog::info("===================================================");
+        spdlog::info("Computation of file {}...", f->WithPrevFolderAndGMLExtension());
+        spdlog::info("===================================================");
 
         //Log file
-        std::string text = "File " + f->WithPrevFolderAndGMLExtension();
-        writeInLogFile(logFilePath, text);
+        const auto text ("File " + f->WithPrevFolderAndGMLExtension());
+        spdlog::info(text);
+        fileLogger->info(text);
 
         //Load TriangleList of file to compute sunlight for
         TriangleList* trianglesfile;
@@ -281,9 +277,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
         else
             trianglesfile = new TriangleList();
 
-        //Log file
-        text = "Triangles Number : " + std::to_string(trianglesfile->triangles.size());
-        writeInLogFile(logFilePath, text);
+        fileLogger->info("Triangles Number : {}", trianglesfile->triangles.size());
 
         //Create csv file where results will be written
         createFileFolder(f, outputDir);
@@ -292,16 +286,13 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
         for (Triangle* t : trianglesfile->triangles) //Loop through each triangle
         {
-            std::cout << "Triangle " << cpt_tri << " of " << trianglesfile->triangles.size() << "..." << std::endl;
+            spdlog::info("Triangle {} of {}...", cpt_tri, trianglesfile->triangles.size());
 
             //Initialize sunlight Info results
             std::map<int, bool> datetimeSunInfo = datetime_sunnyMap;
 
             //Compute Barycenter of triangle
-            TVec3d barycenter = TVec3d();
-            barycenter.x = (t->a.x + t->b.x + t->c.x) / 3;
-            barycenter.y = (t->a.y + t->b.y + t->c.y) / 3;
-            barycenter.z = (t->a.z + t->b.z + t->c.z) / 3;
+            glm::highp_dvec3 barycenter ((t->a + t->b + t->c) / 3.0);
 
             //Create rayBoxCollection (All the rays for this triangle)
             RayBoxCollection* raysboxes = new RayBoxCollection();
@@ -309,11 +300,11 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
             for (auto const& beamdir : SunsBeamsDir)
             {
                 //If direction is null (ie sun is too low) leave triangle in the shadow and go to next iteration
-                if (beamdir.second == TVec3d(0.0, 0.0, 0.0))
+                if (beamdir.second == glm::highp_dvec3(0.0, 0.0, 0.0))
                     continue;
 
                 //if triangle is not oriented towards the sun, it is in the shadow
-                if (t->GetNormal().dot(beamdir.second) < 0.0)
+                if (glm::dot(t->GetNormal(), beamdir.second) < 0.0)
                 {
                     datetimeSunInfo[beamdir.first] = false;
                     continue;
@@ -321,10 +312,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
                 //Add an offset for raytracing. Without this offset, origin of the ray might be behind the barycenter,
                 //which will result in a collision between the ray its origin triangle
-                TVec3d tmpBarycenter = TVec3d(0.0, 0.0, 0.0);
-                tmpBarycenter.x = barycenter.x + 0.01f * beamdir.second.x;
-                tmpBarycenter.y = barycenter.y + 0.01f * beamdir.second.y;
-                tmpBarycenter.z = barycenter.z + 0.01f * beamdir.second.z;
+                glm::highp_dvec3 tmpBarycenter ( barycenter + 0.01 * beamdir.second);
 
                 //Add ray to list
                 RayBox* raybox = new RayBox(tmpBarycenter, beamdir.second, beamdir.first);
@@ -361,7 +349,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                         rb->boxes.clear();
 
                     //Load Building AABB (B_AABB)
-                    int extensionPos = fBoxHit.m_filepath.find(".gml");
+                    size_t extensionPos = fBoxHit.m_filepath.find(".gml");
                     std::string path_B_AABB = fBoxHit.m_filepath.substr(0, extensionPos) + "_Building_AABB.dat";
 
                     std::vector<AABB> B_AABB = LoadAABBFile(path_B_AABB);
@@ -427,17 +415,15 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
         //Delete TriangleList
         delete trianglesfile;
 
-        //std::cout << "===================================================" << std::endl;
-        //std::cout << "file " << cpt_files << " of " << filenames.size() << " done in : " << static_cast<double>(time.elapsed()) / 1000.0 << "s" << std::endl;
-        //std::cout << "===================================================" << std::endl;
+        spdlog::info("===================================================");
+        spdlog::info("file {} of {} done in : {}s", cpt_files, filenames.size(), timer.getElapsedInSeconds());
+        spdlog::info("===================================================");
 
         //Log file
-        //text = "Computation time : " + std::to_string(static_cast<double>(time.elapsed()) / 1000.0) + " s";
-        writeInLogFile(logFilePath, text);
-        writeInLogFile(logFilePath, ""); //Skip one line
+        fileLogger->info("Computation time : {}s \n", timer.getElapsedInSeconds());
 
-        //time_tot += static_cast<double>(time.elapsed()) / 1000.0;
-        //time.restart();
+        time_tot += timer.getElapsedInSeconds();
+        timer.restart();
         ++cpt_files;
     }
 
@@ -445,5 +431,5 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     for (unsigned int i = 0; i < filenames.size(); ++i)
         delete filenames[i];
 
-    //std::cout << "Total time : " << time_tot << "s" << std::endl;
+    spdlog::info("Total time : {}s", time_tot);
 }

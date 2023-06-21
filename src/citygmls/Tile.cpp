@@ -3,8 +3,9 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
-#include "Tile.h"
+#include <sstream>
 
+#include "Tile.h"
 #include <citygmls/Envelope.h>
 #include <citygmls/ParserParams.h>
 #include <citygmls/CityObject.h>
@@ -29,7 +30,7 @@ Tile::~Tile()
     delete m_root;
 }
 
-/*Tile::Tile(const TVec3d& pMin, const TVec3d& pMax)
+/*Tile::Tile(const glm::highp_dvec3& pMin, const glm::highp_dvec3& pMax)
     : m_envelope(pMin, pMax)
 {
 }*/

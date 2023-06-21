@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <maths/Vectors.h>
+#include <glm/vec3.hpp>
 
 #include <string>
 #include <vector>
@@ -22,8 +22,8 @@
 */
 struct AABB
 {
-    TVec3d min;///< Min point of the box
-    TVec3d max;///< Max point of the box
+    glm::highp_dvec3 min;///< Min point of the box
+    glm::highp_dvec3 max;///< Max point of the box
     std::string name;///< Name of the box
 
     bool operator==(AABB const& other);

@@ -3,14 +3,14 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
+#include <fstream>
+#include <filesystem>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "IO.h"
 #include "FileInfo.h"
 #include <maths/Triangle.h>
 #include <utils/DateTime.h>
-#include "maths/Quaternion.h"
-
-#include <fstream>
-#include <filesystem>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -70,49 +70,51 @@ void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* f
     }
 }
 
+glm::highp_dvec3 RotateVector(const glm::highp_dvec3& vec, const glm::dquat& q)
+{
+    glm::dquat qConj = glm::conjugate(q);
+    glm::dquat qTemp = qConj * glm::dquat(0.0f, vec.x, vec.y, vec.z) * q;
+    return glm::highp_dvec3(qTemp.x, qTemp.y, qTemp.z);
+}
+
+glm::dquat computeSunRotation(double azimutAngleInRadians, double elevationAngleInRadians)
+{
+    glm::dquat elevationQuaternion(glm::highp_dvec3(-elevationAngleInRadians, 0, 0));
+    glm::dquat azimutQuaternion(glm::highp_dvec3(0, 0, azimutAngleInRadians));
+
+    return elevationQuaternion * azimutQuaternion;
+}
+
 ///
-/// \brief computeBeamDir Computes sun's beam direction depending on its position
+/// \brief computeBeamDir Compute sun direction given an azimut and elevation angle
 /// \param azimutAngle Azimut angle of the sun
 /// \param elevationAngle Elevation angle of the sun
 /// \return Beam normalized direction vector
 ///
-TVec3d computeBeamDir(double azimutAngle, double elevationAngle)
+glm::highp_dvec3 computeBeamDir(double azimutAngle, double elevationAngle)
 {
-
-    TVec3d origin = TVec3d(1843927.29, 5173886.65, 0.0); //Lambert 93 Coordinates
-    TVec3d sunPos = origin + TVec3d(0.0, 60000.0, 0.0); //SunPos is the first position of the sun (north) from which the angles are expressed
-    TVec3d newSunPos = origin + TVec3d(0.0, 60000.0, 0.0); //Lambert 93 coordinates
-
-    TVec3d ARotAxis = TVec3d(0.0, 0.0, 1.0);
-    TVec3d ERotAxis = TVec3d(-1.0, 0.0, 0.0);
-
     //if sun to low (angle < 1 degree), return nul beam direction
     if (elevationAngle <= 0.01 || azimutAngle <= 0.01)
-        return TVec3d(0.0, 0.0, 0.0);
-
-    //Azimut rotation quaternion
-    quaternion qA = quaternion(ARotAxis, azimutAngle);
-
-    //Elevation rotation quaternion
-    quaternion qE = quaternion(ERotAxis, elevationAngle);
-
-    //Total rotation quaternion
-    quaternion q = qE * qA;
-
-    sunPos = sunPos - origin;
-    newSunPos = q * sunPos;
-    newSunPos = newSunPos + origin;
-    sunPos = sunPos + origin;
+        return glm::highp_dvec3(0.0, 0.0, 0.0);
+   
+    //Lambert 93 Coordinates
+    glm::highp_dvec3 originOffset (1843927.29, 5173886.65, 0.0);
+    //SunPos is the first position of the sun (north) from which the angles are expressed
+    glm::highp_dvec3 sunBasePosition (glm::highp_dvec3(0.0, 60000.0, 0.0));
+    
+    // Rotate the sun base position with the rotation at a given time (or azimut / elevation)
+    glm::dquat finalRotation(computeSunRotation(azimutAngle, elevationAngle));
+    glm::highp_dvec3 sunPositionAfterRotation (RotateVector(sunBasePosition, finalRotation) + originOffset);
 
     //Compute sun beam direction
-    TVec3d tmpDirection = (newSunPos - origin);
+    glm::highp_dvec3 directionToSun (sunPositionAfterRotation - originOffset);
 
-    return tmpDirection.normal();
+    return glm::normalize(directionToSun);
 }
 
-std::map<int, TVec3d> loadSunpathFile(std::string sunpathFile, int iStartDate, int iEndDate)
+std::map<int, glm::highp_dvec3> loadSunpathFile(std::string sunpathFile, int iStartDate, int iEndDate)
 {
-    std::map<int, TVec3d> SunBeamDir;
+    std::map<int, glm::highp_dvec3> SunBeamDir;
 
     std::ifstream file(sunpathFile); //Load file
     std::string line;
@@ -195,7 +197,7 @@ std::map<int, TVec3d> loadSunpathFile(std::string sunpathFile, int iStartDate, i
             {
                 //Add nul beam direction for last hour of the day
                 int dateTime = encodeDateTime(sCurrentDate, hour);
-                SunBeamDir[dateTime] = TVec3d(0.0, 0.0, 0.0);
+                SunBeamDir[dateTime] = glm::highp_dvec3(0.0, 0.0, 0.0);
             }
 
             //*** End of the part which needs to be commented out

@@ -19,7 +19,7 @@
 #include "Object.h"
 #include "CityGmlTypes.h"
 #include "Envelope.h"
-#include <maths/Vectors.h>
+#include <glm/vec3.hpp>
 
 #include <vector>
 #include <string>
@@ -39,23 +39,23 @@ public:
 
     unsigned int size() const;
 
-    const std::vector<TVec3d>& getVertices() const;
+    const std::vector<glm::highp_dvec3>& getVertices() const;
 
-    void addVertex( const TVec3d& v );
+    void addVertex( const glm::highp_dvec3& v );
 
-    TVec3d computeNormal() const;
+    glm::highp_dvec3 computeNormal() const;
 
     // Return the envelope (ie. the bounding box) of the object
     const Envelope& getEnvelope() const;
 
-    std::vector<TVec3d>& getVertices();
+    std::vector<glm::highp_dvec3>& getVertices();
 
     void finish( TexCoords* );
 
 protected:
     bool _exterior;
 
-    std::vector<TVec3d> _vertices;
+    std::vector<glm::highp_dvec3> _vertices;
 
     Envelope _envelope;
 };

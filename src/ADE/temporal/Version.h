@@ -17,21 +17,21 @@ class TempHandler;
 
 class Version : public Object
 {
-	friend class TempHandler;
+   friend class TempHandler;
 public :
 
-	Version(const std::string& id);
+   Version(const std::string& id);
 
-	const std::vector<std::string>& getTags();
-	void addTag( std::string );
+   const std::vector<std::string>& getTags();
+   void addTag( std::string );
 
-	std::vector<CityObject*>* getVersionMembers();
+   std::vector<CityObject*>* getVersionMembers();
 
-	void addMember(CityObject*);
+   void addMember(CityObject*);
 
 protected :
-	std::vector<std::string> _tags;
-	std::vector<CityObject*> _versionMembers;
+   std::vector<std::string> _tags;
+   std::vector<CityObject*> _versionMembers;
 
 };
 

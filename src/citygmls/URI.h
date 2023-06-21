@@ -48,11 +48,11 @@ public:
     /// \return std::string with the name of the node at depth depth
     const std::string& getNode(int depth) const;
 
-	/// Get node using cursor position
-	const std::string& getCurrentNode() const;
+    /// Get node using cursor position
+    const std::string& getCurrentNode() const;
 
     /// Get node type using cursor position
-	const std::string& getCurrentNodeType() const;
+    const std::string& getCurrentNodeType() const;
 
     /// Get node type using depth
     const std::string& getNodeType(int depth) const;
@@ -64,8 +64,8 @@ public:
     /// \brief popBack Change uri to make it point to its father. (remove last node and --depth)
     void popBack();
 
-	/// \brief popFront Change uri to make it point to its first child. (increment cursor)
-	void popFront() const;
+    /// \brief popFront Change uri to make it point to its first child. (increment cursor)
+    void popFront() const;
 
     /// \brief getType Get the type of the final node pointed by the URI
     /// \return The type of the final node pointed by the URI as a string

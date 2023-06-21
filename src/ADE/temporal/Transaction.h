@@ -12,21 +12,21 @@ namespace temporal
 
 enum TransactionValue
 {
-	INSERT,
-	DEL,
-	REPLACE
+   INSERT,
+   DEL,
+   REPLACE
 };
 class Transaction: public Object
 {
 public:
-	Transaction(const std::string& id);
-	void setType(TransactionValue);
-	void setOldFeature(CityObject*);
-	void setNewFeature(CityObject*);
+   Transaction(const std::string& id);
+   void setType(TransactionValue);
+   void setOldFeature(CityObject*);
+   void setNewFeature(CityObject*);
 private:
-	TransactionValue _type;
-	CityObject* _newFeature;
-	CityObject* _oldFeature;
+   TransactionValue _type;
+   CityObject* _newFeature;
+   CityObject* _oldFeature;
 };
 
 } //namespace temporal

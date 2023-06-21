@@ -257,7 +257,7 @@ void CityObject::computeEnvelope()
    {
       for (Polygon* poly : geom->getPolygons())
       {
-         for (const TVec3d& v : poly->getExteriorRing()->getVertices())
+         for (const glm::highp_dvec3& v : poly->getExteriorRing()->getVertices())
          {
             _envelope.merge(v);
          }

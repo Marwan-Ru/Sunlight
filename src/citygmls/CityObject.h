@@ -20,7 +20,7 @@
 
 #include "Object.h"
 #include "Envelope.h"
-#include <maths/Vectors.h>
+#include <glm/vec3.hpp>
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
@@ -74,7 +74,7 @@ typedef unsigned int CityObjectsTypeMask;
 class CityObject : public Object
 {
     friend class CityGMLHandler;
-	friend class ADEHandler;
+    friend class ADEHandler;
     friend class CityModel;
     friend std::ostream& operator<<( std::ostream&, const CityObject & );
 public:
@@ -90,11 +90,11 @@ public:
     // Return the envelope (ie. the bounding box) of the object
     const Envelope& getEnvelope() const;
 
-	//Check is CityObject has geometries
-	bool IsEmpty();
+    //Check is CityObject has geometries
+    bool IsEmpty();
 
     //// Get the default diffuse color of this object class
-    //virtual TVec4f getDefaultColor() const = 0;
+    //virtual glm::vec4 getDefaultColor() const = 0;
 
     // Get the number of geometries contains in the object
     size_t size() const;
@@ -116,8 +116,8 @@ public:
 
     std::vector< CityObject* >& getChildren();
 
-	//remove all the children of the CityObject (without deleting them)
-	void clearChildren();
+    //remove all the children of the CityObject (without deleting them)
+    void clearChildren();
 
     void addGeometry(Geometry* geom);
 
@@ -134,7 +134,7 @@ public:
 
     /// Get a node from a uri
     /// \param uri uri pointing to requested node
-	CityObject* getNode(const URI& uri);
+    CityObject* getNode(const URI& uri);
 
 //protected:
     void finish( AppearanceManager&, const ParserParams& );
@@ -143,8 +143,8 @@ protected:
     CityObjectsType _type;
 
     Envelope _envelope;
-	bool _isEmpty;
-    TVec3d _centroid;
+    bool _isEmpty;
+    glm::highp_dvec3 _centroid;
 
     std::vector< Geometry* > _geometries;
     std::vector< CityObject* > _children;

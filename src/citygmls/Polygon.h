@@ -18,7 +18,7 @@
 
 #include <vector>
 
-#include <maths/Vectors.h>
+#include <glm/vec3.hpp>
 #include <citygmls/Object.h>
 #include "citygmls/Envelope.h"
 
@@ -52,16 +52,16 @@ public:
 
     virtual ~Polygon() override;
 
-	//Polygon* Clone();
+    //Polygon* Clone();
 
     // Get the vertices
-    const std::vector<TVec3d>& getVertices() const;
+    const std::vector<glm::highp_dvec3>& getVertices() const;
 
     // Get the indices
     const std::vector<unsigned int>& getIndices() const;
 
     // Get the normals
-    const std::vector<TVec3f>& getNormals() const;
+    const std::vector<glm::vec3>& getNormals() const;
 
     // Get texture coordinates
     TexCoords& getTexCoords();
@@ -89,17 +89,17 @@ public:
 
     void addRing( LinearRing* );
 
-    void tesselate( AppearanceManager &, const TVec3d& );
+    void tesselate( AppearanceManager &, const glm::highp_dvec3& );
     void mergeRings( AppearanceManager & );
     void clearRings();
 
-    TVec3d computeNormal();
+    glm::highp_dvec3 computeNormal();
 
     bool merge( Polygon* );
 
 protected:
-    std::vector<TVec3d> _vertices;
-    std::vector<TVec3f> _normals;
+    std::vector<glm::highp_dvec3> _vertices;
+    std::vector<glm::vec3> _normals;
     std::vector<unsigned int> _indices;
 
     Appearance* _appearance;

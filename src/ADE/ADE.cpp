@@ -22,43 +22,43 @@ void ADEHandlerFactory::getInstances(std::map<std::string,ADEHandler*>* map)
 //some gmlHandler methods
 std::string ADEHandler::getGmlIdAttribute( void* attributes ) {
     return getAttribute( attributes, "gml:id", "" ); }
-unsigned int ADEHandler::getPathDepth() { return (getNodePath())->size(); }
+unsigned int ADEHandler::getPathDepth() { return static_cast<unsigned int>(getNodePath()->size()); }
 void ADEHandler::pushCityObject( CityObject* object )
 {
-	CityObject** currentCityObject = getCurrentCityObject();
+    CityObject** currentCityObject = getCurrentCityObject();
     // add parent relation
     if(*currentCityObject)
     {
         object->_parent = *currentCityObject;
     }
 
-	if ( *currentCityObject && object ) (*currentCityObject)->getChildren().push_back( object );
-	std::stack<CityObject*>* cityObjectStack = getCityObjectStack();
-	cityObjectStack->push( *currentCityObject );
-	*currentCityObject = object;
+    if ( *currentCityObject && object ) (*currentCityObject)->getChildren().push_back( object );
+    std::stack<CityObject*>* cityObjectStack = getCityObjectStack();
+    cityObjectStack->push( *currentCityObject );
+    *currentCityObject = object;
 }
 void ADEHandler::pushObject( Object* object )
 {
-	std::stack<Object*>* objectStack = getObjectStack();
-	objectStack->push( object );
-	Object** currentObject = getCurrentObject();
-	*currentObject = object;
+    std::stack<Object*>* objectStack = getObjectStack();
+    objectStack->push( object );
+    Object** currentObject = getCurrentObject();
+    *currentObject = object;
 }
 void ADEHandler::popCityObject()
 {
-	CityObject** currentCityObject = getCurrentCityObject();
-	std::stack<CityObject*>* cityObjectStack = getCityObjectStack();
-	*currentCityObject = 0; 
-	if ( cityObjectStack->empty() ) return; 
-	*currentCityObject = cityObjectStack->top(); 
-	cityObjectStack->pop();
+    CityObject** currentCityObject = getCurrentCityObject();
+    std::stack<CityObject*>* cityObjectStack = getCityObjectStack();
+    *currentCityObject = 0; 
+    if ( cityObjectStack->empty() ) return; 
+    *currentCityObject = cityObjectStack->top(); 
+    cityObjectStack->pop();
 }
 void ADEHandler::popObject()
 {
-	Object** currentObject = getCurrentObject();
-	std::stack<Object*>* objectStack = getObjectStack();
-	*currentObject = 0; 
-	if ( objectStack->empty() ) return; 
-	objectStack->pop();
-	*currentObject = objectStack->empty() ? 0 : objectStack->top();			
+    Object** currentObject = getCurrentObject();
+    std::stack<Object*>* objectStack = getObjectStack();
+    *currentObject = 0; 
+    if ( objectStack->empty() ) return; 
+    objectStack->pop();
+    *currentObject = objectStack->empty() ? 0 : objectStack->top();			
 }

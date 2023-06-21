@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>./src/third-partys/libxml2-vc143/include;./src/;$(IncludePath)</IncludePath>
+    <IncludePath>./src/third-partys/spdlog-1.11.0/include;./src/third-partys/libxml2-vc143/include;./src/;$(IncludePath)</IncludePath>
     <LibraryPath>./src/third-partys/libxml2-vc143/bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>./src/third-partys/libxml2-vc143/include;./src/;$(IncludePath)</IncludePath>
+    <IncludePath>./src/third-partys/spdlog-1.11.0/include;./src/third-partys/libxml2-vc143/include;./src/;$(IncludePath)</IncludePath>
     <LibraryPath>./src/third-partys/libxml2-vc143/bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -143,7 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ADE\ADE.cpp" />
     <ClCompile Include="src\ADE\document\DocumentHandler.cpp" />
     <ClCompile Include="src\ADE\document\DocumentObject.cpp" />
@@ -163,7 +163,6 @@
     <ClCompile Include="src\citygmls\LinearRing.cpp" />
     <ClCompile Include="src\citygmls\Material.cpp" />
     <ClCompile Include="src\citygmls\Object.cpp" />
-    <ClCompile Include="src\citygmls\OsgCityGML.cpp" />
     <ClCompile Include="src\citygmls\ParserParams.cpp" />
     <ClCompile Include="src\citygmls\Polygon.cpp" />
     <ClCompile Include="src\citygmls\Tesselator.cpp" />
@@ -174,8 +173,6 @@
     <ClCompile Include="src\cores\IO.cpp" />
     <ClCompile Include="src\cores\SunlightDetection.cpp" />
     <ClCompile Include="src\maths\AABB.cpp" />
-    <ClCompile Include="src\maths\Hit.cpp" />
-    <ClCompile Include="src\maths\Quaternion.cpp" />
     <ClCompile Include="src\maths\Ray.cpp" />
     <ClCompile Include="src\maths\RayBox.cpp" />
     <ClCompile Include="src\maths\RayTracing.cpp" />
@@ -184,6 +181,8 @@
     <ClCompile Include="src\parsers\ParserLibXml2.cpp" />
     <ClCompile Include="src\parsers\TiledFilesLayout.cpp" />
     <ClCompile Include="src\utils\DateTime.cpp" />
+    <ClCompile Include="src\utils\Timer.cpp" />
+    <ClCompile Include="src\utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ADE\ADE.h" />
@@ -209,7 +208,6 @@
     <ClInclude Include="src\citygmls\LinearRing.h" />
     <ClInclude Include="src\citygmls\Material.h" />
     <ClInclude Include="src\citygmls\Object.h" />
-    <ClInclude Include="src\citygmls\OsgCityGML.h" />
     <ClInclude Include="src\citygmls\ParserParams.h" />
     <ClInclude Include="src\citygmls\Polygon.h" />
     <ClInclude Include="src\citygmls\Tesselator.h" />
@@ -221,29 +219,31 @@
     <ClInclude Include="src\cores\SunlightDetection.h" />
     <ClInclude Include="src\maths\AABB.h" />
     <ClInclude Include="src\maths\Hit.h" />
-    <ClInclude Include="src\maths\Quaternion.h" />
     <ClInclude Include="src\maths\Ray.h" />
     <ClInclude Include="src\maths\RayBox.h" />
     <ClInclude Include="src\maths\RayTracing.h" />
     <ClInclude Include="src\maths\Triangle.h" />
-    <ClInclude Include="src\maths\Vectors.h" />
     <ClInclude Include="src\parsers\Parser.h" />
     <ClInclude Include="src\parsers\ParserLibXml2.h" />
     <ClInclude Include="src\parsers\TiledFilesLayout.h" />
     <ClInclude Include="src\utils\DateTime.h" />
+    <ClInclude Include="src\utils\Timer.h" />
     <ClInclude Include="src\utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\boost.1.82.0\build\boost.targets" Condition="Exists('packages\boost.1.82.0\build\boost.targets')" />
+    <Import Project="packages\glm.0.9.9.800\build\native\glm.targets" Condition="Exists('packages\glm.0.9.9.800\build\native\glm.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\boost.1.82.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost.1.82.0\build\boost.targets'))" />
+    <Error Condition="!Exists('packages\glm.0.9.9.800\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\glm.0.9.9.800\build\native\glm.targets'))" />
   </Target>
 </Project>

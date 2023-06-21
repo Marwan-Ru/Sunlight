@@ -13,17 +13,17 @@ Transaction::Transaction( const std::string& id ) : Object( id )
 
 void Transaction::setType(TransactionValue param)
 {
-	_type = param;
+   _type = param;
 }
 
 void Transaction::setOldFeature(CityObject* object)
 {
-	_oldFeature = object;
+   _oldFeature = object;
 }
 
 void Transaction::setNewFeature(CityObject* object)
 {
-	_newFeature = object;
+   _newFeature = object;
 }
 
 

@@ -4,73 +4,27 @@
 
 ```
 Sunlight (repo)
-├── docs                      # Developer and User documentation
 ├── datas                     # Datas use for testing
+├── packages
+|    ├── boost.1.82.0		  # Boost is use to compare two string with better performance
+|    ├── glm.0.9.9.800		  # Mathematical and geometrical libraries (vec3, quat4...)
+|
 ├── src                       # Source code
+|    ├── ADE
+|    ├── citygml                
 |    ├── cores                # Core program / Main functionality
-|    ├── externals            # Externals libraries (parser, mathematics...)
-|    ├── maths                # Mathematical and geometrical calculation
-|    ├── utils                # Small utils / helpers (log...)
-├── .gitignore                # Files/folders ignored by Git
-├── Readme.md
-```
-
-
-
-```
-### Avant
-
-Sunlight (repo)
-├── docs                      # Developer and User documentation
-├── datas                     # Datas use for testing
-├── src                       # Source code
-|    ├── cores                # Core program / Main functionality
-|        ├── SunlightDetection
-|        ├── IO
-|        ├── FileInfo
-|    ├── externals            # Externals libraries (parser, mathematics...)
-|        ├── 
-|        ├── 
-|    ├── maths          # Mathematical and geometrical calculation
-|        ├── Triangle
-|        ├── Ray
-|        ├── RayBox
-|        ├── RayTracing
-|        ├── Hit
-|        ├── AABB
-|        ├── vecs
-|        ├── quaternion
+|    ├── maths                # Mathematical and geometrical class
 |    ├── parsers
-|        ├── TiledFilesLayout
-|    ├── utils                # Small utils / helpers (log...)
-|        ├── log
-|        ├── dateTime
+|    ├── third-partys         # Externals libraries (parser, mathematics...)
+|        ├── libxml2-vc143	  # Parser XML for cityGML
+|        ├── spdlog-1.11.0	  # Console and file logging
+
+|    ├── utils                # Small utils / helpers (timer, operators override...)
+|
+├── .editorconfig			  # Formatting rules and configuration
 ├── .gitignore                # Files/folders ignored by Git
 ├── Readme.md
-```
-
-
-```
-### Après
-
-Sunlight (repo)
-├── docs                      # Developer and User documentation
-├── datas                     # Datas use for testing
-├── src                       # Source code
-|    ├── cores                # Core program / Main functionality
-|        ├── SunlightDetection
-|        ├── IO
-|    ├── externals            # Externals libraries (parser, mathematics...)
-|        ├── glm
-|        ├── 3DTilesParser
-|    ├── maths          # Mathematical and geometrical calculation
-|        ├── Ray
-|        ├── RayHit
-|        ├── Shape
-|        ├── Triangle
-|        ├── BoundingBox
-|    ├── utils                # Small utils / helpers (log...)
-|        ├── log
-├── .gitignore                # Files/folders ignored by Git
-├── Readme.md
+├── Sunlight.sln
+├── Sunlight.vcxproj 
+├── packages.config
 ```

@@ -45,8 +45,8 @@ CityModel::~CityModel()
     {
         delete obj;
     }
-	for(temporal::Version* version : _versions) delete version;
-	for(temporal::VersionTransition* trans : _versionTransitions) delete trans;
+    for(temporal::Version* version : _versions) delete version;
+    for(temporal::VersionTransition* trans : _versionTransitions) delete trans;
 }
 
 // Return the envelope (ie. the bounding box) of the model
@@ -61,7 +61,7 @@ Envelope& CityModel::getEnvelope()
 }
 
 // Return the translation parameters of the model
-const TVec3d& CityModel::getTranslationParameters() const
+const glm::highp_dvec3& CityModel::getTranslationParameters() const
 {
     return _translation;
 }
@@ -163,46 +163,46 @@ CityObject* CityModel::getNodeById(const std::string& id)
 
 CityObject* CityModel::getNode(const URI& uri, bool inPickingMode)
 {
-	std::string sNode;	
+    std::string sNode;	
 
-	if (inPickingMode)
-	{
-		if (uri.getCurrentNodeType() == "Workspace")	
-		{
-			uri.popFront();
-			//std::cout << "---> POP because Workspace" << std::endl;
-		}
-		if (uri.getCurrentNodeType() == "Version")	
-		{
-			uri.popFront();
-			//std::cout << "---> POP because Version" << std::endl;
-		}
+    if (inPickingMode)
+    {
+        if (uri.getCurrentNodeType() == "Workspace")	
+        {
+            uri.popFront();
+            //std::cout << "---> POP because Workspace" << std::endl;
+        }
+        if (uri.getCurrentNodeType() == "Version")	
+        {
+            uri.popFront();
+            //std::cout << "---> POP because Version" << std::endl;
+        }
 
-		sNode = uri.getCurrentNode();
+        sNode = uri.getCurrentNode();
 
-		//std::cout << "(Picking) uri.getStringURI: " << uri.getStringURI() << std::endl;
-		//std::cout << "(Picking) uri.getLastNode: " << uri.getLastNode() << std::endl;
-		//std::cout << "(Picking) -> uri.getCurrentNode: " << uri.getCurrentNode() << std::endl << std::endl;
-	}
-	else
-	{
-		sNode = uri.getLastNode();
+        //std::cout << "(Picking) uri.getStringURI: " << uri.getStringURI() << std::endl;
+        //std::cout << "(Picking) uri.getLastNode: " << uri.getLastNode() << std::endl;
+        //std::cout << "(Picking) -> uri.getCurrentNode: " << uri.getCurrentNode() << std::endl << std::endl;
+    }
+    else
+    {
+        sNode = uri.getLastNode();
 
-		//std::cout << "uri.getStringURI: " << uri.getStringURI() << std::endl;
-		//std::cout << " -> uri.getLastNode: " << uri.getLastNode() << std::endl;
-		//std::cout << "uri.getCurrentNode: " << uri.getCurrentNode() << std::endl << std::endl;
-	}
+        //std::cout << "uri.getStringURI: " << uri.getStringURI() << std::endl;
+        //std::cout << " -> uri.getLastNode: " << uri.getLastNode() << std::endl;
+        //std::cout << "uri.getCurrentNode: " << uri.getCurrentNode() << std::endl << std::endl;
+    }
 
-	for(CityObject* obj : _roots)
-	{
-		if(/*uri.getCurrentNode()*/sNode == obj->getId())
-		{
-			uri.popFront();
-			return obj->getNode(uri);
-		}
-	}
+    for(CityObject* obj : _roots)
+    {
+        if(/*uri.getCurrentNode()*/sNode == obj->getId())
+        {
+            uri.popFront();
+            return obj->getNode(uri);
+        }
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
 void CityModel::finish( const ParserParams& params )
@@ -220,28 +220,28 @@ void CityModel::computeEnvelope()
 {
     for(CityObject* obj : _roots)
     {
-		if(obj->IsEmpty())
-			continue;
+        if(obj->IsEmpty())
+            continue;
 
         obj->computeEnvelope();
 
-		if(obj->getEnvelope().getUpperBound().x > 1000000000) //Pour pas qu'un batiment qui bug gene le calcul de l'enveloppe
-			continue;
-		
-		//TVec3d Low = _envelope.getLowerBound();
-		//TVec3d Up = _envelope.getUpperBound();
+        if(obj->getEnvelope().getUpperBound().x > 1000000000) //Pour pas qu'un batiment qui bug gene le calcul de l'enveloppe
+            continue;
+        
+        //glm::highp_dvec3 Low = _envelope.getLowerBound();
+        //glm::highp_dvec3 Up = _envelope.getUpperBound();
         _envelope.merge(obj->getEnvelope());
 
-		/*if(_envelope.getLowerBound() != Low || _envelope.getUpperBound() != Up)
-		{
-			std::cout << obj->getId() << std::endl;
-			std::cout << obj->getEnvelope().getLowerBound() << std::endl;
-			std::cout << obj->getEnvelope().getUpperBound() << std::endl;
-			std::cout << _envelope.getLowerBound() << std::endl;
-			std::cout << _envelope.getUpperBound() << std::endl;
-			int a;
-			std::cin >> a;
-		}*/
+        /*if(_envelope.getLowerBound() != Low || _envelope.getUpperBound() != Up)
+        {
+            std::cout << obj->getId() << std::endl;
+            std::cout << obj->getEnvelope().getLowerBound() << std::endl;
+            std::cout << obj->getEnvelope().getUpperBound() << std::endl;
+            std::cout << _envelope.getLowerBound() << std::endl;
+            std::cout << _envelope.getUpperBound() << std::endl;
+            int a;
+            std::cin >> a;
+        }*/
     }
 }
 
@@ -264,28 +264,28 @@ std::ostream& operator<<( std::ostream& out, const CityModel& model )
 
 void CityModel::setVersions(std::vector<temporal::Version*> versionsList,std::vector<temporal::VersionTransition*> transitionsList)
 {
-	_versions = versionsList;
-	_versionTransitions = transitionsList;
+    _versions = versionsList;
+    _versionTransitions = transitionsList;
 }
 
 const std::vector<temporal::Version*> CityModel::getVersions() const
 {
-	return _versions;
+    return _versions;
 }
 
 std::vector<temporal::Version*> CityModel::getVersions()
 {
-	return _versions;
+    return _versions;
 }
 
 std::vector<temporal::VersionTransition*> CityModel::getTransitions()
 {
-	return _versionTransitions;
+    return _versionTransitions;
 }
 
 void CityModel::setWorkspaces(std::map<std::string,temporal::Workspace> wrkspslist)
 {
-	_workspaces=wrkspslist; 
+    _workspaces=wrkspslist; 
 }
 
 void CityModel::setDocuments(std::vector<documentADE::DocumentObject*> documentslist)
@@ -300,7 +300,7 @@ void CityModel::setReferences(std::vector<documentADE::Reference*> referencelist
 
 const std::map<std::string,temporal::Workspace> CityModel::getWorkspaces() const
 {
-	return _workspaces;
+    return _workspaces;
 }
 
 const std::vector<documentADE::Reference*> CityModel::getReferences() const
@@ -315,5 +315,5 @@ const std::vector<documentADE::DocumentObject*> CityModel::getDocuments() const
 
 std::map<std::string,temporal::Workspace> CityModel::getWorkspaces()
 {
-	return _workspaces;
+    return _workspaces;
 }
