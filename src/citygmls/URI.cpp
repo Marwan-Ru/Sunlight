@@ -21,7 +21,7 @@ void URI::append(const std::string& node, const std::string& type)
 void URI::prepend(const std::string& node, const std::string& type)
 {
     m_uri.insert(m_uri.begin(), node);
-	m_types.insert(m_types.begin(), type);
+    m_types.insert(m_types.begin(), type);
     ++m_depth;
 }
 
@@ -57,12 +57,12 @@ const std::string& URI::getNodeType(int depth) const
 
 const std::string& URI::getCurrentNode() const
 {
-	return m_uri[m_cursor];
+    return m_uri[m_cursor];
 }
 
 const std::string& URI::getCurrentNodeType() const
 {
-	return m_types[m_cursor];
+    return m_types[m_cursor];
 }
 
 const std::string& URI::getLastNode() const
@@ -82,7 +82,7 @@ void URI::popBack()
 void URI::popFront() const
 {
     //if(m_cursor < m_depth)
-		++m_cursor;
+        ++m_cursor;
 }
 
 const std::string& URI::getType() const

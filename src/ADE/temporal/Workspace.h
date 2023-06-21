@@ -10,8 +10,8 @@
 namespace temporal {
 class Workspace {
 public:
-	Workspace(){};
-	std::vector<Version*> versions;
-	std::string name;
+    Workspace(){};
+    std::vector<Version*> versions;
+    std::string name;
 };
 }

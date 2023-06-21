@@ -45,162 +45,162 @@ typedef std::map< std::string, CityObjects > CityObjectIdentifiersMap;
 // CityGML node types
 enum CityGMLNodeType
 {
-	NODETYPE( Unknown ) = 0,
+    NODETYPE( Unknown ) = 0,
 
-	// core
-	NODETYPE( CityModel ),
-	NODETYPE( cityObjectMember ),
-	NODETYPE( creationDate ),	
-	NODETYPE( terminationDate ),
+    // core
+    NODETYPE( CityModel ),
+    NODETYPE( cityObjectMember ),
+    NODETYPE( creationDate ),	
+    NODETYPE( terminationDate ),
 
-	// grp
-	NODETYPE( CityObjectGroup ),
-	NODETYPE( groupMember ),
+    // grp
+    NODETYPE( CityObjectGroup ),
+    NODETYPE( groupMember ),
 
-	// gen
-	NODETYPE( GenericCityObject ),
-	NODETYPE( stringAttribute ),
-	NODETYPE( doubleAttribute ),
-	NODETYPE( intAttribute ),
-	NODETYPE( dateAttribute ),
-	NODETYPE( uriAttribute ),
+    // gen
+    NODETYPE( GenericCityObject ),
+    NODETYPE( stringAttribute ),
+    NODETYPE( doubleAttribute ),
+    NODETYPE( intAttribute ),
+    NODETYPE( dateAttribute ),
+    NODETYPE( uriAttribute ),
     NODETYPE( externalReference ),
     NODETYPE( informationSystem ),
     NODETYPE( externalObject ),
     NODETYPE( uri ),
-	NODETYPE( value ),
+    NODETYPE( value ),
 
-	// gml
-	NODETYPE( description ),
-	NODETYPE( name ),
-	NODETYPE( coordinates ),
-	NODETYPE( pos ),
-	NODETYPE( boundedBy ),
-	NODETYPE( Envelope ),
-	NODETYPE( lowerCorner ),
-	NODETYPE( upperCorner ),
-	NODETYPE( Solid ),
-	NODETYPE( surfaceMember ),
-	NODETYPE( CompositeSurface ),
-	NODETYPE( TriangulatedSurface ),
-	NODETYPE( TexturedSurface ),
-	NODETYPE( Triangle ),
-	NODETYPE( Polygon ),
-	NODETYPE( posList ),
-	NODETYPE( OrientableSurface ),
-	NODETYPE( LinearRing ),
+    // gml
+    NODETYPE( description ),
+    NODETYPE( name ),
+    NODETYPE( coordinates ),
+    NODETYPE( pos ),
+    NODETYPE( boundedBy ),
+    NODETYPE( Envelope ),
+    NODETYPE( lowerCorner ),
+    NODETYPE( upperCorner ),
+    NODETYPE( Solid ),
+    NODETYPE( surfaceMember ),
+    NODETYPE( CompositeSurface ),
+    NODETYPE( TriangulatedSurface ),
+    NODETYPE( TexturedSurface ),
+    NODETYPE( Triangle ),
+    NODETYPE( Polygon ),
+    NODETYPE( posList ),
+    NODETYPE( OrientableSurface ),
+    NODETYPE( LinearRing ),
 
-	NODETYPE( lod1Solid ),
-	NODETYPE( lod2Solid ),
-	NODETYPE( lod3Solid ),
-	NODETYPE( lod4Solid ),
-	NODETYPE( lod1Geometry ),
-	NODETYPE( lod2Geometry ),
-	NODETYPE( lod3Geometry ),
-	NODETYPE( lod4Geometry ),
+    NODETYPE( lod1Solid ),
+    NODETYPE( lod2Solid ),
+    NODETYPE( lod3Solid ),
+    NODETYPE( lod4Solid ),
+    NODETYPE( lod1Geometry ),
+    NODETYPE( lod2Geometry ),
+    NODETYPE( lod3Geometry ),
+    NODETYPE( lod4Geometry ),
 
-	NODETYPE( identifier ),
+    NODETYPE( identifier ),
 
-	// bldg
-	NODETYPE( Building ),
-	NODETYPE( BuildingPart ),
-	NODETYPE( Room ),
-	NODETYPE( Door ),
-	NODETYPE( Window ),
-	NODETYPE( BuildingInstallation ),
-	NODETYPE( address ),
-	NODETYPE( measuredHeight ),
-	NODETYPE( class ),
-	NODETYPE( type ),
-	NODETYPE( function ),
-	NODETYPE( usage ),
-	NODETYPE( yearOfConstruction ),
-	NODETYPE( yearOfDemolition ),
-	NODETYPE( storeysAboveGround ),
-	NODETYPE( storeysBelowGround ),
-	NODETYPE( storeyHeightsAboveGround ),
-	NODETYPE( storeyHeightsBelowGround ),
+    // bldg
+    NODETYPE( Building ),
+    NODETYPE( BuildingPart ),
+    NODETYPE( Room ),
+    NODETYPE( Door ),
+    NODETYPE( Window ),
+    NODETYPE( BuildingInstallation ),
+    NODETYPE( address ),
+    NODETYPE( measuredHeight ),
+    NODETYPE( class ),
+    NODETYPE( type ),
+    NODETYPE( function ),
+    NODETYPE( usage ),
+    NODETYPE( yearOfConstruction ),
+    NODETYPE( yearOfDemolition ),
+    NODETYPE( storeysAboveGround ),
+    NODETYPE( storeysBelowGround ),
+    NODETYPE( storeyHeightsAboveGround ),
+    NODETYPE( storeyHeightsBelowGround ),
 
-	// address
-	NODETYPE( administrativearea ),
-	NODETYPE( country ),
-	NODETYPE( code ),
-	NODETYPE( street ),
-	NODETYPE( postalCode ),
-	NODETYPE( city ),
+    // address
+    NODETYPE( administrativearea ),
+    NODETYPE( country ),
+    NODETYPE( code ),
+    NODETYPE( street ),
+    NODETYPE( postalCode ),
+    NODETYPE( city ),
 
-	// BoundarySurfaceType
-	NODETYPE( WallSurface ),
-	NODETYPE( RoofSurface ),
-	NODETYPE( GroundSurface ),
-	NODETYPE( ClosureSurface ),
-	NODETYPE( FloorSurface ),
-	NODETYPE( InteriorWallSurface ),
-	NODETYPE( CeilingSurface ),
-	NODETYPE( BuildingFurniture ),
+    // BoundarySurfaceType
+    NODETYPE( WallSurface ),
+    NODETYPE( RoofSurface ),
+    NODETYPE( GroundSurface ),
+    NODETYPE( ClosureSurface ),
+    NODETYPE( FloorSurface ),
+    NODETYPE( InteriorWallSurface ),
+    NODETYPE( CeilingSurface ),
+    NODETYPE( BuildingFurniture ),
 
-	NODETYPE( CityFurniture ),
+    NODETYPE( CityFurniture ),
 
-	NODETYPE( interior ),
-	NODETYPE( exterior ),
+    NODETYPE( interior ),
+    NODETYPE( exterior ),
 
-	// wtr
-	NODETYPE( WaterBody ),
+    // wtr
+    NODETYPE( WaterBody ),
 
-	// veg
-	NODETYPE( PlantCover ),
-	NODETYPE( SolitaryVegetationObject ),
+    // veg
+    NODETYPE( PlantCover ),
+    NODETYPE( SolitaryVegetationObject ),
 
-	// trans
-	NODETYPE( TrafficArea ),
-	NODETYPE( AuxiliaryTrafficArea ),
-	NODETYPE( Track ),
-	NODETYPE( Road ),
-	NODETYPE( Railway ),
-	NODETYPE( Square ),
+    // trans
+    NODETYPE( TrafficArea ),
+    NODETYPE( AuxiliaryTrafficArea ),
+    NODETYPE( Track ),
+    NODETYPE( Road ),
+    NODETYPE( Railway ),
+    NODETYPE( Square ),
 
-	// luse
-	NODETYPE( LandUse ),
+    // luse
+    NODETYPE( LandUse ),
 
-	// dem
-	NODETYPE( lod ),
-	NODETYPE( TINRelief ),
+    // dem
+    NODETYPE( lod ),
+    NODETYPE( TINRelief ),
 
-	// sub
-	NODETYPE( Tunnel ),
-	NODETYPE( relativeToTerrain ),
+    // sub
+    NODETYPE( Tunnel ),
+    NODETYPE( relativeToTerrain ),
 
-	// brid
-	NODETYPE( Bridge ),
-	NODETYPE( BridgeConstructionElement ),
-	NODETYPE( BridgeInstallation ),
-	NODETYPE( BridgePart ),
-		
-	// app
-	NODETYPE( SimpleTexture ),	
-	NODETYPE( ParameterizedTexture ),
-	NODETYPE( GeoreferencedTexture ),
-	NODETYPE( imageURI ),
-	NODETYPE( textureMap ),
-	NODETYPE( target ),
-	NODETYPE( textureCoordinates ),
-	NODETYPE( textureType ),
-	NODETYPE( repeat ),
-	NODETYPE( wrapMode ),
-	NODETYPE( borderColor ),
-	NODETYPE( preferWorldFile ),
+    // brid
+    NODETYPE( Bridge ),
+    NODETYPE( BridgeConstructionElement ),
+    NODETYPE( BridgeInstallation ),
+    NODETYPE( BridgePart ),
+        
+    // app
+    NODETYPE( SimpleTexture ),	
+    NODETYPE( ParameterizedTexture ),
+    NODETYPE( GeoreferencedTexture ),
+    NODETYPE( imageURI ),
+    NODETYPE( textureMap ),
+    NODETYPE( target ),
+    NODETYPE( textureCoordinates ),
+    NODETYPE( textureType ),
+    NODETYPE( repeat ),
+    NODETYPE( wrapMode ),
+    NODETYPE( borderColor ),
+    NODETYPE( preferWorldFile ),
 
-	NODETYPE( X3DMaterial ),
+    NODETYPE( X3DMaterial ),
     NODETYPE( Material ),
-	NODETYPE( appearanceMember ),
-	NODETYPE( surfaceDataMember ),
-	NODETYPE( shininess ),
-	NODETYPE( transparency ),
-	NODETYPE( specularColor ),
-	NODETYPE( diffuseColor ),
-	NODETYPE( emissiveColor ),
-	NODETYPE( ambientIntensity ),
-	NODETYPE( isFront )
+    NODETYPE( appearanceMember ),
+    NODETYPE( surfaceDataMember ),
+    NODETYPE( shininess ),
+    NODETYPE( transparency ),
+    NODETYPE( specularColor ),
+    NODETYPE( diffuseColor ),
+    NODETYPE( emissiveColor ),
+    NODETYPE( ambientIntensity ),
+    NODETYPE( isFront )
 };
 
 // CityGML SAX parsing handler
@@ -209,160 +209,160 @@ class CityGMLHandler
 friend class ADEHandler;
 public:
 
-	CityGMLHandler( const ParserParams& params );
+    CityGMLHandler( const ParserParams& params );
 
-	~CityGMLHandler();
+    ~CityGMLHandler();
 
     virtual void startDocument() {}
 
-	virtual void endDocument();
+    virtual void endDocument();
 
-	virtual void startElement( const std::string&, void* );
+    virtual void startElement( const std::string&, void* );
 
-	virtual void endElement( const std::string& );
+    virtual void endElement( const std::string& );
 
-	virtual void fatalError( const std::string& error ) 
-	{
-		std::cerr << "Fatal error while parsing CityGML file: " << error << std::endl;
-		std::cerr << "  Full path was: " << getFullPath() << std::endl;
-	}
+    virtual void fatalError( const std::string& error ) 
+    {
+        std::cerr << "Fatal error while parsing CityGML file: " << error << std::endl;
+        std::cerr << "  Full path was: " << getFullPath() << std::endl;
+    }
 
-	inline CityModel* getModel() { return _model; }
+    inline CityModel* getModel() { return _model; }
 
 protected:
 
-	inline int searchInNodePath( const std::string& name ) const 
-	{
-		for ( auto i = _nodePath.size() - 1; i >= 0; i-- )
-			if ( _nodePath[i] == name ) return static_cast<int>(i);
-		return -1;
-	}
+    inline int searchInNodePath( const std::string& name ) const 
+    {
+        for ( auto i = _nodePath.size() - 1; i >= 0; i-- )
+            if ( _nodePath[i] == name ) return static_cast<int>(i);
+        return -1;
+    }
 
-	inline std::string getFullPath() const 
-	{
-		std::stringstream ss;
-		for ( unsigned int i = 0; i < _nodePath.size(); i++ )
-			ss << _nodePath[i] << "/";
-		return ss.str();
-	}
+    inline std::string getFullPath() const 
+    {
+        std::stringstream ss;
+        for ( unsigned int i = 0; i < _nodePath.size(); i++ )
+            ss << _nodePath[i] << "/";
+        return ss.str();
+    }
 
-	inline std::string getPrevNode() const { return _nodePath.size() > 2 ? _nodePath[ _nodePath.size() - 2 ] : ""; }
+    inline std::string getPrevNode() const { return _nodePath.size() > 2 ? _nodePath[ _nodePath.size() - 2 ] : ""; }
 
-	inline unsigned int getPathDepth() const { return static_cast<unsigned int>(_nodePath.size()); }
+    inline unsigned int getPathDepth() const { return static_cast<unsigned int>(_nodePath.size()); }
 
-	inline CityGMLNodeType getPrevNodeType() const { return getNodeTypeFromName( getPrevNode() ); }
+    inline CityGMLNodeType getPrevNodeType() const { return getNodeTypeFromName( getPrevNode() ); }
 
-	inline void clearBuffer() { _buff.str(""); _buff.clear(); }  
-		
-	inline void pushCityObject( CityObject* object )
-	{
+    inline void clearBuffer() { _buff.str(""); _buff.clear(); }  
+        
+    inline void pushCityObject( CityObject* object )
+    {
         // add parent relation
         if(_currentCityObject)
         {
             object->_parent = _currentCityObject;
         }
 
-		if ( _currentCityObject && object ) _currentCityObject->getChildren().push_back( object );
-		_cityObjectStack.push( _currentCityObject );
-		_currentCityObject = object;
-	}
+        if ( _currentCityObject && object ) _currentCityObject->getChildren().push_back( object );
+        _cityObjectStack.push( _currentCityObject );
+        _currentCityObject = object;
+    }
 
-	inline void popCityObject()
-	{
-		_currentCityObject = 0; 
-		if ( _cityObjectStack.empty() ) return; 
-		_currentCityObject = _cityObjectStack.top(); 
-		_cityObjectStack.pop();
-	}
+    inline void popCityObject()
+    {
+        _currentCityObject = 0; 
+        if ( _cityObjectStack.empty() ) return; 
+        _currentCityObject = _cityObjectStack.top(); 
+        _cityObjectStack.pop();
+    }
 
-	inline void pushObject( Object* object )
-	{
-		_objectStack.push( object );
-		_currentObject = object;
-	}
+    inline void pushObject( Object* object )
+    {
+        _objectStack.push( object );
+        _currentObject = object;
+    }
 
-	inline void popObject()
-	{
-		_currentObject = 0; 
-		if ( _objectStack.empty() ) return; 
-		_objectStack.pop();
-		_currentObject = _objectStack.empty() ? 0 : _objectStack.top();			
-	}
+    inline void popObject()
+    {
+        _currentObject = 0; 
+        if ( _objectStack.empty() ) return; 
+        _objectStack.pop();
+        _currentObject = _objectStack.empty() ? 0 : _objectStack.top();			
+    }
 
-	virtual std::string getAttribute( void* attributes, const std::string& attname, const std::string& defvalue = "" ) = 0;
+    virtual std::string getAttribute( void* attributes, const std::string& attname, const std::string& defvalue = "" ) = 0;
 
-	inline std::string getGmlIdAttribute( void* attributes ) { return getAttribute( attributes, "gml:id", "" ); }
+    inline std::string getGmlIdAttribute( void* attributes ) { return getAttribute( attributes, "gml:id", "" ); }
 
-	void createGeoTransform( std::string );
-		
-	static void initNodes();
+    void createGeoTransform( std::string );
+        
+    static void initNodes();
 
-	static std::string getNodeName( const std::string& );
+    static std::string getNodeName( const std::string& );
 
-	static CityGMLNodeType getNodeTypeFromName( const std::string& );
+    static CityGMLNodeType getNodeTypeFromName( const std::string& );
 
-	static std::string getXLinkQueryIdentifier( const std::string& );
+    static std::string getXLinkQueryIdentifier( const std::string& );
 
-	void fetchVersionedCityObjectsRec(CityObject*);
+    void fetchVersionedCityObjectsRec(CityObject*);
 
 public: // MT (MAC OS X problem...)
 
-	static std::map< std::string, CityGMLNodeType > s_cityGMLNodeTypeMap;
-	static std::vector< std::string > s_knownNamespace;
+    static std::map< std::string, CityGMLNodeType > s_cityGMLNodeTypeMap;
+    static std::vector< std::string > s_knownNamespace;
 
-	std::vector< std::string > _nodePath;
+    std::vector< std::string > _nodePath;
 
-	std::stringstream _buff;
+    std::stringstream _buff;
 
-	ParserParams _params;
-		
-	CityModel* _model;
+    ParserParams _params;
+        
+    CityModel* _model;
 
-	glm::highp_dvec3 _translate;
+    glm::highp_dvec3 _translate;
 
-	CityObject* _currentCityObject;
-	std::stack<CityObject*> _cityObjectStack;
+    CityObject* _currentCityObject;
+    std::stack<CityObject*> _cityObjectStack;
 
-	Object* _currentObject;
-	std::stack<Object*> _objectStack;
+    Object* _currentObject;
+    std::stack<Object*> _objectStack;
 
-	Geometry* _currentGeometry;
+    Geometry* _currentGeometry;
     std::set<Geometry*> _geometries;
 
-	Polygon* _currentPolygon;
+    Polygon* _currentPolygon;
 
-	LinearRing* _currentRing;
+    LinearRing* _currentRing;
 
-	Appearance* _currentAppearance;
+    Appearance* _currentAppearance;
 
-	CityObjectsTypeMask _objectsMask;
+    CityObjectsTypeMask _objectsMask;
 
-	std::string _attributeName;
+    std::string _attributeName;
 
-	int _currentLOD;
+    int _currentLOD;
 
-	bool _filterNodeType;
-	unsigned int _filterDepth;
+    bool _filterNodeType;
+    unsigned int _filterDepth;
 
-	std::vector<glm::highp_dvec3> _points;
+    std::vector<glm::highp_dvec3> _points;
 
-	int _srsDimension;
+    int _srsDimension;
 
-	char _orientation;
+    char _orientation;
 
-	bool _exterior;
+    bool _exterior;
 
-	bool _appearanceAssigned;
+    bool _appearanceAssigned;
 
-	GeometryType _currentGeometryType;
+    GeometryType _currentGeometryType;
 
-	void* _geoTransform;
+    void* _geoTransform;
 
-	bool _useXLink;
+    bool _useXLink;
 
 protected: // MT
 
-	CityObjectIdentifiersMap _identifiersMap;
-	std::map<std::string,ADEHandler*> _ADEHandlers;
+    CityObjectIdentifiersMap _identifiersMap;
+    std::map<std::string,ADEHandler*> _ADEHandlers;
 
 };

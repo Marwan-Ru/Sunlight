@@ -75,5 +75,5 @@ std::vector<Object*>& Object::getXLinkTargets()
 
 void Object::addXLinkTarget(Object* target)
 {
-	_xLinkTargets.push_back(target);
+    _xLinkTargets.push_back(target);
 }

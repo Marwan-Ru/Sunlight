@@ -90,7 +90,7 @@ public:
     void addCityObject( CityObject* o );
 
     /// Get node by uri
-	CityObject* getNode(const URI& uri, bool inPickingMode=false);
+    CityObject* getNode(const URI& uri, bool inPickingMode=false);
 
     /// Get node by name
     CityObject* getNodeById(const std::string& id);
@@ -99,15 +99,15 @@ public:
 
     std::string m_basePath;
 
-	void setVersions(std::vector<temporal::Version*>,std::vector<temporal::VersionTransition*>);
-	const std::vector<temporal::Version*> getVersions() const;
-	std::vector<temporal::Version*> getVersions();
-	std::vector<temporal::VersionTransition*> getTransitions();
-	
-	void setWorkspaces(std::map<std::string,temporal::Workspace>);
+    void setVersions(std::vector<temporal::Version*>,std::vector<temporal::VersionTransition*>);
+    const std::vector<temporal::Version*> getVersions() const;
+    std::vector<temporal::Version*> getVersions();
+    std::vector<temporal::VersionTransition*> getTransitions();
+    
+    void setWorkspaces(std::map<std::string,temporal::Workspace>);
     void setDocuments( std::vector<documentADE::DocumentObject*> );
     void setReferences( std::vector<documentADE::Reference*> );
-	const std::map<std::string,temporal::Workspace> getWorkspaces() const;
+    const std::map<std::string,temporal::Workspace> getWorkspaces() const;
     const std::vector<documentADE::DocumentObject *> getDocuments() const;
     const std::vector<documentADE::Reference *> getReferences() const;
     std::map<std::string,temporal::Workspace> getWorkspaces();
@@ -125,9 +125,9 @@ protected:
 
     glm::highp_dvec3 _translation;
 
-	std::vector<temporal::Version*> _versions;
-	std::vector<temporal::VersionTransition*> _versionTransitions;
-	std::map<std::string,temporal::Workspace> _workspaces;
+    std::vector<temporal::Version*> _versions;
+    std::vector<temporal::VersionTransition*> _versionTransitions;
+    std::map<std::string,temporal::Workspace> _workspaces;
     std::vector<documentADE::DocumentObject*> _documents;
     std::vector<documentADE::Reference*> _references;
 };

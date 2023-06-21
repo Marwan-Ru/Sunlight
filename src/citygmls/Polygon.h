@@ -52,7 +52,7 @@ public:
 
     virtual ~Polygon() override;
 
-	//Polygon* Clone();
+    //Polygon* Clone();
 
     // Get the vertices
     const std::vector<glm::highp_dvec3>& getVertices() const;

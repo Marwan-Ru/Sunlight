@@ -32,62 +32,62 @@ namespace fs = std::filesystem;
 // std::string tokenizer
 inline std::vector<std::string> tokenize( const std::string& str, const std::string& delimiters = ",|& " )
 {
-	std::vector<std::string> tokens;
-	std::string::size_type lastPos = str.find_first_not_of( delimiters, 0 );
-	std::string::size_type pos = str.find_first_of( delimiters, lastPos );
+    std::vector<std::string> tokens;
+    std::string::size_type lastPos = str.find_first_not_of( delimiters, 0 );
+    std::string::size_type pos = str.find_first_of( delimiters, lastPos );
 
-	while ( pos != std::string::npos || lastPos != std::string::npos )
-	{
-		tokens.push_back( str.substr( lastPos, pos - lastPos ) );
-		lastPos = str.find_first_not_of( delimiters, pos );
-		pos = str.find_first_of( delimiters, lastPos );
-	}
-	return tokens;
+    while ( pos != std::string::npos || lastPos != std::string::npos )
+    {
+        tokens.push_back( str.substr( lastPos, pos - lastPos ) );
+        lastPos = str.find_first_not_of( delimiters, pos );
+        pos = str.find_first_of( delimiters, lastPos );
+    }
+    return tokens;
 }
 
 inline bool ci_string_compare( const std::string& str1, const std::string& str2 ) 
 {
-	std::string s1( str1 );
-	std::transform( s1.begin(), s1.end(), s1.begin(), ::tolower );	
-	std::string s2( str2 );
-	std::transform( s2.begin(), s2.end(), s2.begin(), ::tolower );
-	return s1 == s2;
+    std::string s1( str1 );
+    std::transform( s1.begin(), s1.end(), s1.begin(), ::tolower );	
+    std::string s2( str2 );
+    std::transform( s2.begin(), s2.end(), s2.begin(), ::tolower );
+    return s1 == s2;
 }
 
 inline std::string trim_left( const std::string& s, const std::string& t = " \t\r\n" ) 
 { 
-	std::string d( s ); 
-	return d.erase( 0, s.find_first_not_of( t ) ); 
+    std::string d( s ); 
+    return d.erase( 0, s.find_first_not_of( t ) ); 
 } 
 
 inline std::string trim_right( const std::string& s, const std::string& t = " \t\r\n" )
 {
-	std::string d( s ); 
-	size_t endpos = d.find_last_not_of( t );
-	return ( endpos != std::string::npos ) ? d.erase( endpos + 1 ) : d;
+    std::string d( s ); 
+    size_t endpos = d.find_last_not_of( t );
+    return ( endpos != std::string::npos ) ? d.erase( endpos + 1 ) : d;
 }
 
 inline std::string trim( const std::string& s, const std::string& t = " \t\r\n" )
 {
-	return trim_left( trim_right( s, t ), t );
+    return trim_left( trim_right( s, t ), t );
 }
 
 static bool areFilesIdentical(const std::string& file1, const std::string& file2)
 {
-	std::ifstream ifs1(file1);
-	std::ifstream ifs2(file2);
+    std::ifstream ifs1(file1);
+    std::ifstream ifs2(file2);
 
-	// Failed to open one or both files
-	if (!ifs1.is_open() || !ifs2.is_open())
-	{
-		return false;
-	}
+    // Failed to open one or both files
+    if (!ifs1.is_open() || !ifs2.is_open())
+    {
+        return false;
+    }
 
-	return std::equal(
-		std::istreambuf_iterator<char>(ifs1),
-		std::istreambuf_iterator<char>(),
-		std::istreambuf_iterator<char>(ifs2)
-	);
+    return std::equal(
+        std::istreambuf_iterator<char>(ifs1),
+        std::istreambuf_iterator<char>(),
+        std::istreambuf_iterator<char>(ifs2)
+    );
 }
 
 /// <summary>

@@ -28,115 +28,115 @@
 
 Tesselator::Tesselator()
 {
-	_tobj = gluNewTess(); 
+    _tobj = gluNewTess(); 
 
-	gluTessCallback( _tobj, GLU_TESS_VERTEX_DATA, (GLU_TESS_CALLBACK)&vertexCallback );
-	gluTessCallback( _tobj, GLU_TESS_BEGIN_DATA, (GLU_TESS_CALLBACK)&beginCallback );
-	gluTessCallback( _tobj, GLU_TESS_END_DATA, (GLU_TESS_CALLBACK)&endCallback );
-	gluTessCallback( _tobj, GLU_TESS_COMBINE_DATA, (GLU_TESS_CALLBACK)&combineCallback );
-	gluTessCallback( _tobj, GLU_TESS_ERROR_DATA, (GLU_TESS_CALLBACK)&errorCallback );
+    gluTessCallback( _tobj, GLU_TESS_VERTEX_DATA, (GLU_TESS_CALLBACK)&vertexCallback );
+    gluTessCallback( _tobj, GLU_TESS_BEGIN_DATA, (GLU_TESS_CALLBACK)&beginCallback );
+    gluTessCallback( _tobj, GLU_TESS_END_DATA, (GLU_TESS_CALLBACK)&endCallback );
+    gluTessCallback( _tobj, GLU_TESS_COMBINE_DATA, (GLU_TESS_CALLBACK)&combineCallback );
+    gluTessCallback( _tobj, GLU_TESS_ERROR_DATA, (GLU_TESS_CALLBACK)&errorCallback );
 }
 
 void Tesselator::init( size_t verticesCount, const glm::highp_dvec3& normal, GLenum winding_rule )
 {
-	gluTessBeginPolygon( _tobj, this ); 
+    gluTessBeginPolygon( _tobj, this ); 
 
-	gluTessProperty( _tobj, GLU_TESS_WINDING_RULE, winding_rule );
-	gluTessNormal( _tobj, normal.x, normal.y, normal.z );
+    gluTessProperty( _tobj, GLU_TESS_WINDING_RULE, winding_rule );
+    gluTessNormal( _tobj, normal.x, normal.y, normal.z );
 
-	_vertices.clear();
-	_vertices.reserve( verticesCount );
-	_indices.clear();
-	_curIndices.clear();
+    _vertices.clear();
+    _vertices.reserve( verticesCount );
+    _indices.clear();
+    _curIndices.clear();
 }
 
 Tesselator::~Tesselator() 
 {
-	gluDeleteTess( _tobj );
+    gluDeleteTess( _tobj );
 }
 
 void Tesselator::compute() 
 {
-	gluTessEndPolygon( _tobj );  
+    gluTessEndPolygon( _tobj );  
 }
 
 void Tesselator::addContour( const std::vector<glm::highp_dvec3>& pts, const std::vector<glm::vec2>& /*tex*/ )
 {		
-	size_t len = pts.size();
-	if ( len < 3 ) return;
+    size_t len = pts.size();
+    if ( len < 3 ) return;
 
     size_t pos = _vertices.size();
 
-	gluTessBeginContour( _tobj );
+    gluTessBeginContour( _tobj );
 
-	for ( unsigned int i = 0; i < len; i++ ) 
-	{
-		_vertices.push_back( pts[i] );
+    for ( unsigned int i = 0; i < len; i++ ) 
+    {
+        _vertices.push_back( pts[i] );
 
         gluTessVertex( _tobj, &(_vertices[pos+i][0]), (GLvoid*)(pos+i) );
-	}
+    }
 
-	gluTessEndContour( _tobj );
+    gluTessEndContour( _tobj );
 }
 
 void CALLBACK Tesselator::beginCallback( GLenum which, void* userData ) 
 {
-	Tesselator *tess = (Tesselator*)userData;
-	tess->_curMode = which;
+    Tesselator *tess = (Tesselator*)userData;
+    tess->_curMode = which;
 }
 
 void CALLBACK Tesselator::vertexCallback( GLvoid *data, void* userData ) 
 {
-	Tesselator *tess = (Tesselator*)userData;
-	tess->_curIndices.push_back( (int)(intptr_t)data );
+    Tesselator *tess = (Tesselator*)userData;
+    tess->_curIndices.push_back( (int)(intptr_t)data );
 }
 
 void CALLBACK Tesselator::combineCallback( GLdouble coords[3], void* /*vertex_data*/[4], GLfloat /*weight*/[4], void** outData, void* userData )
 {
-	Tesselator *tess = (Tesselator*)userData;
+    Tesselator *tess = (Tesselator*)userData;
     size_t npoint = tess->_vertices.size();
-	tess->_vertices.push_back( glm::highp_dvec3( coords[0], coords[1], coords[2] ) );
+    tess->_vertices.push_back( glm::highp_dvec3( coords[0], coords[1], coords[2] ) );
 
-	*outData = (void*)npoint;
+    *outData = (void*)npoint;
 }
 
 void CALLBACK Tesselator::endCallback( void* userData ) 
 {
-	Tesselator *tess = (Tesselator*)userData;
+    Tesselator *tess = (Tesselator*)userData;
 
-	size_t len = tess->_curIndices.size();
+    size_t len = tess->_curIndices.size();
 
-	switch ( tess->_curMode ) 
-	{
-	case GL_TRIANGLES:
-		for ( size_t i = 0; i < len; i++ ) tess->_indices.push_back( tess->_curIndices[i] );
-		break;
-	case GL_TRIANGLE_FAN:
-	case GL_TRIANGLE_STRIP: 
-		{
-			size_t first = tess->_curIndices[0];
-			size_t prev = tess->_curIndices[1];
+    switch ( tess->_curMode ) 
+    {
+    case GL_TRIANGLES:
+        for ( size_t i = 0; i < len; i++ ) tess->_indices.push_back( tess->_curIndices[i] );
+        break;
+    case GL_TRIANGLE_FAN:
+    case GL_TRIANGLE_STRIP: 
+        {
+            size_t first = tess->_curIndices[0];
+            size_t prev = tess->_curIndices[1];
 
-			for ( size_t i = 2; i < len; i++ ) 
-			{
-				if ( tess->_curMode == GL_TRIANGLE_FAN || i%2 == 0 ) tess->_indices.push_back( (int)first );
-				tess->_indices.push_back( (int)prev );
-				if ( tess->_curMode == GL_TRIANGLE_STRIP )
-				{
-					if ( i%2 == 1) tess->_indices.push_back( (int)first );
-					first = prev;
-				}
-				prev = tess->_curIndices[i];
-				tess->_indices.push_back( (int)prev );
-			}
-		}
-		break;
-	default: std::cerr << "CityGML tesselator: non-supported GLU tesselator primitive " << tess->_curMode << std::endl;
-	}
-	tess->_curIndices.clear();
+            for ( size_t i = 2; i < len; i++ ) 
+            {
+                if ( tess->_curMode == GL_TRIANGLE_FAN || i%2 == 0 ) tess->_indices.push_back( (int)first );
+                tess->_indices.push_back( (int)prev );
+                if ( tess->_curMode == GL_TRIANGLE_STRIP )
+                {
+                    if ( i%2 == 1) tess->_indices.push_back( (int)first );
+                    first = prev;
+                }
+                prev = tess->_curIndices[i];
+                tess->_indices.push_back( (int)prev );
+            }
+        }
+        break;
+    default: std::cerr << "CityGML tesselator: non-supported GLU tesselator primitive " << tess->_curMode << std::endl;
+    }
+    tess->_curIndices.clear();
 }
 
 void CALLBACK Tesselator::errorCallback( GLenum errorCode, void* /*userData*/ )
 {
-	std::cerr << "CityGML tesselator error: " << gluErrorString( errorCode ) << std::endl;
+    std::cerr << "CityGML tesselator error: " << gluErrorString( errorCode ) << std::endl;
 }

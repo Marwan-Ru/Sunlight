@@ -13,22 +13,22 @@ Version::Version( const std::string& id ) : Object( id )
 
 const std::vector<std::string>& Version::getTags()
 {
-	return _tags;
+   return _tags;
 }
 
 void Version::addTag( std::string tag)
 {
-	_tags.push_back(tag);
+   _tags.push_back(tag);
 }
 
 std::vector<CityObject*>* Version::getVersionMembers()
 {
-	return &_versionMembers;
+   return &_versionMembers;
 }
 
 void Version::addMember(CityObject* object)
 {
-	_versionMembers.push_back(object);
+   _versionMembers.push_back(object);
 }
 
 } //namespace temporal

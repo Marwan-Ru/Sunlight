@@ -98,9 +98,9 @@ glm::highp_dvec3 computeBeamDir(double azimutAngle, double elevationAngle)
         return glm::highp_dvec3(0.0, 0.0, 0.0);
    
     //Lambert 93 Coordinates
-	glm::highp_dvec3 originOffset (1843927.29, 5173886.65, 0.0);
+    glm::highp_dvec3 originOffset (1843927.29, 5173886.65, 0.0);
     //SunPos is the first position of the sun (north) from which the angles are expressed
-	glm::highp_dvec3 sunBasePosition (glm::highp_dvec3(0.0, 60000.0, 0.0));
+    glm::highp_dvec3 sunBasePosition (glm::highp_dvec3(0.0, 60000.0, 0.0));
     
     // Rotate the sun base position with the rotation at a given time (or azimut / elevation)
     glm::dquat finalRotation(computeSunRotation(azimutAngle, elevationAngle));

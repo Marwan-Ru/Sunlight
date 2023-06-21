@@ -42,37 +42,37 @@
 class Tesselator 
 {		
 public:
-	Tesselator(); 
-	~Tesselator();
+    Tesselator(); 
+    ~Tesselator();
 
-	void init( size_t verticesCount, const glm::highp_dvec3& normal, GLenum winding_rule = GLU_TESS_WINDING_ODD );
+    void init( size_t verticesCount, const glm::highp_dvec3& normal, GLenum winding_rule = GLU_TESS_WINDING_ODD );
 
-	// Add a new contour - add the exterior ring first, then interiors 
-	void addContour( const std::vector<glm::highp_dvec3>&, const std::vector<glm::vec2>& );
+    // Add a new contour - add the exterior ring first, then interiors 
+    void addContour( const std::vector<glm::highp_dvec3>&, const std::vector<glm::vec2>& );
 
-	// Let's tesselate!
-	void compute();
+    // Let's tesselate!
+    void compute();
 
-	// Tesselation result access
-	inline const std::vector<glm::highp_dvec3>& getVertices() const { return _vertices; }
-	inline const std::vector<glm::vec2>& getTexCoords() const { return _texCoords; }
-	inline const std::vector<unsigned int>& getIndices() const { return _indices; }
-
-private:
-	typedef void (APIENTRY *GLU_TESS_CALLBACK)();
-	static void CALLBACK beginCallback( GLenum, void* );
-	static void CALLBACK vertexCallback( GLvoid*, void* );
-	static void CALLBACK combineCallback( GLdouble[3], void* [4], GLfloat [4], void** , void* );
-	static void CALLBACK endCallback( void* );
-	static void CALLBACK errorCallback( GLenum, void* );	
+    // Tesselation result access
+    inline const std::vector<glm::highp_dvec3>& getVertices() const { return _vertices; }
+    inline const std::vector<glm::vec2>& getTexCoords() const { return _texCoords; }
+    inline const std::vector<unsigned int>& getIndices() const { return _indices; }
 
 private:
-	GLUtesselator *_tobj;
-	GLenum  _curMode;
+    typedef void (APIENTRY *GLU_TESS_CALLBACK)();
+    static void CALLBACK beginCallback( GLenum, void* );
+    static void CALLBACK vertexCallback( GLvoid*, void* );
+    static void CALLBACK combineCallback( GLdouble[3], void* [4], GLfloat [4], void** , void* );
+    static void CALLBACK endCallback( void* );
+    static void CALLBACK errorCallback( GLenum, void* );	
 
-	std::vector<glm::highp_dvec3> _vertices;		
-	std::vector<glm::vec2> _texCoords;
-	std::vector<unsigned int> _indices;
+private:
+    GLUtesselator *_tobj;
+    GLenum  _curMode;
 
-	std::vector<unsigned int> _curIndices;
+    std::vector<glm::highp_dvec3> _vertices;		
+    std::vector<glm::vec2> _texCoords;
+    std::vector<unsigned int> _indices;
+
+    std::vector<unsigned int> _curIndices;
 };

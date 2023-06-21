@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>./src/third-partys/libxml2-vc143/include;./src/;$(IncludePath)</IncludePath>
+    <IncludePath>./src/third-partys/spdlog-1.11.0/include;./src/third-partys/libxml2-vc143/include;./src/;$(IncludePath)</IncludePath>
     <LibraryPath>./src/third-partys/libxml2-vc143/bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>./src/third-partys/libxml2-vc143/include;./src/;$(IncludePath)</IncludePath>
+    <IncludePath>./src/third-partys/spdlog-1.11.0/include;./src/third-partys/libxml2-vc143/include;./src/;$(IncludePath)</IncludePath>
     <LibraryPath>./src/third-partys/libxml2-vc143/bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -231,6 +231,7 @@
     <ClInclude Include="src\utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
