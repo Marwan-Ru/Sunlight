@@ -7,11 +7,15 @@
 #include <queue>
 #include <fstream>
 #include <string>
+#include <glm/vec3.hpp>
+// Log in console
+#include <spdlog/spdlog.h>
+// Log in file
+#include "spdlog/sinks/rotating_file_sink.h"
 
 #include "SunlightDetection.h"
 #include "IO.h"
 #include "FileInfo.h"
-#include <glm/vec3.hpp>
 #include <maths/AABB.h>
 #include <maths/Triangle.h>
 #include "maths/RayTracing.h"
@@ -198,33 +202,23 @@ void RayTraceTriangles(const std::string& filepath, const CityObjectsType& fileT
     delete tmpHits;
 }
 
-///
-/// \brief writeInLogFile Print a text in an output txt file.
-/// \param filepath path to the output file.
-/// \param text text to print.
-///
-void writeInLogFile(const std::string& filepath, const std::string& text)
-{
-    std::ofstream logfile;
-    logfile.open(filepath, std::ofstream::app);
-
-    logfile << text << std::endl;
-
-    logfile.close();
-}
-
 void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, std::string outputDir)
 {
     Timer timer;
     timer.start();
 
-    std::cout << "Sunlight Calculation started." << std::endl;
+    spdlog::info("Sunlight Calculation started.");
 
     //Create output folders
     createOutputFolders(outputDir);
 
     //Log file
-    std::string logFilePath = outputDir + "/Sunlight/logFile.txt";
+    const auto LOG_FILE_PATH(outputDir + "/Sunlight/logFile.txt");
+    
+    // Create a file rotating logger with 5 MB size max and 3 rotated files
+    const auto MAX_LOG_SIZE = 1048576 * 5;
+    const auto MAX_LOG_FILES = 3;
+    auto fileLogger = spdlog::rotating_logger_mt("some_logger_name", LOG_FILE_PATH, MAX_LOG_SIZE, MAX_LOG_FILES);
 
     //Convert dates to integer
     int iStartDate = encodeDateTime(startDate, 0);
@@ -264,13 +258,14 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
     for (FileInfo* f : filenames) //Loop through files
     {
-        std::cout << "===================================================" << std::endl;
-        std::cout << "Computation of file " << f->WithPrevFolderAndGMLExtension() << "..." << std::endl;
-        std::cout << "===================================================" << std::endl;
+        spdlog::info("===================================================");
+        spdlog::info("Computation of file {}...", f->WithPrevFolderAndGMLExtension());
+        spdlog::info("===================================================");
 
         //Log file
-        std::string text = "File " + f->WithPrevFolderAndGMLExtension();
-        writeInLogFile(logFilePath, text);
+        const auto text ("File " + f->WithPrevFolderAndGMLExtension());
+        spdlog::info(text);
+        fileLogger->info(text);
 
         //Load TriangleList of file to compute sunlight for
         TriangleList* trianglesfile;
@@ -282,9 +277,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
         else
             trianglesfile = new TriangleList();
 
-        //Log file
-        text = "Triangles Number : " + std::to_string(trianglesfile->triangles.size());
-        writeInLogFile(logFilePath, text);
+        fileLogger->info("Triangles Number : {}", trianglesfile->triangles.size());
 
         //Create csv file where results will be written
         createFileFolder(f, outputDir);
@@ -293,7 +286,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
         for (Triangle* t : trianglesfile->triangles) //Loop through each triangle
         {
-            std::cout << "Triangle " << cpt_tri << " of " << trianglesfile->triangles.size() << "..." << std::endl;
+            spdlog::info("Triangle {} of {}...", cpt_tri, trianglesfile->triangles.size());
 
             //Initialize sunlight Info results
             std::map<int, bool> datetimeSunInfo = datetime_sunnyMap;
@@ -422,14 +415,12 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
         //Delete TriangleList
         delete trianglesfile;
 
-        std::cout << "===================================================" << std::endl;
-        std::cout << "file " << cpt_files << " of " << filenames.size() << " done in : " << timer.getElapsedInSeconds() << "s" << std::endl;
-        std::cout << "===================================================" << std::endl;
+        spdlog::info("===================================================");
+        spdlog::info("file {} of {} done in : {}s", cpt_files, filenames.size(), timer.getElapsedInSeconds());
+        spdlog::info("===================================================");
 
         //Log file
-        text = "Computation time : " + std::to_string(timer.getElapsedInSeconds()) + " s";
-        writeInLogFile(logFilePath, text);
-        writeInLogFile(logFilePath, ""); //Skip one line
+        fileLogger->info("Computation time : {}s \n", timer.getElapsedInSeconds());
 
         time_tot += timer.getElapsedInSeconds();
         timer.restart();
@@ -440,5 +431,5 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     for (unsigned int i = 0; i < filenames.size(); ++i)
         delete filenames[i];
 
-    std::cout << "Total time : " << time_tot << "s" << std::endl;
+    spdlog::info("Total time : {}s", time_tot);
 }
