@@ -68,8 +68,6 @@ AABBCollection LoadLayersAABBs(std::string dir)
    // In order to add a new data set, uncomment exemple and replace fillers <..> by your data
    bool foundBuild = false;
    bool foundTerrain = false;
-   bool foundWater = false;
-   bool foundVeget = false;
    // bool found<MyData> = false;
 
    //Check if our bounding box files do exists
@@ -83,21 +81,13 @@ AABBCollection LoadLayersAABBs(std::string dir)
             continue;
          }
 
-         if (f.path().filename().string().ends_with("_BATI_AABB.dat"))
+         if (f.path().filename().string() == "_BATI_AABB.dat")
          {
             foundBuild = true;
          }
-         if (f.path().filename().string().ends_with("_MNT_AABB.dat"))
+         if (f.path().filename().string() == "_MNT_AABB.dat")
          {
             foundTerrain = true;
-         }
-         if (f.path().filename().string().ends_with("_WATER_AABB.dat"))
-         {
-            foundWater = true;
-         }
-         if (f.path().filename().string().ends_with("_VEGET_AABB.dat"))
-         {
-            foundVeget = true;
          }
          //if (f.path().filename().string().ends_with("_<MyDataSuffix>_AABB.dat"))
          // {
@@ -111,33 +101,22 @@ AABBCollection LoadLayersAABBs(std::string dir)
       std::cout << "Error, files does not exists." << std::endl;
    }
 
-   std::vector<AABB> bSet;
-   std::vector<AABB> tSet;
-   std::vector<AABB> wSet;
-   std::vector<AABB> vSet;
-   // std::vector<AABB> <myData>Set;
+   std::vector<AABB> buildingBoundingBoxes;
+   std::vector<AABB> groundBoundingBoxes;
+   // std::vector<AABB> <myData>BoundingBoxes;
 
 
    if (foundBuild)
-      bSet = LoadAABBFile(dir + "_BATI_AABB.dat");
+      buildingBoundingBoxes = LoadAABBFile(dir + "_BATI_AABB.dat");
 
    if (foundTerrain)
-      tSet = LoadAABBFile(dir + "_MNT_AABB.dat");
-
-   if (foundWater)
-      wSet = LoadAABBFile(dir + "_WATER_AABB.dat");
-
-   if (foundVeget)
-      vSet = LoadAABBFile(dir + "_VEGET_AABB.dat");
-
+      groundBoundingBoxes = LoadAABBFile(dir + "_MNT_AABB.dat");
    // if(foundVeget)
    // <myData>Set = LoadAABBFile(dir+"_<MyDataSuffix>_AABB.dat");
 
    AABBCollection collection;
-   collection.building = bSet;
-   collection.terrain = tSet;
-   collection.water = wSet;
-   collection.veget = vSet;
+   collection.building = buildingBoundingBoxes;
+   collection.terrain = groundBoundingBoxes;
    // collection.<myData> = <myData>Set;
 
    return collection;
