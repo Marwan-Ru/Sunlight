@@ -33,16 +33,7 @@ void TiledFiles::BuildListofLayers()
         if (!LayerFolder.is_directory())
             continue;
 
-        std::string layerFilePath(LayerFolder.path().string());
         std::string layerFileName(LayerFolder.path().filename().string());
-
-        if (layerFilePath.ends_with("ShpExtruded") || layerFilePath.ends_with("SkylineOutput")) //For visibility plugin
-            continue;
-
-        if (layerFilePath.ends_with("tmp")) //For FloodAR plugin
-            continue;
-
-        fs::path QDirLayerFolder(layerFilePath);
 
         TiledLayer L;
         // TODO test if it's the correct base name
@@ -52,7 +43,7 @@ void TiledFiles::BuildListofLayers()
         L.TuileMaxX = -1;
         L.TuileMaxY = -1;
 
-        for (const auto& TileFolder : std::filesystem::directory_iterator(QDirLayerFolder))
+        for (const auto& TileFolder : std::filesystem::directory_iterator(LayerFolder.path()))
         {
             if (!TileFolder.is_directory())
                 continue;
