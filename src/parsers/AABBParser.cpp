@@ -4,6 +4,8 @@
 #include <citygmls/Tile.h>
 #include <citygmls/CityObject.h>
 #include <citygmls/CityModel.h>
+// Log in console
+#include <spdlog/spdlog.h>
 
 #include <filesystem>
 #include <iostream>
@@ -19,6 +21,12 @@ std::vector<AABB> LoadAABBFile(std::string path)
    char line[256];
 
    std::ifstream ifs(path, std::ifstream::in);
+
+   if (!ifs)
+   {
+      spdlog::error("Error with AABB file at {}", path);
+      return bSet;
+   }
 
    ifs.getline(line, 256);
 
@@ -98,7 +106,7 @@ AABBCollection LoadLayersAABBs(std::string dir)
    }
    else
    {
-      std::cout << "Error, files does not exists." << std::endl;
+      spdlog::error("Error, files does not exists.");
    }
 
    std::vector<AABB> buildingBoundingBoxes;
@@ -160,7 +168,7 @@ std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> DoBuildAABB
          }
 
          AABBs.insert(std::make_pair(L.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + L.Name + ".gml", std::make_pair(min, max)));
-         std::cout << "File : " << L.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + L.Name + ".gml" << std::endl;
+         spdlog::info("File : {}/{}_{}/{}_{}{}.gml", L.Name, std::to_string(x), std::to_string(y), std::to_string(x), std::to_string(y), L.Name);
       }
    }
 
@@ -226,7 +234,7 @@ void BuildLayersAABBs(std::string dir)
       DoSaveAABB(dir + L.Name + "_AABB.dat", AABBs);
    }
 
-   std::cout << "Done." << std::endl;
+   spdlog::info("Done.");
 }
 
 ///
@@ -325,7 +333,7 @@ void BuildBuildingAABBs(std::string buildingFilesFolder)
       if (!fileName.ends_with(".gml"))
          continue;
 
-      std::cout << "File : " << fileName << std::endl;
+      spdlog::info("File : {}", fileName);
       doBuildBuildingAABBs(filePath);
    }
 }
