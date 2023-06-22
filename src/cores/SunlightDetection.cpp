@@ -244,6 +244,15 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     // *** Load AABB of all files *** //
     AABBCollection boxes = LoadLayersAABBs(fileDir);
 
+    // No layer AABB exist in the datas directery
+    if (boxes.building.empty() && boxes.terrain.empty())
+    {
+       spdlog::error("Missing Layer AABB files. Can't compute sunlight...");
+       fileLogger->error("Missing Layer AABB files. Can't compute sunlight...");
+       return;
+    }
+
+
     //Concatenate buildingAABB and terrainAABB
     std::vector<AABB> building_terrainBB;
 
@@ -354,6 +363,17 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                     std::string path_B_AABB = fBoxHit.m_filepath.substr(0, extensionPos) + "_Building_AABB.dat";
 
                     std::vector<AABB> B_AABB = LoadAABBFile(path_B_AABB);
+
+                    if (B_AABB.empty())
+                    {
+                       spdlog::error("Missing Building AABB file. Can't check intersection with {}...", path_B_AABB);
+                       fileLogger->error("Missing Building AABB file. Can't check intersection with {}...", path_B_AABB);
+
+                       // Avoid leaking pointers
+                       delete rayboxBuilding;
+
+                       continue;
+                    }
 
                     //Setup AABB (The sorting is not essential here, we could just go "inside" an AABB when an intersection is found).
                     std::queue<RayBoxHit> B_AABB_Order = SetupFileOrder(B_AABB, rayboxBuilding);
