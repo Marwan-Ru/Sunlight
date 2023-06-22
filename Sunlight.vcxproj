@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\parsers\AABBParser.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ADE\ADE.cpp" />
     <ClCompile Include="src\ADE\document\DocumentHandler.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="src\utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\parsers\AABBParser.h" />
     <ClInclude Include="src\ADE\ADE.h" />
     <ClInclude Include="src\ADE\document\DocumentHandler.h" />
     <ClInclude Include="src\ADE\document\DocumentObject.h" />

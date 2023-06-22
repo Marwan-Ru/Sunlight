@@ -21,9 +21,10 @@
 #include "maths/RayTracing.h"
 #include <maths/Hit.h>
 #include <maths/RayBox.h>
+#include <utils/Timer.h>
 #include <utils/DateTime.h>
 #include <citygmls/CityObject.h>
-#include <utils/Timer.h>
+#include <parsers/AABBParser.h>
 
 ///
 /// \brief SetupFileOrder create a std::queue queueing the files intersected by a given RayBoxCollection and sorted by intersection distance
