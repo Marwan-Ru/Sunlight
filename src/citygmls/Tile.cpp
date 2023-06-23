@@ -4,6 +4,10 @@
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
 #include <sstream>
+#include <iostream>
+#include <filesystem>
+// Log in console
+#include <spdlog/spdlog.h>
 
 #include "Tile.h"
 #include <citygmls/Envelope.h>
@@ -12,6 +16,8 @@
 #include <citygmls/CityModel.h>
 #include <citygmls/URI.h>
 #include <parsers/ParserLibXml2.h>
+
+namespace fs = std::filesystem;
 
 Tile::Tile()
     : m_root(nullptr)
@@ -53,54 +59,14 @@ void Tile::computeEnvelope()
     //m_envelope.merge(m_root->getEnvelope());
 }
 
-//void loadRec(CityObject* node, ReaderOsgCityGML& reader)
-//{
-//    //FIXME: remove this method since all its code is commented out
-//
-//    //node->computeEnvelope();
-//    /*osg::ref_ptr<osg::Group> grp = reader.createCityObject(node);
-//
-//    if(node->getType() == COT_Building)
-//    {
-//        int yearOfConstruction = 0;
-//        int yearOfDemolition = 0;
-//
-//        if(node->getAttribute("yearOfConstruction") != "")
-//        {
-//            std::istringstream(node->getAttribute("yearOfConstruction")) >> yearOfConstruction;
-//            grp->setUserValue("yearOfConstruction", yearOfConstruction);
-//        }
-//        if(node->getAttribute("yearOfDemolition") != "")
-//        {
-//            std::istringstream(node->getAttribute("yearOfDemolition")) >> yearOfDemolition;
-//            grp->setUserValue("yearOfDemolition", yearOfDemolition);
-//        }*/
-//
-//
-//
-//
-//        /*grp->getUserValue("yearOfConstruction", yearOfConstruction);
-//        grp->getUserValue("yearOfDemolition", yearOfDemolition);*/
-//
-//        /*std::cout << "yearOfConstruction : " << yearOfConstruction << std::endl;
-//        std::cout << "yearOfDemolition : " << yearOfDemolition << std::endl;
-//
-//        std::cout << "yearOfConstruction2 : " << node->getAttribute("yearOfConstruction") << std::endl;
-//        std::cout << "yearOfDemolition2 : " << node->getAttribute("yearOfDemolition") << std::endl;*/
-//        //}
-//
-//        //node->setOsgNode(grp);
-//
-//        /*CityObjects& cityObjects = node->getChildren();
-//        CityObjects::iterator it = cityObjects.begin();
-//        for( ; it != cityObjects.end(); ++it)
-//        {
-//            loadRec(*it, reader);
-//        }*/
-//}
-
 void Tile::loadTiles(const std::string& filepath)
 {
+   if (!fs::exists(filepath))
+   {
+      spdlog::error("Failed to load an parse tile at {}", filepath);
+      return;
+   }
+
     ParserParams params;
     delete m_root;
     m_root = load(filepath, params);

@@ -124,7 +124,7 @@ AABBCollection LoadLayersAABBs(std::string dir)
 
    AABBCollection collection;
    collection.building = buildingBoundingBoxes;
-   collection.terrain = groundBoundingBoxes;
+   collection.ground = groundBoundingBoxes;
    // collection.<myData> = <myData>Set;
 
    return collection;

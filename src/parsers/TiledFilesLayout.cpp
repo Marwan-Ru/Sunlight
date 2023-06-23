@@ -3,12 +3,17 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
-#include "TiledFilesLayout.h"
-
 #include <filesystem>
 #include <iostream>
 #include <map>
+// Log in console
+#include <spdlog/spdlog.h>
+#include <optional>
+#include <glm/vec2.hpp>
+// GLM min and max functions
+#include <glm/common.hpp>
 
+#include "TiledFilesLayout.h"
 #include "citygmls/Tile.h"
 
 namespace fs = std::filesystem;
@@ -24,7 +29,7 @@ void TiledFiles::BuildListofLayers()
 
     if (!fs::exists(QFolder))
     {
-        std::cout << "Error, Folder does not exists." << std::endl;
+        spdlog::error("Folder does not exists.");
         return;
     }
 
@@ -33,15 +38,8 @@ void TiledFiles::BuildListofLayers()
         if (!LayerFolder.is_directory())
             continue;
 
-        std::string layerFileName(LayerFolder.path().filename().string());
-
-        TiledLayer L;
-        // TODO test if it's the correct base name
-        L.Name = layerFileName;
-        L.TuileMinX = -1;
-        L.TuileMinY = -1;
-        L.TuileMaxX = -1;
-        L.TuileMaxY = -1;
+        std::optional<glm::ivec2> min;
+        std::optional<glm::ivec2> max;
 
         for (const auto& TileFolder : std::filesystem::directory_iterator(LayerFolder.path()))
         {
@@ -56,21 +54,41 @@ void TiledFiles::BuildListofLayers()
             std::string X = Tile.substr(0, SplitPos);
             std::string Y = Tile.substr(SplitPos + 1);
 
-            int Xval = std::stoi(X);
-            int Yval = std::stoi(Y);
+            int Xval (std::stoi(X));
+            int Yval (std::stoi(Y));
+            glm::ivec2 currentTileCoordinate(Xval, Yval);
 
-            if (L.TuileMinX == -1 || L.TuileMinX > Xval)
-                L.TuileMinX = Xval;
-            if (L.TuileMaxX == -1 || L.TuileMaxX < Xval)
-                L.TuileMaxX = Xval;
-            if (L.TuileMinY == -1 || L.TuileMinY > Yval)
-                L.TuileMinY = Yval;
-            if (L.TuileMaxY == -1 || L.TuileMaxY < Yval)
-                L.TuileMaxY = Yval;
+            if (!min.has_value())
+            {
+               min = currentTileCoordinate;
+            }
+            if (!max.has_value())
+            {
+               max = currentTileCoordinate;
+            }
+
+            // Minimum and maximum of Tile Coordinate
+            min = glm::min(min.value(), currentTileCoordinate);
+            max = glm::max(max.value(), currentTileCoordinate);
         }
 
-        std::cout << "Layer : " << L.Name << " : " << L.TuileMinX << " " << L.TuileMinY << std::endl << L.TuileMaxX << " " << L.TuileMaxY << std::endl;
+        std::string layerFileName(LayerFolder.path().filename().string());
+        if (!min.has_value() && !max.has_value())
+        {
+           spdlog::warn("Tile {} at {} do not follow the correct folder hierarchy.", layerFileName, QFolder.string());
+           continue;
+        }
 
+        TiledLayer L;
+        // TODO test if it's the correct base name
+        L.Name = layerFileName;
+        L.TuileMinX = min.value().x;
+        L.TuileMinY = min.value().y;
+        L.TuileMaxX = max.value().x;
+        L.TuileMaxY = max.value().y;
+
+
+        spdlog::info("Layer : {} - Min X : {} - Min Y : {} - Max X : {} - Max Y : {}", L.Name, L.TuileMinX, L.TuileMinY, L.TuileMaxX, L.TuileMaxY);
         ListofLayers.push_back(L);
     }
 }
