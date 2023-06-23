@@ -4,7 +4,6 @@
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
 #include <filesystem>
-#include <iostream>
 #include <map>
 // Log in console
 #include <spdlog/spdlog.h>
@@ -37,6 +36,11 @@ void TiledFiles::BuildListofLayers()
     {
         if (!LayerFolder.is_directory())
             continue;
+
+        // Avoid to loop in non layer folder
+        const std::string layerFolder (LayerFolder.path().filename().string());
+        if (layerFolder != "_BATI" && layerFolder != "_MNT")
+           continue;
 
         std::optional<glm::ivec2> min;
         std::optional<glm::ivec2> max;
@@ -72,7 +76,7 @@ void TiledFiles::BuildListofLayers()
             max = glm::max(max.value(), currentTileCoordinate);
         }
 
-        std::string layerFileName(LayerFolder.path().filename().string());
+        const std::string layerFileName(LayerFolder.path().filename().string());
         if (!min.has_value() && !max.has_value())
         {
            spdlog::warn("Tile {} at {} do not follow the correct folder hierarchy.", layerFileName, QFolder.string());
@@ -86,7 +90,6 @@ void TiledFiles::BuildListofLayers()
         L.TuileMinY = min.value().y;
         L.TuileMaxX = max.value().x;
         L.TuileMaxY = max.value().y;
-
 
         spdlog::info("Layer : {} - Min X : {} - Min Y : {} - Max X : {} - Max Y : {}", L.Name, L.TuileMinX, L.TuileMinY, L.TuileMaxX, L.TuileMaxY);
         ListofLayers.push_back(L);
