@@ -243,7 +243,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
 
     // *** Load AABB of all files *** //
-    AABBCollection boxes = LoadLayersAABBs(fileDir);
+    AABBCollection boxes = loadLayersAABBs(fileDir);
 
     // No layer AABB exist in the datas directery
     if (boxes.building.empty() && boxes.ground.empty())
@@ -361,7 +361,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
                     //Load Building AABB (B_AABB)
                     std::string path_B_AABB = fBoxHit.getPathForBoundingBox();
-                    std::vector<AABB> B_AABB = LoadAABBFile(path_B_AABB);
+                    std::vector<AABB> B_AABB = loadAABBFile(path_B_AABB);
 
                     if (B_AABB.empty())
                     {

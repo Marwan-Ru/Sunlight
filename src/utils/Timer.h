@@ -5,11 +5,11 @@
 #include <ctime>
 #include <cmath>
 
-/// <summary>
-/// Timer to benchmark code performance using chrono steady_clock
-/// because it's not affected by the system time (which can be adjusted at any time)
-/// Code proposed by https://gist.github.com/mcleary/b0bf4fa88830ff7c882d
-/// </summary>
+/**
+ * @brief Timer to benchmark code performance using chrono steady_clock
+ * because it's not affected by the system time (which can be adjusted at any time)
+ * Code proposed by https://gist.github.com/mcleary/b0bf4fa88830ff7c882d
+*/
 class Timer
 {
 public:

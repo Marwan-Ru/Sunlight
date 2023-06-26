@@ -1,20 +1,18 @@
-#include "AABBParser.h"
-#include <maths/Triangle.h>
-#include <parsers/TiledFilesLayout.h>
-#include <citygmls/Tile.h>
-#include <citygmls/CityObject.h>
-#include <citygmls/CityModel.h>
-// Log in console
-#include <spdlog/spdlog.h>
-
 #include <filesystem>
 #include <iostream>
 #include <fstream>
-#include <map>
+// Log in console
+#include <spdlog/spdlog.h>
+
+#include "AABBParser.h"
+#include <maths/Triangle.h>
+#include <citygmls/CityModel.h>
+#include <citygmls/Tile.h>
 
 namespace fs = std::filesystem;
 
-std::vector<AABB> LoadAABBFile(std::string path)
+#pragma region Loading AABB
+std::vector<AABB> loadAABBFile(const std::string& path)
 {
    std::vector<AABB> bSet;
 
@@ -71,7 +69,7 @@ std::vector<AABB> LoadAABBFile(std::string path)
    return bSet;
 }
 
-AABBCollection LoadLayersAABBs(std::string dir)
+AABBCollection loadLayersAABBs(const std::string& layerDirectory)
 {
    // In order to add a new data set, uncomment exemple and replace fillers <..> by your data
    bool foundBuild = false;
@@ -79,7 +77,7 @@ AABBCollection LoadLayersAABBs(std::string dir)
    // bool found<MyData> = false;
 
    //Check if our bounding box files do exists
-   fs::path dt(dir);
+   fs::path dt(layerDirectory);
    if (fs::exists(dt))
    {
       for (const auto& f : fs::directory_iterator(dt))
@@ -115,10 +113,10 @@ AABBCollection LoadLayersAABBs(std::string dir)
 
 
    if (foundBuild)
-      buildingBoundingBoxes = LoadAABBFile(dir + "_BATI_AABB.dat");
+      buildingBoundingBoxes = loadAABBFile(layerDirectory + "_BATI_AABB.dat");
 
    if (foundTerrain)
-      groundBoundingBoxes = LoadAABBFile(dir + "_MNT_AABB.dat");
+      groundBoundingBoxes = loadAABBFile(layerDirectory + "_MNT_AABB.dat");
    // if(foundVeget)
    // <myData>Set = LoadAABBFile(dir+"_<MyDataSuffix>_AABB.dat");
 
@@ -129,58 +127,12 @@ AABBCollection LoadLayersAABBs(std::string dir)
 
    return collection;
 }
+#pragma endregion
 
-/**
-*	@brief Build a collection of boxes from a citygml file in a set of directory
-*	@param dirs Directories where citygml files are located
-*	@param offset 3D offset used by the application
-*	@param type Type of cityobject to use
-*	@return a collection of boxes, key = name of the box, value = <min of the box, max of the box>
-*/
-std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> DoBuildAABB(std::string dir, TiledLayer L, CityObjectsType type)
-{
-   std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> AABBs;
 
-   for (int x = L.TuileMinX; x <= L.TuileMaxX; ++x)
-   {
-      for (int y = L.TuileMinY; y <= L.TuileMaxY; ++y)
-      {
-         std::string FileName = dir + L.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + L.Name + ".gml";
 
-         glm::highp_dvec3 min(FLT_MAX, FLT_MAX, FLT_MAX);
-         glm::highp_dvec3 max(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-
-         fs::path File(FileName);
-         if (fs::exists(File))
-         {
-            TriangleList* list = BuildTriangleList(FileName, type);
-
-            for (Triangle* t : list->triangles) //Pour eliminer les points anormaux (qui ont des coordonnees z absurdes), on fait un petit filtre en verifiant ces valeurs de z.
-            {
-               min.x = std::min(t->a.x, min.x); min.y = std::min(t->a.y, min.y); if (t->a.z > -500) min.z = std::min(t->a.z, min.z);
-               min.x = std::min(t->b.x, min.x); min.y = std::min(t->b.y, min.y); if (t->b.z > -500) min.z = std::min(t->b.z, min.z);
-               min.x = std::min(t->c.x, min.x); min.y = std::min(t->c.y, min.y); if (t->b.z > -500) min.z = std::min(t->c.z, min.z);
-               max.x = std::max(t->a.x, max.x); max.y = std::max(t->a.y, max.y); if (t->a.z < 1000) max.z = std::max(t->a.z, max.z);
-               max.x = std::max(t->b.x, max.x); max.y = std::max(t->b.y, max.y); if (t->b.z < 1000) max.z = std::max(t->b.z, max.z);
-               max.x = std::max(t->c.x, max.x); max.y = std::max(t->c.y, max.y); if (t->c.z < 1000) max.z = std::max(t->c.z, max.z);
-            }
-            delete list;
-         }
-
-         AABBs.insert(std::make_pair(L.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + L.Name + ".gml", std::make_pair(min, max)));
-         spdlog::info("File : {}/{}_{}/{}_{}{}.gml", L.Name, std::to_string(x), std::to_string(y), std::to_string(x), std::to_string(y), L.Name);
-      }
-   }
-
-   return AABBs;
-}
-
-/**
-*	@brief Save a collection of boxes on disk
-*	@param filePath where to save the collection
-*	@param AABBs The collection of box
-*/
-void DoSaveAABB(std::string filePath, std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> AABBs)
+#pragma region Save
+void saveAABB(const std::string& filePath, const std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>>& AABBs)
 {
    std::filebuf fb;
    fb.open(filePath, std::ios::out);
@@ -202,10 +154,54 @@ void DoSaveAABB(std::string filePath, std::map<std::string, std::pair<glm::highp
 
    fb.close();
 }
+#pragma endregion
 
-void BuildLayersAABBs(std::string dir)
+
+
+#pragma region Build AABB
+std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> buildAABB(const std::string& cityGmlDirectory, const TiledLayer& tile, const CityObjectsType& type)
 {
-   TiledFiles Files(dir);
+   std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> AABBs;
+
+   for (int x = tile.TuileMinX; x <= tile.TuileMaxX; ++x)
+   {
+      for (int y = tile.TuileMinY; y <= tile.TuileMaxY; ++y)
+      {
+         std::string FileName = cityGmlDirectory + tile.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + tile.Name + ".gml";
+
+         glm::highp_dvec3 min(FLT_MAX, FLT_MAX, FLT_MAX);
+         glm::highp_dvec3 max(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+
+         fs::path File(FileName);
+         if (fs::exists(File))
+         {
+            TriangleList* list = BuildTriangleList(FileName, type);
+
+            for (Triangle* t : list->triangles) //Pour eliminer les points anormaux (qui ont des coordonnees z absurdes), on fait un petit filtre en verifiant ces valeurs de z.
+            {
+               min.x = std::min(t->a.x, min.x); min.y = std::min(t->a.y, min.y); if (t->a.z > -500) min.z = std::min(t->a.z, min.z);
+               min.x = std::min(t->b.x, min.x); min.y = std::min(t->b.y, min.y); if (t->b.z > -500) min.z = std::min(t->b.z, min.z);
+               min.x = std::min(t->c.x, min.x); min.y = std::min(t->c.y, min.y); if (t->b.z > -500) min.z = std::min(t->c.z, min.z);
+               max.x = std::max(t->a.x, max.x); max.y = std::max(t->a.y, max.y); if (t->a.z < 1000) max.z = std::max(t->a.z, max.z);
+               max.x = std::max(t->b.x, max.x); max.y = std::max(t->b.y, max.y); if (t->b.z < 1000) max.z = std::max(t->b.z, max.z);
+               max.x = std::max(t->c.x, max.x); max.y = std::max(t->c.y, max.y); if (t->c.z < 1000) max.z = std::max(t->c.z, max.z);
+            }
+            delete list;
+         }
+
+         AABBs.insert(std::make_pair(tile.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + tile.Name + ".gml", std::make_pair(min, max)));
+         spdlog::info("File : {}/{}_{}/{}_{}{}.gml", tile.Name, std::to_string(x), std::to_string(y), std::to_string(x), std::to_string(y), tile.Name);
+      }
+   }
+
+   return AABBs;
+}
+
+
+
+void buildLayersAABBs(const std::string& cityGmlDirectory)
+{
+   TiledFiles Files(cityGmlDirectory);
    Files.BuildListofLayers();
 
    for (TiledLayer L : Files.ListofLayers)
@@ -229,19 +225,17 @@ void BuildLayersAABBs(std::string dir)
 
       // Pour chaque tuile "string", bounding box : min-max
       std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> AABBs =
-         DoBuildAABB(dir, L, type);
+         buildAABB(cityGmlDirectory, L, type);
 
-      DoSaveAABB(dir + L.Name + "_AABB.dat", AABBs);
+      saveAABB(cityGmlDirectory + L.Name + "_AABB.dat", AABBs);
    }
 
    spdlog::info("Done.");
 }
 
-///
-/// \brief doBuildBuildingAABBs Build Building AABBs and Building Parts AABBs
-/// \param filepath Path to file to build AABB for.
-///
-void doBuildBuildingAABBs(std::string filepath)
+
+
+void buildBuildingAABBs(const std::string& filepath)
 {
    Tile* tile = new Tile(filepath);
 
@@ -315,7 +309,9 @@ void doBuildBuildingAABBs(std::string filepath)
    delete tile;
 }
 
-void BuildBuildingAABBs(std::string buildingFilesFolder)
+
+
+void buildBuildingAABBsInDirectory(const std::string& buildingFilesFolder)
 {
    fs::path parentPath(buildingFilesFolder);
 
@@ -334,6 +330,7 @@ void BuildBuildingAABBs(std::string buildingFilesFolder)
          continue;
 
       spdlog::info("File : {}", fileName);
-      doBuildBuildingAABBs(filePath);
+      buildBuildingAABBs(filePath);
    }
 }
+#pragma endregion
