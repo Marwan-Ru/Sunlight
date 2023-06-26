@@ -72,7 +72,7 @@ glm::highp_dvec3 rotateVector(const glm::highp_dvec3& vec, const glm::dquat& q)
     return glm::highp_dvec3(qTemp.x, qTemp.y, qTemp.z);
 }
 
-glm::dquat computeSunRotation(double azimutAngleInRadians, double elevationAngleInRadians)
+glm::dquat getSunRotation(double azimutAngleInRadians, double elevationAngleInRadians)
 {
     glm::dquat elevationQuaternion (glm::highp_dvec3(-elevationAngleInRadians, 0, 0));
     glm::dquat azimutQuaternion (glm::highp_dvec3(0, 0, azimutAngleInRadians));
@@ -92,7 +92,7 @@ glm::highp_dvec3 computeDirectionTowardsTheSun(double azimutAngleInRadians, doub
     glm::highp_dvec3 sunBasePosition (glm::highp_dvec3(0.0, 60000.0, 0.0));
     
     // Rotate the sun base position with the rotation at a given time (or azimut / elevation)
-    glm::dquat finalRotation (computeSunRotation(azimutAngleInRadians, elevationAngleInRadians));
+    glm::dquat finalRotation (getSunRotation(azimutAngleInRadians, elevationAngleInRadians));
     glm::highp_dvec3 sunPositionAfterRotation (rotateVector(sunBasePosition, finalRotation) + originOffset);
 
     //Compute sun beam direction
