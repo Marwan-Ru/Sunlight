@@ -35,8 +35,7 @@ const CityGMLFileType& FileInfo::getType() const
 
 std::string FileInfo::withGMLExtension() const
 {
-   std::string fileName (m_filename);
-    return fileName.append(".gml");
+    return m_filename + ".gml";
 }
 
 std::string FileInfo::withPrevFolder() const
@@ -51,13 +50,13 @@ std::string FileInfo::withPrevFolder() const
 
 std::string FileInfo::withPrevFolderAndGMLExtension() const
 {
-    std::string result = this->withPrevFolder() + ".gml";
-    return result;
+    return withPrevFolder() + ".gml";
 }
 
 std::string FileInfo::getPathForBoundingBox() const
 {
    size_t extensionPos = m_filepath.find(".gml");
    std::string boundingBoxPath = m_filepath.substr(0, extensionPos) + "_Building_AABB.dat";
+
    return boundingBoxPath;
 }
