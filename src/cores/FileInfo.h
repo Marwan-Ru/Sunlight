@@ -7,48 +7,71 @@
 
 #include <string>
 
-enum fileType
+enum CityGMLFileType
 {
-    _BATI,
-    _MNT,
-    _DEFAULT
+   _DEFAULT,
+   _BATI,
+   _MNT
 };
 
-
-///
-/// \brief The FileInfo class is an utilitary to manipulate files in the plugin
-///
+/**
+ * @brief The FileInfo class is an utilitary to manipulate files in the plugin
+*/
 class FileInfo
 {
 
 public:
-    ///
-    /// \brief FileInfo Constructor of the class.
-    /// \param filepath Full path of the file
-    ///
     FileInfo(std::string filepath);
 
-    ///
-    /// \brief WithGMLExtension
-    /// \return name of the file with .gml extension
-    ///
-    std::string WithGMLExtension();
+    /**
+     * @brief Get full file path
+     * @return 
+    */
+    const std::string& getPath() const;
 
-    ///
-    /// \brief WithPrevFolder
-    /// \return name of the file with previous folder. (Ex : '_BATI/3670_10383')
-    ///
-    std::string WithPrevFolder();
+    /**
+     * @brief Get the file type (_BATI, _MNT...)
+     * @return 
+    */
+    const CityGMLFileType& getType() const;
 
-    ///
-    /// \brief WithPrevFolderAndGMLExtension
-    /// \return name of the file with previous folder and .gml extension (Ex : '_BATI/3670_10383.gml')
-    ///
-    std::string WithPrevFolderAndGMLExtension();
+    /**
+     * @brief Get the name of the file with .gml extension
+     * @return
+    */
+    std::string withGMLExtension() const;
 
+    /**
+     * @brief Get the name of the file with previous folder. (Ex : '_BATI/3670_10383')
+     * @return
+    */
+    std::string withPrevFolder() const;
 
-    std::string m_filename; /// \brief m_filename name of the file
-    std::string m_filepath; /// \brief m_filepath full path to the file
-    fileType m_type; /// \brief m_type Type of the file (_BATI or _MNT)
+    /**
+     * @brief Get the name of the file with previous folder and .gml extension (Ex : '_BATI/3670_10383.gml')
+     * @return
+    */
+    std::string withPrevFolderAndGMLExtension() const;
 
+    /**
+     * @brief Get path of the current bounding box
+     * @return 
+    */
+    std::string getPathForBoundingBox() const;
+
+private:
+    /**
+     * @brief File name of the file
+    */
+    std::string m_filename;
+
+    /**
+     * @brief Full path to the path
+    */
+    std::string m_filepath;
+
+    /**
+     * @brief Type of the file (_BATI or _MNT)
+    */
+    CityGMLFileType m_type;
 };

@@ -270,21 +270,21 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     for (FileInfo* f : filenames) //Loop through files
     {
         spdlog::info("===================================================");
-        spdlog::info("Computation of file {}...", f->WithPrevFolderAndGMLExtension());
+        spdlog::info("Computation of file {}...", f->withPrevFolderAndGMLExtension());
         spdlog::info("===================================================");
 
         //Log file
-        const auto text ("File " + f->WithPrevFolderAndGMLExtension());
+        const auto text ("File " + f->withPrevFolderAndGMLExtension());
         spdlog::info(text);
         fileLogger->info(text);
 
         //Load TriangleList of file to compute sunlight for
         TriangleList* trianglesfile;
 
-        if (f->m_type == fileType::_BATI)
-            trianglesfile = BuildTriangleList(f->m_filepath, CityObjectsType::COT_Building);
-        else if (f->m_type == fileType::_MNT)
-            trianglesfile = BuildTriangleList(f->m_filepath, CityObjectsType::COT_TINRelief);
+        if (f->getType() == CityGMLFileType::_BATI)
+            trianglesfile = BuildTriangleList(f->getPath(), CityObjectsType::COT_Building);
+        else if (f->getType() == CityGMLFileType::_MNT)
+            trianglesfile = BuildTriangleList(f->getPath(), CityObjectsType::COT_TINRelief);
         else
             trianglesfile = new TriangleList();
 
@@ -347,7 +347,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
                 std::string cityObjId = "";
 
-                if (fBoxHit.m_type == fileType::_BATI) //If _BATI, Multi-Resolution
+                if (fBoxHit.getType() == CityGMLFileType::_BATI) //If _BATI, Multi-Resolution
                 {
                     //Create RayBoxes
                     RayBoxCollection* rayboxBuilding = new RayBoxCollection();
@@ -360,9 +360,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                         rb->boxes.clear();
 
                     //Load Building AABB (B_AABB)
-                    size_t extensionPos = fBoxHit.m_filepath.find(".gml");
-                    std::string path_B_AABB = fBoxHit.m_filepath.substr(0, extensionPos) + "_Building_AABB.dat";
-
+                    std::string path_B_AABB = fBoxHit.getPathForBoundingBox();
                     std::vector<AABB> B_AABB = LoadAABBFile(path_B_AABB);
 
                     if (B_AABB.empty())
@@ -398,7 +396,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                         }
 
                         //Raytracing on current building (thanks to cityObjId)
-                        RayTraceTriangles(fBoxHit.m_filepath, CityObjectsType::COT_Building, cityObjId, raysTemp, datetimeSunInfo);
+                        RayTraceTriangles(fBoxHit.getPath(), CityObjectsType::COT_Building, cityObjId, raysTemp, datetimeSunInfo);
 
                         raysTemp.rays.clear();
 
@@ -407,7 +405,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                     delete rayboxBuilding;
 
                 }
-                else if (fBoxHit.m_type == fileType::_MNT) //If _MNT, no multiresolution
+                else if (fBoxHit.getType() == CityGMLFileType::_MNT) //If _MNT, no multiresolution
                 {
                     RayCollection raysTemp = CreateRays(fileName_boxhit, raysboxes, datetimeSunInfo);
 
@@ -417,7 +415,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                         continue;
                     }
 
-                    RayTraceTriangles(fBoxHit.m_filepath, CityObjectsType::COT_TINRelief, cityObjId, raysTemp, datetimeSunInfo);
+                    RayTraceTriangles(fBoxHit.getPath(), CityObjectsType::COT_TINRelief, cityObjId, raysTemp, datetimeSunInfo);
 
                     //Clear rays
                     raysTemp.rays.clear();

@@ -31,7 +31,7 @@ void createOutputFolders(const std::string& sOutputDir)
 void createFileFolder(FileInfo* file, const std::string& sOutputDir)
 {
     //Create folder corresponding to file
-    std::filesystem::path path(sOutputDir + "Sunlight/" + file->WithPrevFolder() + "/");
+    std::filesystem::path path(sOutputDir + "Sunlight/" + file->withPrevFolder() + "/");
 
     // Replace all existant datas to the lastet computation
     if (std::filesystem::exists(path))
@@ -53,7 +53,7 @@ void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* f
 
         //Create and open file
         std::ofstream ofs;
-        ofs.open(outputDir + "/Sunlight/" + file->WithPrevFolder() + "/" + day + ".csv", std::ofstream::app);
+        ofs.open(outputDir + "/Sunlight/" + file->withPrevFolder() + "/" + day + ".csv", std::ofstream::app);
 
         for (int i = 0; i < 24; ++i) //For each hour
         {
