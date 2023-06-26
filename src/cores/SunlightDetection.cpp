@@ -14,7 +14,7 @@
 #include "spdlog/sinks/rotating_file_sink.h"
 
 #include "SunlightDetection.h"
-#include "IO.h"
+#include "SunlightCsvExporter.h"
 #include "FileInfo.h"
 #include <maths/AABB.h>
 #include <maths/Triangle.h>

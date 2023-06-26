@@ -7,7 +7,7 @@
 #include <filesystem>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "IO.h"
+#include "SunlightCsvExporter.h"
 #include "FileInfo.h"
 #include <maths/Triangle.h>
 #include <utils/DateTime.h>
