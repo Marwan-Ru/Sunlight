@@ -49,13 +49,13 @@ bool Ray::Intersect(std::shared_ptr<Triangle> triangle, Hit* hit)
    //   |Dot(D,N)|*t = -sign(Dot(D,N))*Dot(Q,N)
    double DdN = glm::dot(static_cast<glm::vec3>(direction), normal);
    double sign;
-   if (DdN > (double)0)
+   if (0.0 < DdN)
    {
-      sign = (double)1;
+      sign = 1.0;
    }
-   else if (DdN < (double)0)
+   else if (DdN < 0.0)
    {
-      sign = (double)-1;
+      sign = -1.0;
       DdN = -DdN;
    }
    else
@@ -66,16 +66,16 @@ bool Ray::Intersect(std::shared_ptr<Triangle> triangle, Hit* hit)
    }
 
    double DdQxE2 = sign * DotCross(direction, diff, edge2);
-   if (DdQxE2 >= (double)0)
+   if (0.0 <= DdQxE2)
    {
       double DdE1xQ = sign * DotCross(direction, edge1, diff);
-      if (DdE1xQ >= (double)0)
+      if (0.0 <= DdE1xQ)
       {
          if (DdQxE2 + DdE1xQ <= DdN)
          {
             // Line intersects triangle, check whether ray does.
             double QdN = -sign * glm::dot(diff, normal);
-            if (QdN >= (double)0)
+            if (0.0 <= QdN)
             {
                // Ray intersects triangle.
                double inv = ((float)1) / DdN;
