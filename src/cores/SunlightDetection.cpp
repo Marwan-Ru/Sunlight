@@ -8,6 +8,7 @@
 #include <fstream>
 #include <string>
 #include <glm/vec3.hpp>
+#include <optional>
 // Log in console
 #include <spdlog/spdlog.h>
 // Log in file
@@ -243,23 +244,21 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
 
     // *** Load AABB of all files *** //
-    AABBCollection boxes = loadLayersAABBs(fileDir);
-
-    // No layer AABB exist in the datas directery
-    if (boxes.building.empty() && boxes.ground.empty())
+    auto boxes = loadLayersAABBs(fileDir);
+    if (!boxes.has_value())
     {
        spdlog::error("Missing Layer AABB files. Can't compute sunlight...");
        fileLogger->error("Missing Layer AABB files. Can't compute sunlight...");
        return;
     }
 
-
     //Concatenate buildingAABB and terrainAABB
     std::vector<AABB> layerBoundingBoxes;
 
-    layerBoundingBoxes.reserve(boxes.building.size() + boxes.ground.size()); //preallocate memory
-    layerBoundingBoxes.insert(layerBoundingBoxes.end(), boxes.building.begin(), boxes.building.end()); // insert building AABB
-    layerBoundingBoxes.insert(layerBoundingBoxes.end(), boxes.ground.begin(), boxes.ground.end()); // insert terrain AABB
+    // Merge all layer bounding box
+    layerBoundingBoxes.reserve(boxes.value().building.size() + boxes.value().ground.size());
+    layerBoundingBoxes.insert(layerBoundingBoxes.end(), boxes.value().building.begin(), boxes.value().building.end());
+    layerBoundingBoxes.insert(layerBoundingBoxes.end(), boxes.value().ground.begin(), boxes.value().ground.end());
 
 
     // *** Load files to analyse *** //

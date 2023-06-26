@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <optional>
 
 #include <maths/AABB.h>
 #include <citygmls/CityObject.h>
@@ -20,7 +21,7 @@ std::vector<AABB> loadAABBFile(const std::string& path);
 *  (_BATI : building, _MNT : ground...) that contains your citygml
 *	@return AABB Collection of the set of tiles
 */
-AABBCollection loadLayersAABBs(const std::string& layerDirectory);
+std::optional<AABBCollection> loadLayersAABBs(const std::string& layerDirectory);
 
 /**
 *	@brief Save a collection of boxes on disk
@@ -45,12 +46,6 @@ std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> buildAABB(c
 *  (_BATI : building, _MNT : ground..)
 */
 void buildLayersAABBs(const std::string& cityGmlDirectory);
-
-///
-/// \brief doBuildBuildingAABBs Build Building AABBs and Building Parts AABBs
-/// \param filepath Path to file to build AABB for.
-///
-///
 
 /**
  * @brief Create building and building parts bounding box for a citygml tile at a given path

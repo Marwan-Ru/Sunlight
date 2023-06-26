@@ -69,56 +69,37 @@ std::vector<AABB> loadAABBFile(const std::string& path)
    return bSet;
 }
 
-AABBCollection loadLayersAABBs(const std::string& layerDirectory)
+std::optional<AABBCollection> loadLayersAABBs(const std::string& layerDirectory)
 {
-   // In order to add a new data set, uncomment exemple and replace fillers <..> by your data
-   bool foundBuild = false;
-   bool foundTerrain = false;
-   // bool found<MyData> = false;
-
    //Check if our bounding box files do exists
-   fs::path dt(layerDirectory);
-   if (fs::exists(dt))
-   {
-      for (const auto& f : fs::directory_iterator(dt))
-      {
-         if (!f.is_regular_file())
-         {
-            continue;
-         }
-
-         if (f.path().filename().string() == "_BATI_AABB.dat")
-         {
-            foundBuild = true;
-         }
-         if (f.path().filename().string() == "_MNT_AABB.dat")
-         {
-            foundTerrain = true;
-         }
-         //if (f.path().filename().string().ends_with("_<MyDataSuffix>_AABB.dat"))
-         // {
-         // <myData>Dat = f.path();
-         // found<MyData> = true;
-         // }
-      }
-   }
-   else
+   fs::path pathToLayerDirectory(layerDirectory);
+   if (!fs::exists(pathToLayerDirectory))
    {
       spdlog::error("Error, files does not exists.");
+      return {};
    }
 
    std::vector<AABB> buildingBoundingBoxes;
    std::vector<AABB> groundBoundingBoxes;
-   // std::vector<AABB> <myData>BoundingBoxes;
 
+   for (const auto& layerFile : fs::directory_iterator(pathToLayerDirectory))
+   {
+      if (!layerFile.is_regular_file())
+      {
+         continue;
+      }
 
-   if (foundBuild)
-      buildingBoundingBoxes = loadAABBFile(layerDirectory + "_BATI_AABB.dat");
+      const std::string fileName (layerFile.path().filename().string());
 
-   if (foundTerrain)
-      groundBoundingBoxes = loadAABBFile(layerDirectory + "_MNT_AABB.dat");
-   // if(foundVeget)
-   // <myData>Set = LoadAABBFile(dir+"_<MyDataSuffix>_AABB.dat");
+      if (fileName == "_BATI_AABB.dat")
+      {
+         buildingBoundingBoxes = loadAABBFile(layerFile.path().string());
+      }
+      if (fileName == "_MNT_AABB.dat")
+      {
+         groundBoundingBoxes = loadAABBFile(layerFile.path().string());
+      }
+   }
 
    AABBCollection collection;
    collection.building = buildingBoundingBoxes;

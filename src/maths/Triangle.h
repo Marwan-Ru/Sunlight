@@ -43,7 +43,6 @@ struct Triangle
 
 /**
 *	A list of triangle
-*
 */
 struct TriangleList
 {

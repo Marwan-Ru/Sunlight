@@ -35,7 +35,7 @@ public:
     *	@brief Build a new rayBox
     *	@param ori Origin of the rayBox
     *	@param dir Direction of the rayBox
-    *   @param id oh the rayBox
+    * @param id oh the rayBox
     */
     RayBox(glm::highp_dvec3 ori = glm::highp_dvec3(0.0, 0.0, 0.0), glm::highp_dvec3 dir = glm::highp_dvec3(1.0, 1.0, 1.0), int id = -1);
 
