@@ -25,6 +25,7 @@
 #include <utils/DateTime.h>
 #include <citygmls/CityObject.h>
 #include <parsers/AABBParser.h>
+#include <parsers/SunEarthParser.h>
 
 ///
 /// \brief SetupFileOrder create a std::queue queueing the files intersected by a given RayBoxCollection and sorted by intersection distance
@@ -226,13 +227,13 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     int iEndDate = encodeDateTime(endDate, 23);
 
     // *** Compute sun's beam direction from sunpathFile and associate them to an hour encoded as an int. *** //
-    std::map<int, glm::highp_dvec3> SunsBeamsDir = loadSunpathFile(sunpathFile, iStartDate, iEndDate);
+    SunEarthToolsParser sunParser (sunpathFile, iStartDate, iEndDate);
 
     // *** Build datetime_sunnyMap : result map associating a datetime to sunny info *** //
     //This map is created once as the sun beams are always the same in one simulation and will be associated with each triangle
     std::map<int, bool> datetime_sunnyMap;
 
-    for (auto const& beamdir : SunsBeamsDir) //For all sun beams
+    for (auto const& beamdir : sunParser.getDirectionTowardsTheSun()) //For all sun beams
     {
         if (beamdir.second == glm::highp_dvec3(0.0, 0.0, 0.0)) //If beam direction is nul, i.e. sun is down
             datetime_sunnyMap[beamdir.first] = false; //sunny = false
@@ -307,7 +308,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
             //Create rayBoxCollection (All the rays for this triangle)
             RayBoxCollection* raysboxes = new RayBoxCollection();
 
-            for (auto const& beamdir : SunsBeamsDir)
+            for (auto const& beamdir : sunParser.getDirectionTowardsTheSun())
             {
                 //If direction is null (ie sun is too low) leave triangle in the shadow and go to next iteration
                 if (beamdir.second == glm::highp_dvec3(0.0, 0.0, 0.0))
