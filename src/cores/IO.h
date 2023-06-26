@@ -69,8 +69,23 @@ void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* f
 ///
 std::map<int, glm::highp_dvec3> loadSunpathFile(std::string sunpathFile, int iStartDate, int iEndDate);
 
+/**
+ * @brief Rotate a vector using a quaternion
+ * @param vec Vector to rotate
+ * @param q Rotation amount in vector
+ * @return 
+*/
+glm::highp_dvec3 rotateVector(const glm::highp_dvec3& vec, const glm::dquat& q);
 
 /// \brief Compute sun rotation given an azimut and elevation angle
 /// \param azimutAngleInDegrees Azimut angle of the sun</param>
 /// \param elevationAngleInDegrees Elevation angle of the sun
 glm::dquat computeSunRotation(double azimutAngleInRadians, double elevationAngleInRadians);
+
+/**
+* @brief Compute sun direction given an azimut and elevation angle in radians
+* @param azimutAngleInRadians Azimut angle in radians of the sun
+* @param elevationAngleInRadians Elevation angle in radians of the sun
+* @return Normalized direction towards the sun
+*/
+glm::highp_dvec3 computeDirectionTowardsTheSun(double azimutAngleInRadians, double elevationAngleInRadians);

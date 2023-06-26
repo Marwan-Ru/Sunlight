@@ -6,16 +6,12 @@
 #include <fstream>
 #include <filesystem>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/trigonometric.hpp>
 
 #include "IO.h"
 #include "FileInfo.h"
 #include <maths/Triangle.h>
 #include <utils/DateTime.h>
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 
 void createOutputFolders(const std::string& sOutputDir)
 {
@@ -35,7 +31,6 @@ void createOutputFolders(const std::string& sOutputDir)
 
 void createFileFolder(FileInfo* file, const std::string& sOutputDir)
 {
-
     //Create folder corresponding to file
     std::filesystem::path path(sOutputDir + "Sunlight/" + file->WithPrevFolder() + "/");
 
@@ -70,7 +65,7 @@ void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* f
     }
 }
 
-glm::highp_dvec3 RotateVector(const glm::highp_dvec3& vec, const glm::dquat& q)
+glm::highp_dvec3 rotateVector(const glm::highp_dvec3& vec, const glm::dquat& q)
 {
     glm::dquat qConj = glm::conjugate(q);
     glm::dquat qTemp = qConj * glm::dquat(0.0f, vec.x, vec.y, vec.z) * q;
@@ -79,22 +74,16 @@ glm::highp_dvec3 RotateVector(const glm::highp_dvec3& vec, const glm::dquat& q)
 
 glm::dquat computeSunRotation(double azimutAngleInRadians, double elevationAngleInRadians)
 {
-    glm::dquat elevationQuaternion(glm::highp_dvec3(-elevationAngleInRadians, 0, 0));
-    glm::dquat azimutQuaternion(glm::highp_dvec3(0, 0, azimutAngleInRadians));
+    glm::dquat elevationQuaternion (glm::highp_dvec3(-elevationAngleInRadians, 0, 0));
+    glm::dquat azimutQuaternion (glm::highp_dvec3(0, 0, azimutAngleInRadians));
 
     return elevationQuaternion * azimutQuaternion;
 }
 
-///
-/// \brief computeBeamDir Compute sun direction given an azimut and elevation angle
-/// \param azimutAngle Azimut angle of the sun
-/// \param elevationAngle Elevation angle of the sun
-/// \return Beam normalized direction vector
-///
-glm::highp_dvec3 computeBeamDir(double azimutAngle, double elevationAngle)
+glm::highp_dvec3 computeDirectionTowardsTheSun(double azimutAngleInRadians, double elevationAngleInRadians)
 {
     //if sun to low (angle < 1 degree), return nul beam direction
-    if (elevationAngle <= 0.01 || azimutAngle <= 0.01)
+    if (elevationAngleInRadians <= 0.01 || azimutAngleInRadians <= 0.01)
         return glm::highp_dvec3(0.0, 0.0, 0.0);
    
     //Lambert 93 Coordinates
@@ -103,8 +92,8 @@ glm::highp_dvec3 computeBeamDir(double azimutAngle, double elevationAngle)
     glm::highp_dvec3 sunBasePosition (glm::highp_dvec3(0.0, 60000.0, 0.0));
     
     // Rotate the sun base position with the rotation at a given time (or azimut / elevation)
-    glm::dquat finalRotation(computeSunRotation(azimutAngle, elevationAngle));
-    glm::highp_dvec3 sunPositionAfterRotation (RotateVector(sunBasePosition, finalRotation) + originOffset);
+    glm::dquat finalRotation (computeSunRotation(azimutAngleInRadians, elevationAngleInRadians));
+    glm::highp_dvec3 sunPositionAfterRotation (rotateVector(sunBasePosition, finalRotation) + originOffset);
 
     //Compute sun beam direction
     glm::highp_dvec3 directionToSun (sunPositionAfterRotation - originOffset);
@@ -161,30 +150,27 @@ std::map<int, glm::highp_dvec3> loadSunpathFile(std::string sunpathFile, int iSt
             int hour = 0;
             while (std::getline(lineStream, cell, ';'))
             {
-                //Get azimutAngle
-                double azimutAngle;
-
-                if (cell == "--" || cell == "")
-                    azimutAngle = 0.0;
-                else
-                    azimutAngle = std::stod(cell) * M_PI / 180; //Conversion to radian
+                // 0.0 default value if the sun is low
+                double azimutAngleInRadians (0.0);
+                if (cell != "--" && cell != "")
+                {
+                   azimutAngleInRadians = glm::radians(std::stod(cell));
+                }
 
                 //Get next cell (elevation angle)
                 std::getline(lineStream, cell, ';');
 
-                double elevationAngle;
-
-                //Add Elevation angle
-                if (cell == "--" || cell == "")
-                    elevationAngle = 0.0;
-                else
-                    elevationAngle = std::stod(cell) * M_PI / 180;
+                double elevationAngleInRadians (0.0);
+                if (cell != "--" && cell != "")
+                {
+                   elevationAngleInRadians = glm::radians(std::stod(cell));
+                }
 
                 //Encode datetime
                 int dateTime = encodeDateTime(sCurrentDate, hour);
 
                 //Compute Sun's beam Direction
-                SunBeamDir[dateTime] = computeBeamDir(azimutAngle, elevationAngle);
+                SunBeamDir[dateTime] = computeDirectionTowardsTheSun(azimutAngleInRadians, elevationAngleInRadians);
 
                 ++hour;
             }
