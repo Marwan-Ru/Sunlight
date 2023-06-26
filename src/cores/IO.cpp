@@ -7,6 +7,8 @@
 #include <filesystem>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/trigonometric.hpp>
+// Log in console
+#include <spdlog/spdlog.h>
 
 #include "IO.h"
 #include "FileInfo.h"
@@ -101,20 +103,26 @@ glm::highp_dvec3 computeDirectionTowardsTheSun(double azimutAngleInRadians, doub
     return glm::normalize(directionToSun);
 }
 
-std::map<int, glm::highp_dvec3> loadSunpathFile(std::string sunpathFile, int iStartDate, int iEndDate)
+std::map<int, glm::highp_dvec3> loadSunpathFile(std::string sunPathFile, int iStartDate, int iEndDate)
 {
-    std::map<int, glm::highp_dvec3> SunBeamDir;
+    std::ifstream sunFile(sunPathFile);
+    if (!sunFile.is_open())
+    {
+       spdlog::error("Failed to open {}", sunPathFile);
+       return {};
+    }
 
-    std::ifstream file(sunpathFile); //Load file
-    std::string line;
+    std::map<int, glm::highp_dvec3> SunBeamDir;
 
     bool found = false; //Date found
     bool exit_loop = false;
 
-    //Skip header line
-    std::getline(file, line);
+    std::string line;
 
-    while (std::getline(file, line) && exit_loop == false) // For all lines of csv file
+    //Skip header line
+    std::getline(sunFile, line);
+
+    while (std::getline(sunFile, line) && exit_loop == false) // For all lines of csv file
     {
         std::stringstream  lineStream(line);
         std::string        cell;
@@ -194,7 +202,9 @@ std::map<int, glm::highp_dvec3> loadSunpathFile(std::string sunpathFile, int iSt
     }
 
     if (found == false)
-        std::cerr << "Error while loading Annual SunPath file." << std::endl;
+    {
+       spdlog::error("Do not found any date corresponding while loading Annual SunPath file.");
+    }
 
     return SunBeamDir;
 }
