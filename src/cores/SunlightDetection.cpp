@@ -244,12 +244,21 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     // *** Load AABB of all files *** //
     AABBCollection boxes = LoadLayersAABBs(fileDir);
 
-    //Concatenate buildingAABB and terrainAABB
-    std::vector<AABB> building_terrainBB;
+    // No layer AABB exist in the datas directery
+    if (boxes.building.empty() && boxes.ground.empty())
+    {
+       spdlog::error("Missing Layer AABB files. Can't compute sunlight...");
+       fileLogger->error("Missing Layer AABB files. Can't compute sunlight...");
+       return;
+    }
 
-    building_terrainBB.reserve(boxes.building.size() + boxes.terrain.size()); //preallocate memory
-    building_terrainBB.insert(building_terrainBB.end(), boxes.building.begin(), boxes.building.end()); // insert building AABB
-    building_terrainBB.insert(building_terrainBB.end(), boxes.terrain.begin(), boxes.terrain.end()); // insert terrain AABB
+
+    //Concatenate buildingAABB and terrainAABB
+    std::vector<AABB> layerBoundingBoxes;
+
+    layerBoundingBoxes.reserve(boxes.building.size() + boxes.ground.size()); //preallocate memory
+    layerBoundingBoxes.insert(layerBoundingBoxes.end(), boxes.building.begin(), boxes.building.end()); // insert building AABB
+    layerBoundingBoxes.insert(layerBoundingBoxes.end(), boxes.ground.begin(), boxes.ground.end()); // insert terrain AABB
 
 
     // *** Load files to analyse *** //
@@ -287,7 +296,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
         for (Triangle* t : trianglesfile->triangles) //Loop through each triangle
         {
-            spdlog::info("Triangle {} of {}...", cpt_tri, trianglesfile->triangles.size());
+            spdlog::debug("Triangle {} of {}...", cpt_tri, trianglesfile->triangles.size());
 
             //Initialize sunlight Info results
             std::map<int, bool> datetimeSunInfo = datetime_sunnyMap;
@@ -321,7 +330,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
             }
 
             //Setup and get the file's boxes in the right intersection order
-            std::queue<RayBoxHit> fileOrder = SetupFileOrder(building_terrainBB, raysboxes);
+            std::queue<RayBoxHit> fileOrder = SetupFileOrder(layerBoundingBoxes, raysboxes);
 
             //While we have boxes, files
             while (fileOrder.size() != 0)
@@ -354,6 +363,17 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                     std::string path_B_AABB = fBoxHit.m_filepath.substr(0, extensionPos) + "_Building_AABB.dat";
 
                     std::vector<AABB> B_AABB = LoadAABBFile(path_B_AABB);
+
+                    if (B_AABB.empty())
+                    {
+                       spdlog::error("Missing Building AABB file. Can't check intersection with {}...", path_B_AABB);
+                       fileLogger->error("Missing Building AABB file. Can't check intersection with {}...", path_B_AABB);
+
+                       // Avoid leaking pointers
+                       delete rayboxBuilding;
+
+                       continue;
+                    }
 
                     //Setup AABB (The sorting is not essential here, we could just go "inside" an AABB when an intersection is found).
                     std::queue<RayBoxHit> B_AABB_Order = SetupFileOrder(B_AABB, rayboxBuilding);

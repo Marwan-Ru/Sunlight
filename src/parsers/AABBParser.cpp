@@ -4,6 +4,8 @@
 #include <citygmls/Tile.h>
 #include <citygmls/CityObject.h>
 #include <citygmls/CityModel.h>
+// Log in console
+#include <spdlog/spdlog.h>
 
 #include <filesystem>
 #include <iostream>
@@ -19,6 +21,12 @@ std::vector<AABB> LoadAABBFile(std::string path)
    char line[256];
 
    std::ifstream ifs(path, std::ifstream::in);
+
+   if (!ifs)
+   {
+      spdlog::error("Error with AABB file at {}", path);
+      return bSet;
+   }
 
    ifs.getline(line, 256);
 
@@ -68,8 +76,6 @@ AABBCollection LoadLayersAABBs(std::string dir)
    // In order to add a new data set, uncomment exemple and replace fillers <..> by your data
    bool foundBuild = false;
    bool foundTerrain = false;
-   bool foundWater = false;
-   bool foundVeget = false;
    // bool found<MyData> = false;
 
    //Check if our bounding box files do exists
@@ -83,21 +89,13 @@ AABBCollection LoadLayersAABBs(std::string dir)
             continue;
          }
 
-         if (f.path().filename().string().ends_with("_BATI_AABB.dat"))
+         if (f.path().filename().string() == "_BATI_AABB.dat")
          {
             foundBuild = true;
          }
-         if (f.path().filename().string().ends_with("_MNT_AABB.dat"))
+         if (f.path().filename().string() == "_MNT_AABB.dat")
          {
             foundTerrain = true;
-         }
-         if (f.path().filename().string().ends_with("_WATER_AABB.dat"))
-         {
-            foundWater = true;
-         }
-         if (f.path().filename().string().ends_with("_VEGET_AABB.dat"))
-         {
-            foundVeget = true;
          }
          //if (f.path().filename().string().ends_with("_<MyDataSuffix>_AABB.dat"))
          // {
@@ -108,36 +106,25 @@ AABBCollection LoadLayersAABBs(std::string dir)
    }
    else
    {
-      std::cout << "Error, files does not exists." << std::endl;
+      spdlog::error("Error, files does not exists.");
    }
 
-   std::vector<AABB> bSet;
-   std::vector<AABB> tSet;
-   std::vector<AABB> wSet;
-   std::vector<AABB> vSet;
-   // std::vector<AABB> <myData>Set;
+   std::vector<AABB> buildingBoundingBoxes;
+   std::vector<AABB> groundBoundingBoxes;
+   // std::vector<AABB> <myData>BoundingBoxes;
 
 
    if (foundBuild)
-      bSet = LoadAABBFile(dir + "_BATI_AABB.dat");
+      buildingBoundingBoxes = LoadAABBFile(dir + "_BATI_AABB.dat");
 
    if (foundTerrain)
-      tSet = LoadAABBFile(dir + "_MNT_AABB.dat");
-
-   if (foundWater)
-      wSet = LoadAABBFile(dir + "_WATER_AABB.dat");
-
-   if (foundVeget)
-      vSet = LoadAABBFile(dir + "_VEGET_AABB.dat");
-
+      groundBoundingBoxes = LoadAABBFile(dir + "_MNT_AABB.dat");
    // if(foundVeget)
    // <myData>Set = LoadAABBFile(dir+"_<MyDataSuffix>_AABB.dat");
 
    AABBCollection collection;
-   collection.building = bSet;
-   collection.terrain = tSet;
-   collection.water = wSet;
-   collection.veget = vSet;
+   collection.building = buildingBoundingBoxes;
+   collection.ground = groundBoundingBoxes;
    // collection.<myData> = <myData>Set;
 
    return collection;
@@ -181,7 +168,7 @@ std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> DoBuildAABB
          }
 
          AABBs.insert(std::make_pair(L.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + L.Name + ".gml", std::make_pair(min, max)));
-         std::cout << "File : " << L.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + L.Name + ".gml" << std::endl;
+         spdlog::info("File : {}/{}_{}/{}_{}{}.gml", L.Name, std::to_string(x), std::to_string(y), std::to_string(x), std::to_string(y), L.Name);
       }
    }
 
@@ -247,7 +234,7 @@ void BuildLayersAABBs(std::string dir)
       DoSaveAABB(dir + L.Name + "_AABB.dat", AABBs);
    }
 
-   std::cout << "Done." << std::endl;
+   spdlog::info("Done.");
 }
 
 ///
@@ -346,7 +333,7 @@ void BuildBuildingAABBs(std::string buildingFilesFolder)
       if (!fileName.ends_with(".gml"))
          continue;
 
-      std::cout << "File : " << fileName << std::endl;
+      spdlog::info("File : {}", fileName);
       doBuildBuildingAABBs(filePath);
    }
 }
