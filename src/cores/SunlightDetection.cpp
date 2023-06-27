@@ -4,7 +4,6 @@
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
 #include <algorithm>
-#include <queue>
 #include <fstream>
 #include <string>
 #include <glm/vec3.hpp>
@@ -17,27 +16,22 @@
 #include "SunlightDetection.h"
 #include "SunlightCsvExporter.h"
 #include "FileInfo.h"
-#include <maths/AABB.h>
-#include <maths/Triangle.h>
-#include "maths/RayTracing.h"
 #include <maths/Hit.h>
-#include <maths/RayBox.h>
 #include <utils/Timer.h>
 #include <utils/DateTime.h>
 #include <citygmls/CityObject.h>
 #include <parsers/AABBParser.h>
 #include <parsers/SunEarthParser.h>
 
-///
-/// \brief SetupFileOrder create a std::queue queueing the files intersected by a given RayBoxCollection and sorted by intersection distance
-/// \param boxes Vector of files' bounding boxes to check intersection with
-/// \param rays Rays for intersection with bounding boxes testing
-/// \return a std::queue of RayboxHit sorted by intersection distance (min first)
-///
-std::queue<RayBoxHit> SetupFileOrder(const std::vector<AABB>& boxes, RayBoxCollection* rays)
+
+std::queue<RayBoxHit> intersectAndSortByDistance(const std::vector<AABB>& boxes, RayBoxCollection* rays)
 {
-    std::map<std::string, int> boxToMaxOrder; //The order in which the box has been crossed : if a ray cross multiple AABB, we record the order of crossing in each one
-    std::map<std::string, RayBoxHit> boxToRayBoxHit;//We keep record of the smallest rayboxhit of a box /// MultiResolution
+   //The order in which the box has been crossed : if a ray cross multiple AABB, we record the order of crossing in each one
+    std::map<std::string, int> boxToMaxOrder;
+
+    //We keep record of the smallest rayboxhit of a box
+    // MultiResolution
+    std::map<std::string, RayBoxHit> boxToRayBoxHit;
 
     for (unsigned int i = 0; i < boxes.size(); i++)
     {
@@ -108,31 +102,25 @@ std::queue<RayBoxHit> SetupFileOrder(const std::vector<AABB>& boxes, RayBoxColle
     return fileOrder;
 }
 
-///
-/// \brief CreateRayBoxCollection Keep all the rays that intersect with the current AABB and
-///                               that do not already correspond to an hour when the current triangle is in the shadow.
-/// \param currentBBName Name of the current AABB.
-/// \param allRayBoxes All rays for a triangle (corresponding to all the times of sunlight computation)
-/// \param datetimeSunInfo Map holding sun and shadow information for current triangle.
-/// \return A collection of RayBox intersecting with the current BB and not already intersecting with other geometries.
-///
-RayBoxCollection* CreateRayBoxCollection(const std::string& currentBBName, const RayBoxCollection* allRayBoxes, std::map<int, bool>& datetimeSunInfo)
+
+
+RayBoxCollection* keepIntersectRaysBoxWith(const std::string& currentBBName, const RayBoxCollection* allRayBoxes, std::map<int, bool>& datetimeSunInfo)
 {
     RayBoxCollection* raysBoxes = new RayBoxCollection();//Not all rays intersect the box
 
     //We only get the rays that intersect with the box
     for (unsigned int i = 0; i < allRayBoxes->raysBB.size(); i++)
     {
-        RayBox* raybox = new RayBox();
-
-        *raybox = *(allRayBoxes->raysBB[i]);//Get the ray
+        RayBox* raybox = allRayBoxes->raysBB[i]; //Get the ray
 
         bool found = false;
 
         for (RayBoxHit& rbh : raybox->boxes)//Go through all the boxes that the ray intersect to see if the current box is one of them
             found = found || rbh.box.name == currentBBName;
 
-        if (found && datetimeSunInfo[raybox->id] == true) //If triangle is already in the shadow at this datetime, no need throw ray again
+        // If a triangle is already in the shadow at this datetime, no need throw ray again
+        // (e.g the sun is low)
+        if (found && datetimeSunInfo[raybox->id] == true)
         {
             raysBoxes->raysBB.push_back(raybox);
         }
@@ -141,15 +129,9 @@ RayBoxCollection* CreateRayBoxCollection(const std::string& currentBBName, const
     return raysBoxes;
 }
 
-///
-/// \brief CreateRays Keep all the rays that intersect with the current AABB and
-///                   that do not already correspond to an hour when the current triangle is in the shadow.
-/// \param currentBBName Name of the current AABB.
-/// \param allRayBoxes All rays for a triangle (corresponding to all the times of sunlight computation)
-/// \param datetimeSunInfo Map holding sun and shadow information for current triangle.
-/// \return A collection of Rays intersecting with the current BB and not already intersecting with other geometries.
-///
-RayCollection CreateRays(const std::string& currentBBName, const RayBoxCollection* allRayBoxes, std::map<int, bool>& datetimeSunInfo)
+
+
+RayCollection keepIntersectRaysWith(const std::string& currentBBName, const RayBoxCollection* allRayBoxes, std::map<int, bool>& datetimeSunInfo)
 {
     RayCollection rays;//Not all rays intersect the box
 
@@ -163,7 +145,9 @@ RayCollection CreateRays(const std::string& currentBBName, const RayBoxCollectio
         for (RayBoxHit& rbh : raybox->boxes)//Go through all the boxes that the ray intersect to see if the current box is one of them
             found = found || rbh.box.name == currentBBName;
 
-        if (found && datetimeSunInfo[raybox->id] == true) //If triangle is already in the shadow at this datetime, no need throw ray again
+        // If triangle is already in the shadow at this datetime, no need throw ray again
+        // (e.g the sun is low)
+        if (found && datetimeSunInfo[raybox->id] == true)
             rays.rays.push_back(raybox);
     }
 
@@ -171,15 +155,9 @@ RayCollection CreateRays(const std::string& currentBBName, const RayBoxCollectio
 
 }
 
-///
-/// \brief RayTraceTriangles Load triangle list, run raytracing algorithm and update sunshine information.
-/// \param filepath Path to file to check intersection with (current tile)
-/// \param fileType Type of the file to check intersection with (current tile)
-/// \param cityObjId Id of cityObject to test intersection with (Multi-resolution for _BATI)
-/// \param rayColl Collection of Rays.
-/// \param datetimeSunInfo Map holding sun and shadow information for current triangle.
-///
-void RayTraceTriangles(const std::string& filepath, const CityObjectsType& fileType, const std::string& cityObjId,
+
+
+void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& filepath, const CityObjectsType& fileType, const std::string& cityObjId,
     RayCollection& rayColl, std::map<int, bool>& datetimeSunInfo)
 {
     //Get the triangle list of files matching intersected AABB
@@ -205,7 +183,9 @@ void RayTraceTriangles(const std::string& filepath, const CityObjectsType& fileT
     delete tmpHits;
 }
 
-void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, std::string outputDir)
+
+
+void computeSunlight(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, std::string outputDir)
 {
     Timer timer;
     timer.start();
@@ -215,13 +195,11 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
     //Create output folders
     createOutputFolders(outputDir);
 
-    //Log file
-    const auto LOG_FILE_PATH(outputDir + "/Sunlight/logFile.txt");
-    
     // Create a file rotating logger with 5 MB size max and 3 rotated files
+    const auto LOG_FILE_PATH (outputDir + "/Sunlight/logFile.txt");
     const auto MAX_LOG_SIZE = 1048576 * 5;
     const auto MAX_LOG_FILES = 3;
-    auto fileLogger = spdlog::rotating_logger_mt("some_logger_name", LOG_FILE_PATH, MAX_LOG_SIZE, MAX_LOG_FILES);
+    auto fileLogger = spdlog::rotating_logger_mt("sunlight_detection", LOG_FILE_PATH, MAX_LOG_SIZE, MAX_LOG_FILES);
 
     //Convert dates to integer
     int iStartDate = encodeDateTime(startDate, 0);
@@ -330,7 +308,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
             }
 
             //Setup and get the file's boxes in the right intersection order
-            std::queue<RayBoxHit> fileOrder = SetupFileOrder(layerBoundingBoxes, raysboxes);
+            std::queue<RayBoxHit> fileOrder = intersectAndSortByDistance(layerBoundingBoxes, raysboxes);
 
             //While we have boxes, files
             while (fileOrder.size() != 0)
@@ -351,7 +329,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                     //Create RayBoxes
                     RayBoxCollection* rayboxBuilding = new RayBoxCollection();
 
-                    rayboxBuilding = CreateRayBoxCollection(fileName_boxhit, raysboxes, datetimeSunInfo);
+                    rayboxBuilding = keepIntersectRaysBoxWith(fileName_boxhit, raysboxes, datetimeSunInfo);
 
                     //Clear current boxes associated to rays because they correspond to AABB of tiles.
                     //We will now recompute the boxes associated to rays using one level deeper AABB (Building AABB)
@@ -374,7 +352,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                     }
 
                     //Setup AABB (The sorting is not essential here, we could just go "inside" an AABB when an intersection is found).
-                    std::queue<RayBoxHit> B_AABB_Order = SetupFileOrder(B_AABB, rayboxBuilding);
+                    std::queue<RayBoxHit> B_AABB_Order = intersectAndSortByDistance(B_AABB, rayboxBuilding);
 
                     while (B_AABB_Order.size() != 0) //For each intersected AABB
                     {
@@ -385,7 +363,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
 
                         std::string cityObjId = fileName_BuildBoxhit; //CityObj is the name of the Building intersected
 
-                        RayCollection raysTemp = CreateRays(fileName_BuildBoxhit, rayboxBuilding, datetimeSunInfo); //Create Rays
+                        RayCollection raysTemp = keepIntersectRaysWith(fileName_BuildBoxhit, rayboxBuilding, datetimeSunInfo); //Create Rays
 
                         //If no rays, continue
                         if (raysTemp.rays.size() == 0)
@@ -395,7 +373,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                         }
 
                         //Raytracing on current building (thanks to cityObjId)
-                        RayTraceTriangles(fBoxHit.getPath(), CityObjectsType::COT_Building, cityObjId, raysTemp, datetimeSunInfo);
+                        loadTriangleAndCheckIntersectionAndUpdateSunlightResult(fBoxHit.getPath(), CityObjectsType::COT_Building, cityObjId, raysTemp, datetimeSunInfo);
 
                         raysTemp.rays.clear();
 
@@ -406,7 +384,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                 }
                 else if (fBoxHit.getType() == CityGMLFileType::_MNT) //If _MNT, no multiresolution
                 {
-                    RayCollection raysTemp = CreateRays(fileName_boxhit, raysboxes, datetimeSunInfo);
+                    RayCollection raysTemp = keepIntersectRaysWith(fileName_boxhit, raysboxes, datetimeSunInfo);
 
                     if (raysTemp.rays.size() == 0)
                     {
@@ -414,7 +392,7 @@ void SunlightDetection(std::string fileDir, std::vector<FileInfo*> filenames, st
                         continue;
                     }
 
-                    RayTraceTriangles(fBoxHit.getPath(), CityObjectsType::COT_TINRelief, cityObjId, raysTemp, datetimeSunInfo);
+                    loadTriangleAndCheckIntersectionAndUpdateSunlightResult(fBoxHit.getPath(), CityObjectsType::COT_TINRelief, cityObjId, raysTemp, datetimeSunInfo);
 
                     //Clear rays
                     raysTemp.rays.clear();
