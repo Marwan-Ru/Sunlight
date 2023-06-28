@@ -16,7 +16,7 @@ int main()
    ///// </summary>
    const std::string rootDirectory(".\\datas\\LYON_3EME_2018\\");
    const std::string sunlightCsv(".\\datas\\AnnualSunPath_Lyon.csv");
-   const std::vector<FileInfo*> testingFiles(getAllGmlTilesIn(rootDirectory));
+   const std::vector<FileInfo*> testingFiles(getAllTilesIn(rootDirectory));
 
    int BENCHMARK_RUN(30);
    for (size_t i = 1; i <= BENCHMARK_RUN; i++)
