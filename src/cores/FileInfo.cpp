@@ -17,29 +17,46 @@ FileInfo::FileInfo(std::string filepath)
 
     //Find type from path
     if (m_filepath.find("_BATI") != std::string::npos)
-        m_type = fileType::_BATI;
+        m_type = CityGMLFileType::_BATI;
     else if (m_filepath.find("_MNT") != std::string::npos)
-        m_type = fileType::_MNT;
+        m_type = CityGMLFileType::_MNT;
 
 }
 
-std::string FileInfo::WithGMLExtension()
+const std::string& FileInfo::getPath() const
 {
-    return m_filename.append(".gml");
+   return m_filepath;
 }
 
-std::string FileInfo::WithPrevFolder()
+const CityGMLFileType& FileInfo::getType() const
 {
-    if (m_type == fileType::_BATI)
+   return m_type;
+}
+
+std::string FileInfo::withGMLExtension() const
+{
+    return m_filename + ".gml";
+}
+
+std::string FileInfo::withPrevFolder() const
+{
+    if (m_type == CityGMLFileType::_BATI)
         return "_BATI/" + m_filename;
-    else if (m_type == fileType::_MNT)
+    else if (m_type == CityGMLFileType::_MNT)
         return "_MNT/" + m_filename;
     else
         return "";
 }
 
-std::string FileInfo::WithPrevFolderAndGMLExtension()
+std::string FileInfo::withPrevFolderAndGMLExtension() const
 {
-    std::string result = this->WithPrevFolder() + ".gml";
-    return result;
+    return withPrevFolder() + ".gml";
+}
+
+std::string FileInfo::getPathForBoundingBox() const
+{
+   size_t extensionPos = m_filepath.find(".gml");
+   std::string boundingBoxPath = m_filepath.substr(0, extensionPos) + "_Building_AABB.dat";
+
+   return boundingBoxPath;
 }
