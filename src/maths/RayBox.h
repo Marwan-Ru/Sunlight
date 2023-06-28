@@ -51,20 +51,3 @@ public:
     std::vector<RayBoxHit> boxes;///< List of boxes that this ray go through
 
 };
-
-
-
-/**
-*	@brief A collection of RayBox
-*/
-struct RayBoxCollection
-{
-    /**
-    *	@brief Build a new collection
-    */
-    RayBoxCollection(std::vector<RayBox*> raysBoxes = std::vector<RayBox*>());
-
-    ~RayBoxCollection();
-
-    std::vector<RayBox*> raysBB;///< The rays of the collection
-};

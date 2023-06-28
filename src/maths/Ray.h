@@ -6,6 +6,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
@@ -34,7 +35,7 @@ struct Ray
     *	@param hit Information about the intersection will be stored in it
     *	@return True if this ray intersect with the triangle, false otherwise
     */
-    bool Intersect(Triangle* triangle, Hit* hit = nullptr);
+    bool Intersect(std::shared_ptr<Triangle> triangle, Hit* hit = nullptr);
 
     int id;///< Id of the ray
     glm::highp_dvec2 fragCoord;///< Fragment coordinate of the ray
@@ -42,19 +43,4 @@ struct Ray
     glm::highp_dvec3 direction;///< Direction of the ray
     glm::highp_dvec3 inv_direction;///< inv Direction of the ray
     int sign[3];
-};
-
-/**
-*	@brief A collection of rays
-*/
-struct RayCollection
-{
-    /**
-    *	@brief Build a new collection
-    */
-    RayCollection(std::vector<Ray*> rays = std::vector<Ray*>());
-
-    ~RayCollection();
-
-    std::vector<Ray*> rays;///< Rays of the collection
 };

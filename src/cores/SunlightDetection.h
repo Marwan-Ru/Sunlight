@@ -23,7 +23,7 @@ class FileInfo;
  * @param rays Rays for intersection with bounding boxes testing.
  * @return a std::queue of RayboxHit sorted by intersection distance (min first).
 */
-std::queue<RayBoxHit> intersectAndSortByDistance(const std::vector<AABB>& boxes, RayBoxCollection* rays);
+std::queue<RayBoxHit> intersectAndSortByDistance(const std::vector<AABB>& boxes, const std::vector<std::shared_ptr<RayBox>>& rays);
 
 /**
  * @brief Keep all the rays box that intersect with the current AABB and that do not already correspond
@@ -33,7 +33,7 @@ std::queue<RayBoxHit> intersectAndSortByDistance(const std::vector<AABB>& boxes,
  * @param datetimeSunInfo Map holding sun and shadow information for current triangle.
  * @return A collection of RayBox intersecting with the current BB and not already intersecting with other geometries.
 */
-RayBoxCollection* keepIntersectRaysBoxWith(const std::string& currentBBName, const RayBoxCollection* allRayBoxes, std::map<int, bool>& datetimeSunInfo);
+std::vector<std::shared_ptr<RayBox>> keepIntersectRaysBoxWith(const std::string& currentBBName, const std::vector<std::shared_ptr<RayBox>>& allRayBoxes, std::map<int, bool>& datetimeSunInfo);
 
 /**
  * @brief Keep all the rays that intersect with the current AABB and that do not already correspond
@@ -43,7 +43,7 @@ RayBoxCollection* keepIntersectRaysBoxWith(const std::string& currentBBName, con
  * @param datetimeSunInfo Map holding sun and shadow information for current triangle.
  * @return A collection of Rays intersecting with the current BB and not already intersecting with other geometries.
 */
-RayCollection keepIntersectRaysWith(const std::string& currentBBName, const RayBoxCollection* allRayBoxes, std::map<int, bool>& datetimeSunInfo);
+std::vector<std::shared_ptr<Ray>> keepIntersectRaysWith(const std::string& currentBBName, const std::vector<std::shared_ptr<RayBox>>& allRayBoxes, std::map<int, bool>& datetimeSunInfo);
 
 /**
  * @brief Load triangle list, run raytracing algorithm and update sunshine information.
@@ -53,7 +53,7 @@ RayCollection keepIntersectRaysWith(const std::string& currentBBName, const RayB
  * @param rayColl Collection of Rays.
  * @param datetimeSunInfo Map holding sun and shadow result for current triangle that will be updated.
 */
-void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& filepath, const CityObjectsType& fileType, const std::string& cityObjId, RayCollection& rayColl, std::map<int, bool>& datetimeSunInfo);
+void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& filepath, const CityObjectsType& fileType, const std::string& cityObjId, const std::vector<std::shared_ptr<Ray>>& rayColl, std::map<int, bool>& datetimeSunInfo);
 
 /**
  * @brief Compute sunlight on a given set of cityGML tiles on a predefined period.
@@ -64,4 +64,4 @@ void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& 
  * @param endDate End date coded as integer.
  * @param outputDir Full path to output directory
 */
-void computeSunlight(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, std::string outputDir);
+void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& filenames, const std::string& sunpathFile, const std::string& startDate, const std::string& endDate, const std::string& outputDir);

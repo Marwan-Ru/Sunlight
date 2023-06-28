@@ -14,9 +14,9 @@ int main()
    ///// <summary>
    ///// Testing if the computed output is identical to the expected output (old 3DUSE)
    ///// </summary>
-   const std::string rootDirectory(".\\datas\\LYON_3EME_2018\\");
+   const std::string rootDirectory(".\\datas\\LYON_1ER_47BATI_2018\\");
    const std::string sunlightCsv(".\\datas\\AnnualSunPath_Lyon.csv");
-   const std::vector<FileInfo*> testingFiles(getAllTilesIn(rootDirectory));
+   const auto testingFiles(getAllTilesIn(rootDirectory));
 
    int BENCHMARK_RUN(30);
    for (size_t i = 1; i <= BENCHMARK_RUN; i++)

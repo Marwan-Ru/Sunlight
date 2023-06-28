@@ -6,7 +6,6 @@
 #include <thread>
 
 #include "RayTracing.h"
-#include "Ray.h"
 #include "Triangle.h"
 #include "Hit.h"
 
@@ -15,8 +14,8 @@
 */
 struct RayTracingData
 {
-    TriangleList* triangles; ///< List of triangles of a 3D Model
-    std::vector<Ray*>* rowToDo; ///< List of ray to use for ray tracing
+    std::vector<std::shared_ptr<Triangle>>* triangles; ///< List of triangles of a 3D Model
+    std::vector<std::shared_ptr<Ray>>* rowToDo; ///< List of ray to use for ray tracing
     std::vector<Hit*>* Hits; ///< List of hits which store the intersections informations
     bool breakOnFirstInter; ///< If true, stop raytracing when an intersection is found. If false, compute all intersections between rays and triangles.
 };
@@ -24,43 +23,39 @@ struct RayTracingData
 //Loop through all triangles and check if any rays intersect with triangles
 void RayLoop(const RayTracingData& data)
 {
-    for (unsigned int k = 0; k < data.rowToDo->size(); k++)
-    {
-        Ray* ray = data.rowToDo->at(k);
+   for (unsigned int k = 0; k < data.rowToDo->size(); k++)
+   {
+      auto ray (data.rowToDo->at(k));
 
-        for (unsigned int l = 0; l < data.triangles->triangles.size(); l++)
-        {
-            Triangle* tri = data.triangles->triangles.at(l);
+      for (const auto& tri : (*data.triangles))
+      {
+         Hit* hit = new Hit();
+         if (ray->Intersect(tri, hit))//Check if the ray hit the triangle and
+         {
+               data.Hits->push_back(hit);
 
-            Hit* hit = new Hit();
-            if (ray->Intersect(tri, hit))//Check if the ray hit the triangle and
-            {
-                data.Hits->push_back(hit);
-
-                if (data.breakOnFirstInter) //No need to test other intersections for this ray if we want to stop after first intersection is found
-                    break;
-            }
-            else
-            {
-                delete hit;
-            }
-
-        }
-
-    }
+            if (data.breakOnFirstInter) //No need to test other intersections for this ray if we want to stop after first intersection is found
+               break;
+         }
+         else
+         {
+            delete hit;
+         }
+      }
+   }
 }
 
-std::vector<Hit*>* RayTracing(TriangleList* triangles, const std::vector<Ray*>& rays, bool breakOnFirstInter)
+std::vector<Hit*>* RayTracing(std::vector<std::shared_ptr<Triangle>>* triangles, const std::vector<std::shared_ptr<Ray>>& rays, bool breakOnFirstInter)
 {
-    unsigned int tCount = std::thread::hardware_concurrency() - 1;//Get how many thread we have
-    unsigned int rayPerThread = static_cast<unsigned int>(rays.size()) / tCount;
+   unsigned int tCount = std::thread::hardware_concurrency() - 1;//Get how many thread we have
+   unsigned int rayPerThread = static_cast<unsigned int>(rays.size()) / tCount;
 
-    //List of rays and their frag coord
-    std::vector<Ray*>* toDo = new std::vector<Ray*>[tCount];//List of rays for each threads
+   //List of rays and their frag coord
+   std::vector<std::shared_ptr<Ray>>* toDo = new std::vector<std::shared_ptr<Ray>>[tCount];//List of rays for each threads
 
     for (unsigned int i = 0; i < tCount; i++)
     {
-        toDo[i].insert(toDo[i].begin(), rays.begin() + i * rayPerThread, rays.begin() + (i + 1) * rayPerThread);
+       toDo[i].insert(toDo[i].begin(), rays.begin() + i * rayPerThread, rays.begin() + (i + 1) * rayPerThread);
     }
 
     //If number of Ray is not a multiple of thread number, add the rest of the ray to the threads
@@ -126,7 +121,8 @@ std::vector<Hit*>* RayTracing(TriangleList* triangles, const std::vector<Ray*>& 
     hitsArray->clear();
     delete[] hitsArray;
 
-    delete[] toDo;
+    toDo->clear();
+    toDo = nullptr;
 
     return hits;
 }
