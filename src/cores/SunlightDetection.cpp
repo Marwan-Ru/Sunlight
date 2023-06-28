@@ -185,7 +185,7 @@ void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& 
 
 
 
-void computeSunlight(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, std::string outputDir)
+void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& filenames, const std::string& sunpathFile, const std::string& startDate, const std::string& endDate, const std::string& outputDir)
 {
     Timer timer;
     timer.start();
@@ -244,24 +244,24 @@ void computeSunlight(std::string fileDir, std::vector<FileInfo*> filenames, std:
     unsigned int cpt_files = 1;
     double time_tot = 0.0;
 
-    for (FileInfo* f : filenames) //Loop through files
+    for (const auto& f : filenames) //Loop through files
     {
         spdlog::info("===================================================");
-        spdlog::info("Computation of file {}...", f->withPrevFolderAndGMLExtension());
+        spdlog::info("Computation of file {}...", f.withPrevFolderAndGMLExtension());
         spdlog::info("===================================================");
 
         //Log file
-        const auto text ("File " + f->withPrevFolderAndGMLExtension());
+        const auto text ("File " + f.withPrevFolderAndGMLExtension());
         spdlog::info(text);
         fileLogger->info(text);
 
         //Load TriangleList of file to compute sunlight for
         TriangleList* trianglesfile;
 
-        if (f->getType() == CityGMLFileType::_BATI)
-            trianglesfile = BuildTriangleList(f->getPath(), CityObjectsType::COT_Building);
-        else if (f->getType() == CityGMLFileType::_MNT)
-            trianglesfile = BuildTriangleList(f->getPath(), CityObjectsType::COT_TINRelief);
+        if (f.getType() == CityGMLFileType::_BATI)
+            trianglesfile = BuildTriangleList(f.getPath(), CityObjectsType::COT_Building);
+        else if (f.getType() == CityGMLFileType::_MNT)
+            trianglesfile = BuildTriangleList(f.getPath(), CityObjectsType::COT_TINRelief);
         else
             trianglesfile = new TriangleList();
 
@@ -423,10 +423,6 @@ void computeSunlight(std::string fileDir, std::vector<FileInfo*> filenames, std:
         timer.restart();
         ++cpt_files;
     }
-
-    //Delete files info
-    for (unsigned int i = 0; i < filenames.size(); ++i)
-        delete filenames[i];
 
     spdlog::info("Total time : {}s", time_tot);
 }

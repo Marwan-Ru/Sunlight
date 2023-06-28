@@ -64,4 +64,4 @@ void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& 
  * @param endDate End date coded as integer.
  * @param outputDir Full path to output directory
 */
-void computeSunlight(std::string fileDir, std::vector<FileInfo*> filenames, std::string sunpathFile, std::string startDate, std::string endDate, std::string outputDir);
+void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& filenames, const std::string& sunpathFile, const std::string& startDate, const std::string& endDate, const std::string& outputDir);

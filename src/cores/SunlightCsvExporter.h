@@ -39,7 +39,7 @@ void createOutputFolders(const std::string& sOutputDir);
  * @param file File to create folder for
  * @param sOutputDir Full path of the output directory
 */
-void createFileFolder(FileInfo* file, const std::string& sOutputDir);
+void createFileFolder(const FileInfo& file, const std::string& sOutputDir);
 
 /**
  * @brief Export Sunlight results of a given triangle into a csv
@@ -50,4 +50,4 @@ void createFileFolder(FileInfo* file, const std::string& sOutputDir);
  * @param iEndDate End date of sunlight computation encoded as int
  * @param outputDir Full path to output directory
 */
-void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* triangle, FileInfo* file, int iStartDate, int iEndDate, std::string& outputDir);
+void exportLightningToCSV(std::map<int, bool>& sunInfo, const Triangle* triangle, const FileInfo& file, int iStartDate, int iEndDate, const std::string& outputDir);

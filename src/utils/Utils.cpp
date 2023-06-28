@@ -33,9 +33,9 @@ std::istream& operator>>(std::istream& is, glm::vec2& v)
     return is >> v.x >> v.y;
 }
 
-std::vector<FileInfo*> searchGmlFilesInLayer(const fs::directory_entry& layerFolder)
+std::vector<FileInfo> searchGmlFilesInLayer(const fs::directory_entry& layerFolder)
 {
-   std::vector<FileInfo*> result;
+   std::vector<FileInfo> result;
 
    // Loop in tile Folder
    for (const auto& tileFolder : fs::directory_iterator(layerFolder))
@@ -52,7 +52,7 @@ std::vector<FileInfo*> searchGmlFilesInLayer(const fs::directory_entry& layerFol
          if (tile.path().filename().string().ends_with(".gml"))
          {
             auto tileAbsolutePath (fs::absolute(tile.path()));
-            result.push_back(new FileInfo(tileAbsolutePath.string()));
+            result.push_back(FileInfo(tileAbsolutePath.string()));
          }
       }
    }
@@ -60,9 +60,9 @@ std::vector<FileInfo*> searchGmlFilesInLayer(const fs::directory_entry& layerFol
    return result;
 }
 
-std::vector<FileInfo*> getAllTilesIn(const std::string& cityGmlDirectory)
+std::vector<FileInfo> getAllTilesIn(const std::string& cityGmlDirectory)
 {
-   std::vector<FileInfo*> result;
+   std::vector<FileInfo> result;
 
    fs::path parentPath(cityGmlDirectory);
 

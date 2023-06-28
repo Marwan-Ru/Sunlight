@@ -28,10 +28,10 @@ void createOutputFolders(const std::string& sOutputDir)
         std::filesystem::create_directory(outputDirMnt);
 }
 
-void createFileFolder(FileInfo* file, const std::string& sOutputDir)
+void createFileFolder(const FileInfo& file, const std::string& sOutputDir)
 {
     //Create folder corresponding to file
-    std::filesystem::path path(sOutputDir + "Sunlight/" + file->withPrevFolder() + "/");
+    std::filesystem::path path(sOutputDir + "Sunlight/" + file.withPrevFolder() + "/");
 
     // Replace all existant datas to the lastet computation
     if (std::filesystem::exists(path))
@@ -40,7 +40,7 @@ void createFileFolder(FileInfo* file, const std::string& sOutputDir)
     std::filesystem::create_directory(path);
 }
 
-void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* file, int iStartDate, int iEndDate, std::string& outputDir)
+void exportLightningToCSV(std::map<int, bool>& sunInfo, const Triangle* t, const FileInfo& file, int iStartDate, int iEndDate, const std::string& outputDir)
 {
     int nb_days = (iEndDate - iStartDate + 1) / 24;
 
@@ -53,7 +53,7 @@ void exportLightningToCSV(std::map<int, bool>& sunInfo, Triangle* t, FileInfo* f
 
         //Create and open file
         std::ofstream ofs;
-        ofs.open(outputDir + "/Sunlight/" + file->withPrevFolder() + "/" + day + ".csv", std::ofstream::app);
+        ofs.open(outputDir + "/Sunlight/" + file.withPrevFolder() + "/" + day + ".csv", std::ofstream::app);
 
         for (int i = 0; i < 24; ++i) //For each hour
         {
