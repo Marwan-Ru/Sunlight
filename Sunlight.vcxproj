@@ -171,7 +171,7 @@
     <ClCompile Include="src\citygmls\Tile.cpp" />
     <ClCompile Include="src\citygmls\URI.cpp" />
     <ClCompile Include="src\cores\FileInfo.cpp" />
-    <ClCompile Include="src\cores\IO.cpp" />
+    <ClCompile Include="src\cores\SunlightCsvExporter.cpp" />
     <ClCompile Include="src\cores\SunlightDetection.cpp" />
     <ClCompile Include="src\maths\AABB.cpp" />
     <ClCompile Include="src\maths\Ray.cpp" />
@@ -184,6 +184,7 @@
     <ClCompile Include="src\utils\DateTime.cpp" />
     <ClCompile Include="src\utils\Timer.cpp" />
     <ClCompile Include="src\utils\Utils.cpp" />
+    <ClCompile Include="src\parsers\SunEarthParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\parsers\AABBParser.h" />
@@ -217,7 +218,7 @@
     <ClInclude Include="src\citygmls\Tile.h" />
     <ClInclude Include="src\citygmls\URI.h" />
     <ClInclude Include="src\cores\FileInfo.h" />
-    <ClInclude Include="src\cores\IO.h" />
+    <ClInclude Include="src\cores\SunlightCsvExporter.h" />
     <ClInclude Include="src\cores\SunlightDetection.h" />
     <ClInclude Include="src\maths\AABB.h" />
     <ClInclude Include="src\maths\Hit.h" />
@@ -231,6 +232,7 @@
     <ClInclude Include="src\utils\DateTime.h" />
     <ClInclude Include="src\utils\Timer.h" />
     <ClInclude Include="src\utils\Utils.h" />
+    <ClInclude Include="src\parsers\SunEarthParser.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
