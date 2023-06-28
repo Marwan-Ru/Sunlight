@@ -15,6 +15,7 @@
 
 #include "SunlightDetection.h"
 #include "SunlightCsvExporter.h"
+#include "SunlightObjExporter.h"
 #include "FileInfo.h"
 #include <maths/Hit.h>
 #include <utils/Timer.h>
@@ -161,9 +162,7 @@ void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& 
                                                             const std::vector<std::shared_ptr<Ray>>& rayColl, std::map<int, bool>& datetimeSunInfo)
 {
     //Get the triangle list of files matching intersected AABB
-    TriangleList* trianglesTemp;
-
-    trianglesTemp = BuildTriangleList(filepath, fileType, cityObjId, rayColl.at(0)->origin.z);
+   std::vector<std::shared_ptr<Triangle>>* trianglesTemp = BuildTriangleList(filepath, fileType, cityObjId, rayColl.at(0)->origin.z);
 
     //Perform raytracing
     std::vector<Hit*>* tmpHits = RayTracing(trianglesTemp, rayColl, true);
@@ -256,25 +255,31 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
         fileLogger->info(text);
 
         //Load TriangleList of file to compute sunlight for
-        TriangleList* trianglesfile;
+        std::vector<std::shared_ptr<Triangle>>* triangles {};
 
         if (f.getType() == CityGMLFileType::_BATI)
-            trianglesfile = BuildTriangleList(f.getPath(), CityObjectsType::COT_Building);
+        {
+           triangles = BuildTriangleList(f.getPath(), CityObjectsType::COT_Building);
+        }
         else if (f.getType() == CityGMLFileType::_MNT)
-            trianglesfile = BuildTriangleList(f.getPath(), CityObjectsType::COT_TINRelief);
+        {
+           triangles = BuildTriangleList(f.getPath(), CityObjectsType::COT_TINRelief);
+        }
         else
-            trianglesfile = new TriangleList();
+        {
+           spdlog::error("Unsupported file type at {}", f.getPath());
+        }
 
-        fileLogger->info("Triangles Number : {}", trianglesfile->triangles.size());
+        fileLogger->info("Triangles Number : {}", triangles->size());
 
         //Create csv file where results will be written
         createFileFolder(f, outputDir);
 
         int cpt_tri = 1;//output print purpose
 
-        for (Triangle* t : trianglesfile->triangles) //Loop through each triangle
+        for (const auto t : (*triangles)) //Loop through each triangle
         {
-            spdlog::debug("Triangle {} of {}...", cpt_tri, trianglesfile->triangles.size());
+           spdlog::debug("Triangle {} of {}...", cpt_tri, triangles->size());
 
             //Initialize sunlight Info results
             std::map<int, bool> datetimeSunInfo = datetime_sunnyMap;
@@ -399,7 +404,7 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
         }
 
         //Delete TriangleList
-        delete trianglesfile;
+        delete triangles;
 
         spdlog::info("===================================================");
         spdlog::info("file {} of {} done in : {}s", cpt_files, filenames.size(), timer.getElapsedInSeconds());

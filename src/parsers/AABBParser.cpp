@@ -156,9 +156,9 @@ std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> buildAABB(c
          fs::path File(FileName);
          if (fs::exists(File))
          {
-            TriangleList* list = BuildTriangleList(FileName, type);
+            std::vector<std::shared_ptr<Triangle>>* triangles = BuildTriangleList(FileName, type);
 
-            for (Triangle* t : list->triangles) //Pour eliminer les points anormaux (qui ont des coordonnees z absurdes), on fait un petit filtre en verifiant ces valeurs de z.
+            for (const auto& t: (*triangles)) //Pour eliminer les points anormaux (qui ont des coordonnees z absurdes), on fait un petit filtre en verifiant ces valeurs de z.
             {
                min.x = std::min(t->a.x, min.x); min.y = std::min(t->a.y, min.y); if (t->a.z > -500) min.z = std::min(t->a.z, min.z);
                min.x = std::min(t->b.x, min.x); min.y = std::min(t->b.y, min.y); if (t->b.z > -500) min.z = std::min(t->b.z, min.z);
@@ -167,7 +167,7 @@ std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> buildAABB(c
                max.x = std::max(t->b.x, max.x); max.y = std::max(t->b.y, max.y); if (t->b.z < 1000) max.z = std::max(t->b.z, max.z);
                max.x = std::max(t->c.x, max.x); max.y = std::max(t->c.y, max.y); if (t->c.z < 1000) max.z = std::max(t->c.z, max.z);
             }
-            delete list;
+            delete triangles;
          }
 
          AABBs.insert(std::make_pair(tile.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + tile.Name + ".gml", std::make_pair(min, max)));

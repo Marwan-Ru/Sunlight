@@ -54,6 +54,7 @@ std::vector<std::shared_ptr<Ray>> keepIntersectRaysWith(const std::string& curre
  * @param datetimeSunInfo Map holding sun and shadow result for current triangle that will be updated.
 */
 void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& filepath, const CityObjectsType& fileType, const std::string& cityObjId, const std::vector<std::shared_ptr<Ray>>& rayColl, std::map<int, bool>& datetimeSunInfo);
+
 /**
  * @brief Compute sunlight on a given set of cityGML tiles on a predefined period.
  * @param fileDir Directory containing layer folder, that are containing tiles folder and tiles glm.

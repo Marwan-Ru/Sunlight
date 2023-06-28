@@ -28,25 +28,11 @@ glm::highp_dvec3 Triangle::GetNormal()
     return glm::triangleNormal(a, b, c);
 }
 
-
-//TriangleList
-
-TriangleList::TriangleList(std::vector<Triangle*> triangles)
-{
-    this->triangles = triangles;
-}
-
-TriangleList::~TriangleList()
-{
-    for (unsigned int i = 0; i < triangles.size(); ++i)
-        delete triangles[i];
-}
-
-TriangleList* BuildTriangleList(const std::string& tilefilename, const CityObjectsType& objectType, const std::string& cityObjId, const double& zMin)
+std::vector<std::shared_ptr<Triangle>>* BuildTriangleList(const std::string& tilefilename, const CityObjectsType& objectType, const std::string& cityObjId, const double& zMin)
 {
     double epsilon = 0.0001;
 
-    std::vector<Triangle*> triangles;
+    std::vector<std::shared_ptr<Triangle>>* triangles = new std::vector<std::shared_ptr<Triangle>>();
 
     Tile* tile = new Tile(tilefilename);
 
@@ -77,14 +63,14 @@ TriangleList* BuildTriangleList(const std::string& tilefilename, const CityObjec
                             if (a.z - zMin < epsilon && b.z - zMin < epsilon && c.z - zMin < epsilon)
                                 continue;
 
-                            Triangle* t = new Triangle(a, b, c);
-                            t->subObjectType = object->getType();
-                            t->objectType = obj->getType();
-                            t->objectId = obj->getId();
-                            t->polygonId = PolygonCityGML->getId();
-                            t->tileFile = tilefilename;
+                            Triangle t = Triangle(a, b, c);
+                            t.subObjectType = object->getType();
+                            t.objectType = obj->getType();
+                            t.objectId = obj->getId();
+                            t.polygonId = PolygonCityGML->getId();
+                            t.tileFile = tilefilename;
 
-                            triangles.push_back(t);
+                            triangles->push_back(std::make_shared<Triangle>(t));
                         }
                     }
         }
@@ -113,13 +99,13 @@ TriangleList* BuildTriangleList(const std::string& tilefilename, const CityObjec
                         if (a.z - zMin < epsilon && b.z - zMin < epsilon && c.z - zMin < epsilon)
                             continue;
 
-                        Triangle* t = new Triangle(a, b, c);
-                        t->objectType = obj->getType();
-                        t->objectId = obj->getId();
-                        t->polygonId = PolygonCityGML->getId();
-                        t->tileFile = tilefilename;
+                        Triangle t = Triangle(a, b, c);
+                        t.objectType = obj->getType();
+                        t.objectId = obj->getId();
+                        t.polygonId = PolygonCityGML->getId();
+                        t.tileFile = tilefilename;
 
-                        triangles.push_back(t);
+                        triangles->push_back(std::make_shared<Triangle>(t));
                     }
                 }
         }
@@ -127,5 +113,5 @@ TriangleList* BuildTriangleList(const std::string& tilefilename, const CityObjec
 
     delete tile;
 
-    return new TriangleList(triangles);
+    return triangles;
 }

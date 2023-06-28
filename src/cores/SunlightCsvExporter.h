@@ -50,4 +50,4 @@ void createFileFolder(const FileInfo& file, const std::string& sOutputDir);
  * @param iEndDate End date of sunlight computation encoded as int
  * @param outputDir Full path to output directory
 */
-void exportLightningToCSV(std::map<int, bool>& sunInfo, const Triangle* triangle, const FileInfo& file, int iStartDate, int iEndDate, const std::string& outputDir);
+void exportLightningToCSV(std::map<int, bool>& sunInfo, const std::shared_ptr<Triangle>& triangle, const FileInfo& file, int iStartDate, int iEndDate, const std::string& outputDir);

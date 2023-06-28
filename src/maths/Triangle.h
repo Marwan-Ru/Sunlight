@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 #include <glm/vec3.hpp>
 
 #ifdef _MSC_VER
@@ -42,20 +43,6 @@ struct Triangle
 };
 
 /**
-*	A list of triangle
-*/
-struct TriangleList
-{
-    /**
-    *	@brief Build a new collection of triangle
-    */
-    TriangleList(std::vector<Triangle*> triangles = std::vector<Triangle*>());
-    ~TriangleList();
-
-    std::vector<Triangle*> triangles;///< Triangles of the list
-};
-
-/**
 *	@brief Build list of triangle from a CityGML building tile
 *	@param tile CityGML tile from which we want the triangle list
 *	@param viewpoint Data about the viewpoint we are rendering
@@ -67,7 +54,7 @@ struct TriangleList
 *          Default = -10000.0
 *	@return The list of triangle from the CityGML tile
 */
-TriangleList* BuildTriangleList(
+std::vector<std::shared_ptr<Triangle>>* BuildTriangleList(
     const std::string& tilefilename,
     const CityObjectsType& objectType,
     const std::string& cityObjId = "",

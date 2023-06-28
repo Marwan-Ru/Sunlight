@@ -3,8 +3,8 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
-#include <glm/gtc/matrix_transform.hpp> 
-#include <glm/gtx/intersect.hpp> 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/intersect.hpp>
 
 #include "Ray.h"
 #include "Hit.h"
@@ -27,7 +27,7 @@ Ray::Ray(glm::highp_dvec3 ori, glm::highp_dvec3 dir, int id)
 
 //Ray triangle intersection, from geometric tools engine
 //License : http://www.boost.org/LICENSE_1_0.txt
-bool Ray::Intersect(Triangle* triangle, Hit* hit)
+bool Ray::Intersect(std::shared_ptr<Triangle> triangle, Hit* hit)
 {
     Hit tempHit;
     if (glm::intersectLineTriangle(origin, direction, triangle->a, triangle->b, triangle->c, tempHit.impactPoint))
