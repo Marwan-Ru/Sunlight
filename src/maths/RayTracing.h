@@ -6,9 +6,11 @@
 #pragma once
 
 #include <vector>
+#include <memory>
+
+#include "Ray.h"
 
 struct Hit;
-struct Ray;
 struct TriangleList;
 
 /**
@@ -19,4 +21,4 @@ struct TriangleList;
 *                            Default : false (compute all intersections between rays and triangles).
 *   @return list of hits
 */
-std::vector<Hit*>* RayTracing(TriangleList* triangles, const std::vector<Ray*>& rays, bool breakOnFirstInter = false);
+std::vector<Hit*>* RayTracing(TriangleList* triangles, const std::vector<std::shared_ptr<Ray>>& rays, bool breakOnFirstInter = false);

@@ -45,16 +45,3 @@ bool Ray::Intersect(Triangle* triangle, Hit* hit)
 
     return false;
 }
-
-//RayCollection
-
-RayCollection::RayCollection(std::vector<Ray*> rays)
-{
-    this->rays = rays;
-}
-
-RayCollection::~RayCollection()
-{
-    for (unsigned int i = 0; i < rays.size(); ++i)
-        delete rays[i];
-}

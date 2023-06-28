@@ -43,18 +43,3 @@ struct Ray
     glm::highp_dvec3 inv_direction;///< inv Direction of the ray
     int sign[3];
 };
-
-/**
-*	@brief A collection of rays
-*/
-struct RayCollection
-{
-    /**
-    *	@brief Build a new collection
-    */
-    RayCollection(std::vector<Ray*> rays = std::vector<Ray*>());
-
-    ~RayCollection();
-
-    std::vector<Ray*> rays;///< Rays of the collection
-};

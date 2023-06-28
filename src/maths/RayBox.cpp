@@ -17,19 +17,6 @@ bool operator<(const RayBoxHit& a, const RayBoxHit& b)
     return a.minDistance < b.minDistance;
 }
 
-//RayBoxCollection
-
-RayBoxCollection::RayBoxCollection(std::vector<RayBox*> raysBoxes)
-{
-    this->raysBB = raysBoxes;
-}
-
-RayBoxCollection::~RayBoxCollection()
-{
-    for (unsigned int i = 0; i < raysBB.size(); ++i)
-        delete raysBB[i];
-}
-
 //RayBox
 
 RayBox::RayBox(glm::highp_dvec3 ori, glm::highp_dvec3 dir, int id)
