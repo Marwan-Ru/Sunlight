@@ -25,6 +25,8 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
+#include <cores/FileInfo.h>
+
 namespace fs = std::filesystem;
 
 // Helpers
@@ -115,3 +117,17 @@ std::istream& operator>>(std::istream& is, glm::highp_dvec3& v);
 std::istream& operator>>(std::istream& is, glm::vec3& v);
 
 std::istream& operator>>(std::istream& is, glm::vec2& v);
+
+/**
+ * @brief Search all gml files in layerFolder and create FileInfos instances
+ * @param layerFolder Layer folder containing all tiles folder and tiles glm (e.g _BATI/3615_2590/3615_2590.gml)
+ * @return A vector of FileInfo describing all gml files in the correct folder structure
+*/
+std::vector<FileInfo*> searchGmlFilesInLayer(const fs::directory_entry& layerFolder);
+
+/**
+ * @brief Get all Tiles in a directory (following the folder structure of sunlight)
+ * @param cityGmlDirectory Root directory containing subdirectories of layers (_BATI or _MNT)
+ * @return A vectir if FileInfo corresponding to each layer
+*/
+std::vector<FileInfo*> getAllTilesIn(const std::string& cityGmlDirectory);
