@@ -40,3 +40,7 @@ x64/Debug/
 x64/
 
 datas/Sunlight/logFile.txt
+
+*.bkp
+
+*.dtmp

@@ -1,14 +1,14 @@
-<mxfile host="Electron" modified="2023-06-28T11:59:55.388Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.5.0 Chrome/112.0.5615.204 Electron/24.5.1 Safari/537.36" etag="G5Ahxm7n2Esm9xkJtkXg" version="21.5.0" type="device">
+<mxfile host="Electron" modified="2023-06-30T11:30:38.892Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.5.0 Chrome/112.0.5615.204 Electron/24.5.1 Safari/537.36" etag="7r34T1SHwhrj8v3vFc6b" version="21.5.0" type="device">
   <diagram name="Page-1" id="e7e014a7-5840-1c2e-5031-d8a46d1fe8dd">
     <mxGraphModel dx="2058" dy="1188" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="33" value="&lt;&lt; file &gt;&gt;&#xa;3DTiles with &#xa;Sunlight batch table" style="" parent="1" vertex="1">
-          <mxGeometry x="740" y="318" width="120" height="70" as="geometry" />
+          <mxGeometry x="725" y="318" width="120" height="70" as="geometry" />
         </mxCell>
         <mxCell id="xqJaoPUtZrrg-3-AXKoa-38" value="act&lt;span style=&quot;font-weight: normal;&quot;&gt; Computes and Display Sunlight impact (CityGML CityGML, File Sun_Positions, Date Start_Date, Date End_Date)&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="40" y="270" width="1120" height="230" as="geometry" />
+          <mxGeometry x="25" y="270" width="1120" height="230" as="geometry" />
         </mxCell>
         <mxCell id="EWjZ0ozyYWg2ALglQimF-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;" parent="xqJaoPUtZrrg-3-AXKoa-38" target="EWjZ0ozyYWg2ALglQimF-41" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -84,13 +84,13 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="xqJaoPUtZrrg-3-AXKoa-42" value="End_Date" style="" parent="1" vertex="1">
-          <mxGeometry x="540" y="485" width="120" height="40" as="geometry" />
+          <mxGeometry x="525" y="485" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="xqJaoPUtZrrg-3-AXKoa-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;" parent="1" source="xqJaoPUtZrrg-3-AXKoa-42" target="10" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="600" y="400" />
-              <mxPoint x="600" y="400" />
+              <mxPoint x="585" y="400" />
+              <mxPoint x="585" y="400" />
             </Array>
           </mxGeometry>
         </mxCell>
