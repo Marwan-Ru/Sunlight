@@ -20,8 +20,8 @@ Sunlight (repo)
 |    ├── maths                # Mathematical and geometrical class
 |    ├── parsers
 |    ├── third-partys         # Externals libraries (parser, mathematics...)
-|        ├── libxml2-vc143	  # Parser XML for cityGML
-|        ├── spdlog-1.11.0	  # Console and file logging
+|        ├── libxml2-vc143    # Parser XML for cityGML
+|        ├── spdlog-1.11.0    # Console and file logging
 |
 |    ├── utils                # Small utils / helpers (timer, operators override...)
 |
