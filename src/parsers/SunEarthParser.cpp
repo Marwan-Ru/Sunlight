@@ -88,6 +88,10 @@ std::map<int, glm::highp_dvec3> SunEarthToolsParser::loadSunpathFile(const std::
 
             //Compute Sun's beam Direction
             SunBeamDir[dateTime] = computeDirectionTowardsTheSun(azimutAngleInRadians, elevationAngleInRadians);
+            if (SunBeamDir[dateTime] == glm::dvec3(0, 0, 0))
+            {
+               spdlog::warn("Sun is too low to compute sunlight for {} {} with azimut angle ({}) and elevation angle ({})", sCurrentDate, hour, azimutAngleInRadians, elevationAngleInRadians);
+            }
 
             ++hour;
          }
@@ -101,6 +105,7 @@ std::map<int, glm::highp_dvec3> SunEarthToolsParser::loadSunpathFile(const std::
             //Add nul beam direction for last hour of the day
             int dateTime = encodeDateTime(sCurrentDate, hour);
             SunBeamDir[dateTime] = glm::highp_dvec3(0.0, 0.0, 0.0);
+            spdlog::warn("Timeshift detected, so the position for {} {} will not be computed", sCurrentDate, hour);
          }
 
          //*** End of the part which needs to be commented out
