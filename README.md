@@ -10,8 +10,8 @@ Here is the pipeline we follow for Sunlight :
 Sunlight (repo)
 ├── datas                     # Datas use for testing
 ├── packages
-|    ├── boost.1.82.0		      # Boost is use to compare two string with better performance
-|    ├── glm.0.9.9.800		    # Mathematical and geometrical libraries (vec3, quat4...)
+|    ├── boost.1.82.0		  # Boost is use to compare two string with better performance
+|    ├── glm.0.9.9.800		  # Mathematical and geometrical libraries (vec3, quat4...)
 |
 ├── src                       # Source code
 |    ├── ADE
@@ -25,7 +25,7 @@ Sunlight (repo)
 |
 |    ├── utils                # Small utils / helpers (timer, operators override...)
 |
-├── .editorconfig			        # Formatting rules and configuration
+├── .editorconfig			  # Formatting rules and configuration
 ├── .gitattributes            # Define Large Files (.gml, .dat...)
 ├── .gitignore                # Files/folders ignored by Git
 ├── Readme.md
