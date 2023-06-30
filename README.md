@@ -1,5 +1,9 @@
 # Sunlight
 
+### Pipeline - Activity Chart
+Here is the pipeline we follow for Sunlight :
+![Pipeline Activity Chart](./docs/Pipeline_Activity_Chart.png)
+
 ### Directory Hierarchy
 
 ```
