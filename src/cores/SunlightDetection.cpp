@@ -272,13 +272,16 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
 
         fileLogger->info("Triangles Number : {}", triangles->size());
 
+        SunlightObjExporter resultExporter;
         //Create csv file where results will be written
         createFileFolder(f, outputDir);
 
         int cpt_tri = 1;//output print purpose
 
-        for (const auto t : (*triangles)) //Loop through each triangle
+        for (auto it = triangles->begin(); it != triangles->end(); ++it) //Loop through each triangle
         {
+           std::shared_ptr<Triangle> t = *it;
+
            spdlog::debug("Triangle {} of {}...", cpt_tri, triangles->size());
 
             //Initialize sunlight Info results
@@ -397,6 +400,7 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
             }
 
             exportLightningToCSV(datetimeSunInfo, t, f, iStartDate, iEndDate, outputDir); //Export result for this triangle in csv files
+            resultExporter.exportResult(datetimeSunInfo, t, f, iStartDate, iEndDate, outputDir);
 
             raysBoxes.clear();
 
