@@ -7,8 +7,8 @@
 #include <libxml/SAX.h>
 #include <libxml/xlink.h>
 #include <libxml/xpath.h>
-#include <boost/algorithm/string.hpp>
-//#include "../../object.hpp"
+// String comparaison with strcmp
+#include <cstring>
 
 #include "DocumentHandler.h"
 #include <citygmls/CityGml.h>
@@ -62,34 +62,35 @@ std::string DocumentHandler::getIDfromQuery(std::string query)
 
 void DocumentHandler::startElement(std::string name, void* attributes)
 {
-
+   // Transform name in uppercase to compare with other string without taking account case issue
     name = removeNamespace(name);
+    std::transform(name.begin(), name.end(), name.begin(), [](unsigned char c) { return std::toupper(c); });
 
-    if (boost::iequals(name,"DocumentObject"))
+    if (strcmp(name.c_str(), "DOCUMENTOBJECT") == 0)
     {
        _currentDocument = new documentADE::DocumentObject(getGmlIdAttribute( attributes ));
         std::cout << "document object: " <<_currentDocument->getId()<< std::endl;
         _documents.push_back(_currentDocument);
         pushObject(_currentDocument);
     }
-    else if (boost::iequals(name,"reference"))
+    else if (strcmp(name.c_str(), "REFERENCE") == 0)
     {
         _currentReference = new documentADE::Reference(getGmlIdAttribute( attributes ));
         std::cout << "reference: " <<_currentReference->getId()<< std::endl;
         _references.push_back(_currentReference);
     }
-    else if (boost::iequals(name, "tag"))
+    else if (strcmp(name.c_str(), "TAG") == 0)
     {
        _currentTag = new documentADE::Tag(getGmlIdAttribute( attributes ));
         std::cout << "tag: " <<_currentTag->getId()<< std::endl;
     }
-    else if (boost::iequals(name,"referringTo"))
+    else if (strcmp(name.c_str(), "REFERRINGTO") == 0)
     {
         GenericCityObject* cityObject = new  GenericCityObject(getGmlIdAttribute( attributes ));
        _currentReference->setReferencedCityObject(cityObject);
 
     }
-    else if (boost::iequals(name, "referredBy"))
+    else if (strcmp(name.c_str(), "REFERREDBY") == 0)
     {
         documentADE::DocumentObject* document = new documentADE::DocumentObject(getGmlIdAttribute( attributes ));
        _currentReference->setReferenceDocument(document);
@@ -116,34 +117,34 @@ void DocumentHandler::setDocumentAttributeValue(std::string name)
 
 void DocumentHandler::endElement(std::string name)
 {
+   // Transform name in uppercase to compare with other string without taking account case issue
+   name = removeNamespace(name);
+   std::transform(name.begin(), name.end(), name.begin(), [](unsigned char c) { return std::toupper(c); });
 
-    name = removeNamespace(name);
-
-    if (boost::iequals(name,"DocumentObject"))
+    if (strcmp(name.c_str(), "DOCUMENTOBJECT") == 0)
     {
         CityModel** model = getModel();
         (*model)->addCityObjectAsRoot(_currentDocument);
     }
-    else if (boost::iequals(name,"reference"))
+    else if (strcmp(name.c_str(), "REFERENCE") == 0)
     {
        _currentReference = nullptr;
     }
-    else if (boost::iequals(name,"title") ||
-             boost::iequals(name,"identifier") ||
-             boost::iequals(name,"creator") ||
-             boost::iequals(name,"publicationDate")
-             )
+    else if (strcmp(name.c_str(), "TITLE") == 0 ||
+            strcmp(name.c_str(), "IDENTIFIER") == 0 ||
+             strcmp(name.c_str(), "CREATOR") == 0 ||
+             strcmp(name.c_str(), "PUBLICATIONDATE") == 0)
     {
         setDocumentAttributeValue(name);
     }
-    else if (boost::iequals(name, "text"))
+    else if (strcmp(name.c_str(), "TEXT") == 0)
     {
         std::stringstream buffer;
         buffer << trim(getBuff()->str());
         std::cout << name << ": " << buffer.str() << std::endl;
         _currentTag->setText(buffer.str());
     }
-    else if (boost::iequals(name,"count"))
+    else if (strcmp(name.c_str(), "COUNT") == 0)
     {
         std::stringstream buffer;
         buffer << trim(getBuff()->str());
