@@ -31,6 +31,7 @@
 #include <citygmls/GeoReferencedTexture.h>
 #include <citygmls/GeoTransform.h>
 #include <ADE/ADE.h>
+#include <cstring>
 
 #ifndef MSVC
     #include <typeinfo>

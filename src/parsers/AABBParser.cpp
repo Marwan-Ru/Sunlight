@@ -9,6 +9,7 @@
 #include <citygmls/CityModel.h>
 #include <citygmls/Tile.h>
 
+#include <limits>
 namespace fs = std::filesystem;
 
 #pragma region Loading AABB
@@ -150,8 +151,8 @@ std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> buildAABB(c
       {
          std::string FileName = cityGmlDirectory + tile.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + tile.Name + ".gml";
 
-         glm::highp_dvec3 min(FLT_MAX, FLT_MAX, FLT_MAX);
-         glm::highp_dvec3 max(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+         glm::highp_dvec3 min(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
+         glm::highp_dvec3 max(-std::numeric_limits<double>::max(), -std::numeric_limits<double>::max(), -std::numeric_limits<double>::max());
 
          fs::path File(FileName);
          if (fs::exists(File))

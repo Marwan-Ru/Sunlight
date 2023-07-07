@@ -34,7 +34,7 @@ class Appearance;
 class AppearanceManager;
 class ParserParams;
 
-enum CityObjectsType {
+enum CityObjectsType : int {
     COT_GenericCityObject           = 1 << 0,
     COT_Building                    = 1 << 1,
     COT_Room                        = 1 << 2,
@@ -66,7 +66,7 @@ enum CityObjectsType {
     COT_FloorSurface                = 1 << 27,
     COT_InteriorWallSurface         = 1 << 28,
     COT_CeilingSurface              = 1 << 29,
-    COT_All                         = 0xFFFFFFFF
+    COT_All                         = int(0xFFFFFFFF)
 };
 typedef unsigned int CityObjectsTypeMask;
 

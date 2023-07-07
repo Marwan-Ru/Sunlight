@@ -36,7 +36,9 @@
 #include <glm/vec2.hpp>
 // Win32 caveat emptor: must always be _preceded_ (as opposed to
 // succeeded) by the inclusion of windows.h
-#include <gl/GLU.h>
+//#include <gl/GLU.h>
+#include <GL/glu.h>
+
 
 // GLU based polygon tesselator
 class Tesselator 

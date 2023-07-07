@@ -9,6 +9,7 @@
 
 #include "RayBox.h"
 #include "RayTracing.h"
+#include <limits>
 
 //RayBoxHit
 
@@ -38,7 +39,7 @@ RayBox::RayBox(glm::highp_dvec3 ori, glm::highp_dvec3 dir, int id)
 //License : http://www.pbrt.org/LICENSE.txt
 bool RayBox::Intersect(AABB box, float* hitt0, float* hitt1)
 {
-    double t0 = 0, t1 = FLT_MAX;
+    double t0 = 0, t1 = std::numeric_limits<double>::max();
     for (int i = 0; i < 3; ++i) {
         // Update interval for _i_th bounding box slab
         double invRayDir = 1. / direction[i];

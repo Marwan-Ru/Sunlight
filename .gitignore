@@ -44,3 +44,4 @@ datas/Sunlight/logFile.txt
 *.bkp
 
 *.dtmp
+build/*
