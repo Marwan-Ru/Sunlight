@@ -1,12 +1,17 @@
+# For more information about the current CMake implementation,
+# follow this link : https://github.com/VCityTeam/sunlight/issues/5
+
 # At least 3.12, because FetchContent was release at 3.12
-cmake_minimum_required(VERSION 3.12.0...3.27.0)
-project(Sunlight LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.12...3.27)
+project(sunlight LANGUAGES CXX)
 
 # Set C++ 20 for the entire project and not only for the current target,
 # as this ensures consistency across all targets
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Include fetch cmake module to fetch external content (e.g. repository...)
+include(FetchContent)
 
 
 # ============================== Add Security Check ============================== 
@@ -35,7 +40,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 
-# ============================== Add All Sunlight sources ============================== 
+# ============================== Add All sunlight sources ============================== 
 include_directories("src/")
 
 # Add all headers and sources files
@@ -44,7 +49,7 @@ include_directories("src/")
 file(GLOB_RECURSE HEADERS "src/*.h")
 file(GLOB_RECURSE SRCS "src/*.cpp")
 
-add_executable(Sunlight ${SRCS} ${HEADERS})
+add_executable(sunlight ${SRCS} ${HEADERS})
 
 
 # ============================== Add External libraries ============================== 
@@ -54,7 +59,8 @@ if (NOT OPENGL_FOUND)
   message (FATAL_ERROR "OpenGL not found.")
 endif()
 
-target_link_libraries(Sunlight ${OPENGL_LIBRARIES})
+target_link_libraries(sunlight ${OPENGL_LIBRARIES})
+
 
 # Add libxml2
 find_package(LibXml2 REQUIRED)
@@ -64,10 +70,26 @@ endif()
 
 include_directories(${LIBXML2_INCLUDE_DIR})
 ADD_DEFINITIONS("-DUSE_LIBXML2")
-target_link_libraries(Sunlight ${LIBXML2_LIBRARIES})
+target_link_libraries(sunlight ${LIBXML2_LIBRARIES})
 
-# Add spdlog
-include_directories("src/third-partys/spdlog-1.11.0/include/")
 
 # Add glm requirement
-include_directories("src/third-partys/glm.0.9.9.800/build/native/include/")
+FetchContent_Declare(
+    glm
+    GIT_REPOSITORY    https://github.com/g-truc/glm.git
+    GIT_TAG           0.9.9.8
+)
+FetchContent_MakeAvailable(glm)
+
+target_include_directories(sunlight PRIVATE ${glm_SOURCE_DIR})
+
+
+# Add spdlog
+FetchContent_Declare(
+    spdlog
+    GIT_REPOSITORY    https://github.com/gabime/spdlog.git
+    GIT_TAG           v1.11.0
+)
+FetchContent_MakeAvailable(spdlog)
+
+target_include_directories(sunlight PRIVATE ${spdlog_SOURCE_DIR}/include)
