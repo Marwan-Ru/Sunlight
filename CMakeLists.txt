@@ -2,7 +2,7 @@
 # follow this link : https://github.com/VCityTeam/sunlight/issues/5
 
 # At least 3.12, because FetchContent was release at 3.12
-cmake_minimum_required(VERSION 3.12...3.27)
+cmake_minimum_required(VERSION 3.13...3.27)
 project(sunlight LANGUAGES CXX)
 
 # Set C++ 20 for the entire project and not only for the current target,
@@ -59,21 +59,22 @@ if (NOT OPENGL_FOUND)
   message (FATAL_ERROR "OpenGL not found.")
 endif()
 
-target_link_libraries(sunlight ${OPENGL_LIBRARIES})
+target_link_libraries(sunlight ${OPENGL_gl_LIBRARY})
+target_link_libraries(sunlight ${OPENGL_glu_LIBRARY})
 
 
 # Add libxml2
-find_package(LibXml2 REQUIRED)
-if(NOT LIBXML2_FOUND)
-  message (FATAL_ERROR "LibXml2 not found.")
-endif()
+set(LibXml2 "third-partys/libxml2-2.9.3")
 
-include_directories(${LIBXML2_INCLUDE_DIR})
-ADD_DEFINITIONS("-DUSE_LIBXML2")
-target_link_libraries(sunlight ${LIBXML2_LIBRARIES})
+target_include_directories(sunlight PRIVATE ${LibXml2}/include/libxml2/)
+target_link_directories(sunlight PRIVATE ${LibXml2}/lib/)
+target_link_libraries(sunlight libxml2)
 
 
 # Add glm requirement
+# WARNING fetching an external content will always populate the build directory
+# following the standard of a lower-case name. For instance, the package LibXml2 
+# will have a macro libxml2_SOURCE_DIR and a directory libxml2-src directory.
 FetchContent_Declare(
     glm
     GIT_REPOSITORY    https://github.com/g-truc/glm.git
