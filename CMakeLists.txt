@@ -5,22 +5,30 @@
 cmake_minimum_required(VERSION 3.13...3.27)
 project(sunlight LANGUAGES CXX)
 
-# Set C++ 20 for the entire project and not only for the current target,
-# as this ensures consistency across all targets
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 # Include fetch cmake module to fetch external content (e.g. repository...)
 include(FetchContent)
 
 
-# ============================== Add Security Check ============================== 
+# ============================== Add All sunlight sources ============================== 
+# Add all headers and sources files
+# FIXME : make a list of all class available, 
+# because we can compile some file that don't need to be linked
+file(GLOB_RECURSE HEADERS "src/*.h")
+file(GLOB_RECURSE SRCS "src/*.cpp")
+
+add_executable(sunlight ${SRCS} ${HEADERS})
+
+target_include_directories(sunlight PRIVATE "src/")
+
+
+# ============================== Add Compiler Flags ============================== 
+target_compile_features(sunlight PRIVATE cxx_std_20)
 
 if(MSVC)
   # Enable Security Development Lifecycle flag in Visual Studio
   # The compiler will generate some code that does several checks at run time
   # For more information : https://learn.microsoft.com/en-us/cpp/build/reference/sdl-enable-additional-security-checks?view=msvc-170#runtime-checks
-  add_compile_options(/sdl)
+  target_compile_options(sunlight PRIVATE /sdl)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -36,20 +44,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # with safer, fortified versions of those functions (like __strcpy_chk, __sprintf_chk, and __gets_chk)
   # preventing buffer overflow vulnerabilities.
   # More information : https://wiki.debian.org/Hardening#DEB_BUILD_HARDENING_FORTIFY_.28gcc.2Fg.2B-.2B-_-D_FORTIFY_SOURCE.3D2.29
-  add_compile_options(-fstack-protector -D_FORTIFY_SOURCE=2)
+  target_compile_options(sunlight PRIVATE -fstack-protector -D_FORTIFY_SOURCE=2)
 endif()
-
-
-# ============================== Add All sunlight sources ============================== 
-include_directories("src/")
-
-# Add all headers and sources files
-# FIXME : make a list of all class available, 
-# because we can compile some file that don't need to be linked
-file(GLOB_RECURSE HEADERS "src/*.h")
-file(GLOB_RECURSE SRCS "src/*.cpp")
-
-add_executable(sunlight ${SRCS} ${HEADERS})
 
 
 # ============================== Add External libraries ============================== 
