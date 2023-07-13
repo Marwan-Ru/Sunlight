@@ -36,7 +36,7 @@ class ADEHandler;
 class Polygon;
 class LinearRing;
 class Geometry;
-enum GeometryType;
+enum GeometryType : int;
 
 typedef std::map< std::string, CityObjects > CityObjectIdentifiersMap;
 

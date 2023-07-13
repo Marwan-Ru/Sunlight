@@ -14,7 +14,7 @@
 #pragma warning(disable: 4251) // VC++ DLL jejune complains on STL _Id member
 #endif
 
-enum CityObjectsType;
+enum CityObjectsType : int;
 
 /**
 *	@brief A triangle created from a citygml polygon

@@ -195,10 +195,18 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
     createOutputFolders(outputDir);
 
     // Create a file rotating logger with 5 MB size max and 3 rotated files
-    const auto LOG_FILE_PATH (outputDir + "/Sunlight/logFile.txt");
+    const auto LOG_FILE_PATH (outputDir + "Sunlight/logFile.txt");
+    const auto LOGGER_NAME ("sunlight_detection");
     const auto MAX_LOG_SIZE = 1048576 * 5;
     const auto MAX_LOG_FILES = 3;
-    auto fileLogger = spdlog::rotating_logger_mt("sunlight_detection", LOG_FILE_PATH, MAX_LOG_SIZE, MAX_LOG_FILES);
+
+    // Verify if spdlog has already a logger define
+    std::shared_ptr<spdlog::logger> fileLogger = spdlog::get(LOGGER_NAME);
+    if (!fileLogger)
+    {
+        fileLogger = spdlog::rotating_logger_mt("sunlight_detection", LOG_FILE_PATH, MAX_LOG_SIZE, MAX_LOG_FILES);
+    }
+
 
     //Convert dates to integer
     int iStartDate = encodeDateTime(startDate, 0);

@@ -6,6 +6,7 @@
 #pragma once
 
 #include <string>
+#include <filesystem>
 
 enum CityGMLFileType
 {
@@ -27,7 +28,7 @@ public:
      * @brief Get full file path
      * @return 
     */
-    const std::string& getPath() const;
+    const std::string getPath() const;
 
     /**
      * @brief Get the file type (_BATI, _MNT...)
@@ -61,14 +62,9 @@ public:
 
 private:
     /**
-     * @brief File name of the file
-    */
-    std::string m_filename;
-
-    /**
      * @brief Full path to the path
     */
-    std::string m_filepath;
+    std::filesystem::path m_filePath;
 
     /**
      * @brief Type of the file (_BATI or _MNT)

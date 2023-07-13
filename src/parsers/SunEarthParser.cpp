@@ -1,4 +1,5 @@
 #include <fstream>
+#include <sstream>
 // Log in console
 #include <spdlog/spdlog.h>
 // Convert degrees to radians
@@ -33,7 +34,7 @@ std::map<int, glm::highp_dvec3> SunEarthToolsParser::loadSunpathFile(const std::
 
    while (std::getline(sunFile, line) && exit_loop == false) // For all lines of csv file
    {
-      std::stringstream  lineStream(line);
+      std::stringstream  lineStream (line);
       std::string        cell;
 
       std::getline(lineStream, cell, ';'); //Get first cell of row

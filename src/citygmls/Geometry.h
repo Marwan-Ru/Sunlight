@@ -28,7 +28,7 @@ class Appearance;
 class AppearanceManager;
 class ParserParams;
 
-enum GeometryType
+enum GeometryType : int
 {
     GT_Unknown = 0,
     GT_Roof,
