@@ -31,6 +31,8 @@ struct Triangle
     */
     Triangle(TVec3d a = TVec3d(0.0, 0.0, 0.0), TVec3d b = TVec3d(0.0, 0.0, 0.0), TVec3d c = TVec3d(0.0, 0.0, 0.0));
 
+    Triangle(const TVec3d& _a, const TVec3d& _b, const TVec3d& _c, const std::string& triangleId, const std::string& tileName);
+
     TVec3d GetNormal();
 
     TVec3d a; ///< First point of the triangle
@@ -41,7 +43,8 @@ struct Triangle
     CityObjectsType subObjectType;
     std::string objectId;
     std::string polygonId;
-    std::string tileFile;
+    std::string m_triangleId;
+    std::string m_tileName;
 };
 
 /**

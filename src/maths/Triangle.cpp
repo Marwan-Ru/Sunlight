@@ -21,6 +21,11 @@ Triangle::Triangle(TVec3d a, TVec3d b, TVec3d c)
     subObjectType = CityObjectsType::COT_All;
 }
 
+Triangle::Triangle(const TVec3d& _a, const TVec3d& _b, const TVec3d& _c, const std::string& triangleId, const std::string& tileName)
+   : a(_a), b(_b), c(_c), m_triangleId(triangleId), m_tileName(tileName)
+{
+}
+
 TVec3d Triangle::GetNormal()
 {
    auto x = b - a;
@@ -70,7 +75,7 @@ std::vector<std::shared_ptr<Triangle>>* BuildTriangleList(const std::string& til
                             t.objectType = obj->getType();
                             t.objectId = obj->getId();
                             t.polygonId = PolygonCityGML->getId();
-                            t.tileFile = tilefilename;
+                            t.m_tileName = tilefilename;
 
                             triangles->push_back(std::make_shared<Triangle>(t));
                         }
@@ -105,7 +110,7 @@ std::vector<std::shared_ptr<Triangle>>* BuildTriangleList(const std::string& til
                         t.objectType = obj->getType();
                         t.objectId = obj->getId();
                         t.polygonId = PolygonCityGML->getId();
-                        t.tileFile = tilefilename;
+                        t.m_tileName = tilefilename;
 
                         triangles->push_back(std::make_shared<Triangle>(t));
                     }
