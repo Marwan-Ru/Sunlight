@@ -40,7 +40,7 @@ Texture::WrapMode Texture::getWrapMode() const
     return _wrapMode;
 }
 
-glm::vec4 Texture::getBorderColor() const
+TVec4f Texture::getBorderColor() const
 {
     return _borderColor;
 }

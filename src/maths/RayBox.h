@@ -37,7 +37,7 @@ public:
     *	@param dir Direction of the rayBox
     * @param id oh the rayBox
     */
-    RayBox(glm::highp_dvec3 ori = glm::highp_dvec3(0.0, 0.0, 0.0), glm::highp_dvec3 dir = glm::highp_dvec3(1.0, 1.0, 1.0), int id = -1);
+    RayBox(TVec3d ori = TVec3d(0.0, 0.0, 0.0), TVec3d dir = TVec3d(1.0, 1.0, 1.0), int id = -1);
 
     /**
     *	@brief To know if the ray instersects a given box

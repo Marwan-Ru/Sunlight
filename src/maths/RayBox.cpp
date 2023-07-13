@@ -20,12 +20,12 @@ bool operator<(const RayBoxHit& a, const RayBoxHit& b)
 
 //RayBox
 
-RayBox::RayBox(glm::highp_dvec3 ori, glm::highp_dvec3 dir, int id)
+RayBox::RayBox(TVec3d ori, TVec3d dir, int id)
 {
     this->id = id;
     this->origin = ori;
     this->direction = dir;
-    inv_direction = glm::highp_dvec3(1 / dir.x, 1 / dir.y, 1 / dir.z);
+    inv_direction = TVec3d(1 / dir.x, 1 / dir.y, 1 / dir.z);
     sign[0] = (inv_direction.x < 0);
     sign[1] = (inv_direction.y < 0);
     sign[2] = (inv_direction.z < 0);

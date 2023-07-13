@@ -37,7 +37,7 @@ Tesselator::Tesselator()
     gluTessCallback( _tobj, GLU_TESS_ERROR_DATA, (GLU_TESS_CALLBACK)&errorCallback );
 }
 
-void Tesselator::init( size_t verticesCount, const glm::highp_dvec3& normal, GLenum winding_rule )
+void Tesselator::init( size_t verticesCount, const TVec3d& normal, GLenum winding_rule )
 {
     gluTessBeginPolygon( _tobj, this ); 
 
@@ -60,7 +60,7 @@ void Tesselator::compute()
     gluTessEndPolygon( _tobj );  
 }
 
-void Tesselator::addContour( const std::vector<glm::highp_dvec3>& pts, const std::vector<glm::vec2>& /*tex*/ )
+void Tesselator::addContour( const std::vector<TVec3d>& pts, const std::vector<TVec2f>& /*tex*/ )
 {		
     size_t len = pts.size();
     if ( len < 3 ) return;
@@ -95,7 +95,7 @@ void CALLBACK Tesselator::combineCallback( GLdouble coords[3], void* /*vertex_da
 {
     Tesselator *tess = (Tesselator*)userData;
     size_t npoint = tess->_vertices.size();
-    tess->_vertices.push_back( glm::highp_dvec3( coords[0], coords[1], coords[2] ) );
+    tess->_vertices.push_back( TVec3d( coords[0], coords[1], coords[2] ) );
 
     *outData = (void*)npoint;
 }

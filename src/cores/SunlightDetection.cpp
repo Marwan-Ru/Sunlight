@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <fstream>
 #include <string>
-#include <glm/vec3.hpp>
+#include <maths/Vector3.h>
 #include <optional>
 // Log in console
 #include <spdlog/spdlog.h>
@@ -221,7 +221,7 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
 
     for (auto const& beamdir : sunParser.getDirectionTowardsTheSun()) //For all sun beams
     {
-        if (beamdir.second == glm::highp_dvec3(0.0, 0.0, 0.0)) //If beam direction is nul, i.e. sun is down
+        if (beamdir.second == TVec3d(0.0, 0.0, 0.0)) //If beam direction is nul, i.e. sun is down
             datetime_sunnyMap[beamdir.first] = false; //sunny = false
         else
             datetime_sunnyMap[beamdir.first] = true; // sunny = true
@@ -296,7 +296,7 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
             std::map<int, bool> datetimeSunInfo = datetime_sunnyMap;
 
             //Compute Barycenter of triangle
-            glm::highp_dvec3 barycenter ((t->a + t->b + t->c) / 3.0);
+            TVec3d barycenter ((t->a + t->b + t->c) / 3.0);
 
             //Create rayBoxCollection (All the rays for this triangle)
             std::vector<std::shared_ptr<RayBox>> raysBoxes ({});
@@ -304,11 +304,11 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
             for (auto const& beamdir : sunParser.getDirectionTowardsTheSun())
             {
                 //If direction is null (ie sun is too low) leave triangle in the shadow and go to next iteration
-                if (beamdir.second == glm::highp_dvec3(0.0, 0.0, 0.0))
+                if (beamdir.second == TVec3d(0.0, 0.0, 0.0))
                     continue;
 
                 //if triangle is not oriented towards the sun, it is in the shadow
-                if (glm::dot(t->GetNormal(), beamdir.second) < 0.0)
+                if (t->GetNormal().dot(beamdir.second) < 0.0)
                 {
                     datetimeSunInfo[beamdir.first] = false;
                     continue;
@@ -316,7 +316,7 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
 
                 //Add an offset for raytracing. Without this offset, origin of the ray might be behind the barycenter,
                 //which will result in a collision between the ray its origin triangle
-                glm::highp_dvec3 tmpBarycenter ( barycenter + 0.01 * beamdir.second);
+                TVec3d tmpBarycenter ( barycenter + 0.01 * beamdir.second);
 
                 //Add ray to list
                 RayBox raybox = RayBox(tmpBarycenter, beamdir.second, beamdir.first);
@@ -408,7 +408,7 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
             }
 
             exportLightningToCSV(datetimeSunInfo, t, f, iStartDate, iEndDate, outputDir); //Export result for this triangle in csv files
-            resultExporter.exportResult(datetimeSunInfo, t, f, iStartDate, iEndDate, outputDir);
+            //resultExporter.exportResult(datetimeSunInfo, t, f, iStartDate, iEndDate, outputDir);
 
             raysBoxes.clear();
 

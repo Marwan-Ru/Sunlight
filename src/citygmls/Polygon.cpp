@@ -55,7 +55,7 @@ Polygon::~Polygon()
 //  Polygon * Poly = new Polygon(this->getId());
 //  LinearRing * NewExtRing = new LinearRing(ExtRing->getId(), true);
 //
-//  for(glm::highp_dvec3 P : ExtRing->getVertices())
+//  for(TVec3d P : ExtRing->getVertices())
 //  {
 //    NewExtRing->addVertex(P);
 //  }
@@ -65,7 +65,7 @@ Polygon::~Polygon()
 //  {
 //    LinearRing * NewIntRing = new LinearRing(IntRing->getId(), false);
 //
-//    for(glm::highp_dvec3 P : ExtRing->getVertices())
+//    for(TVec3d P : ExtRing->getVertices())
 //    {
 //      NewIntRing->addVertex(P);
 //    }
@@ -75,7 +75,7 @@ Polygon::~Polygon()
 //  return Poly;
 //}
 
-const std::vector<glm::highp_dvec3>& Polygon::getVertices() const
+const std::vector<TVec3d>& Polygon::getVertices() const
 {
   return _vertices;
 }
@@ -87,7 +87,7 @@ const std::vector<unsigned int>& Polygon::getIndices() const
 }
 
 // Get the normals
-const std::vector<glm::vec3>& Polygon::getNormals() const
+const std::vector<TVec3f>& Polygon::getNormals() const
 {
   return _normals;
 }
@@ -154,16 +154,16 @@ const Envelope& Polygon::getEnvelope() const
   return _envelope;
 }
 
-glm::highp_dvec3 Polygon::computeNormal()
+TVec3d Polygon::computeNormal()
 {
-  if ( !_exteriorRing ) return glm::highp_dvec3();
+  if ( !_exteriorRing ) return TVec3d();
 
-  glm::highp_dvec3 normal = _exteriorRing->computeNormal();
+  TVec3d normal = _exteriorRing->computeNormal();
 
   return _negNormal ? -normal : normal;
 }
 
-void Polygon::tesselate( AppearanceManager &appearanceManager, const glm::highp_dvec3& normal )
+void Polygon::tesselate( AppearanceManager &appearanceManager, const TVec3d& normal )
 {
   _indices.clear();
 
@@ -311,13 +311,13 @@ bool Polygon::merge( Polygon* p )
 
 void Polygon::finish( AppearanceManager& appearanceManager, bool doTesselate )
 {
-  glm::highp_dvec3 normal = computeNormal();
+  TVec3d normal = computeNormal();
   if ( doTesselate ) tesselate( appearanceManager, normal );  else mergeRings( appearanceManager );
 
   // Create the normal per point field
   _normals.resize( _vertices.size() );
   for ( size_t i = 0; i < _vertices.size(); i++ )
-    _normals[i] = glm::vec3( (float)normal.x, (float)normal.y, (float)normal.z );
+    _normals[i] = TVec3f( (float)normal.x, (float)normal.y, (float)normal.z );
 }
 
 void Polygon::finish( AppearanceManager& appearanceManager, Appearance* defAppearance, bool doTesselate )
@@ -380,11 +380,11 @@ void Polygon::finish( AppearanceManager& appearanceManager, Appearance* defAppea
     // compute tex coords
     _texCoords.clear();
     GeoreferencedTexture::WorldParams& wParams = geoTexture->m_wParams;
-    const std::vector<glm::highp_dvec3>& vertices = _exteriorRing->getVertices();
-    for(std::vector<glm::highp_dvec3>::const_iterator it = vertices.begin(); it < vertices.end(); ++it)
+    const std::vector<TVec3d>& vertices = _exteriorRing->getVertices();
+    for(std::vector<TVec3d>::const_iterator it = vertices.begin(); it < vertices.end(); ++it)
     {
-      glm::highp_dvec3 point = *it;
-      glm::highp_dvec2 tc;
+      TVec3d point = *it;
+      TVec2d tc;
 
       tc.x = ((wParams.yPixelSize*point.x)-(wParams.xRotation*point.y)+(wParams.xRotation*wParams.yOrigin)-(wParams.yPixelSize*wParams.xOrigin)) / ((wParams.xPixelSize*wParams.yPixelSize)-(wParams.yRotation*wParams.xRotation));
       tc.y = ((-wParams.yRotation*point.x)+(wParams.xPixelSize*point.y)+(wParams.yRotation*wParams.xOrigin)-(wParams.xPixelSize*wParams.yOrigin)) / ((wParams.xPixelSize*wParams.yPixelSize)-(wParams.yRotation*wParams.xRotation));
@@ -401,7 +401,7 @@ void Polygon::finish( AppearanceManager& appearanceManager, Appearance* defAppea
       //*/
 
       //std::cout << tc << std::endl; 
-      _texCoords.push_back(glm::vec2((float)tc.x, (float)tc.y));
+      _texCoords.push_back(TVec2f((float)tc.x, (float)tc.y));
     }
   }
   else

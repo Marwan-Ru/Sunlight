@@ -59,8 +59,8 @@ std::vector<AABB> loadAABBFile(const std::string& path)
 
       if (minx < maxx && miny < maxy && minz <= maxz)
       {
-         box.min = glm::highp_dvec3(minx, miny, minz);
-         box.max = glm::highp_dvec3(maxx, maxy, maxz);
+         box.min = TVec3d(minx, miny, minz);
+         box.max = TVec3d(maxx, maxy, maxz);
          bSet.push_back(box);
       }
    }
@@ -114,7 +114,7 @@ std::optional<AABBCollection> loadLayersAABBs(const std::string& layerDirectory)
 
 
 #pragma region Save
-void saveAABB(const std::string& filePath, const std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>>& AABBs)
+void saveAABB(const std::string& filePath, const std::map<std::string, std::pair<TVec3d, TVec3d>>& AABBs)
 {
    std::filebuf fb;
    fb.open(filePath, std::ios::out);
@@ -123,7 +123,7 @@ void saveAABB(const std::string& filePath, const std::map<std::string, std::pair
 
    file << AABBs.size() << "\n";
 
-   for (std::pair<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> p : AABBs)
+   for (std::pair<std::string, std::pair<TVec3d, TVec3d>> p : AABBs)
    {
       file << p.first << "\n";
       file << std::fixed << p.second.first.x << "\n"; //std::fixed -> important pour conserver tous les chiffres significatifs (ne pas avoir de 1e19)
@@ -141,9 +141,9 @@ void saveAABB(const std::string& filePath, const std::map<std::string, std::pair
 
 
 #pragma region Build AABB
-std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> buildAABB(const std::string& cityGmlDirectory, const TiledLayer& tile, const CityObjectsType& type)
+std::map<std::string, std::pair<TVec3d, TVec3d>> buildAABB(const std::string& cityGmlDirectory, const TiledLayer& tile, const CityObjectsType& type)
 {
-   std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> AABBs;
+   std::map<std::string, std::pair<TVec3d, TVec3d>> AABBs;
 
    for (int x = tile.TuileMinX; x <= tile.TuileMaxX; ++x)
    {
@@ -151,8 +151,8 @@ std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> buildAABB(c
       {
          std::string FileName = cityGmlDirectory + tile.Name + "/" + std::to_string(x) + "_" + std::to_string(y) + "/" + std::to_string(x) + "_" + std::to_string(y) + tile.Name + ".gml";
 
-         glm::highp_dvec3 min(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
-         glm::highp_dvec3 max(-std::numeric_limits<double>::max(), -std::numeric_limits<double>::max(), -std::numeric_limits<double>::max());
+         TVec3d min(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
+         TVec3d max(-std::numeric_limits<double>::max(), -std::numeric_limits<double>::max(), -std::numeric_limits<double>::max());
 
          fs::path File(FileName);
          if (fs::exists(File))
@@ -206,7 +206,7 @@ void buildLayersAABBs(const std::string& cityGmlDirectory)
       }
 
       // Pour chaque tuile "string", bounding box : min-max
-      std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> AABBs =
+      std::map<std::string, std::pair<TVec3d, TVec3d>> AABBs =
          buildAABB(cityGmlDirectory, L, type);
 
       saveAABB(cityGmlDirectory + L.Name + "_AABB.dat", AABBs);

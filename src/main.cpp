@@ -18,7 +18,7 @@ int main()
    const std::string sunlightCsv("datas/AnnualSunPath_Lyon.csv");
    const auto testingFiles(getAllTilesIn(rootDirectory));
 
-   int BENCHMARK_RUN(30);
+   int BENCHMARK_RUN(1);
    for (size_t i = 1; i <= BENCHMARK_RUN; i++)
    {
       spdlog::info("Compute {} on {}", i, BENCHMARK_RUN);

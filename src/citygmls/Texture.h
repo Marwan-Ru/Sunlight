@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <glm/vec4.hpp>
+#include <maths/Vector4.h>
 #include "Appearance.h"
 
 #ifdef _MSC_VER
@@ -47,7 +47,7 @@ public:
 
     WrapMode getWrapMode() const;
 
-    glm::vec4 getBorderColor() const;
+    TVec4f getBorderColor() const;
 
     std::string toString() const;
 
@@ -55,5 +55,5 @@ protected:
     std::string _url;
     bool _repeat;
     WrapMode _wrapMode;
-    glm::vec4 _borderColor;
+    TVec4f _borderColor;
 };

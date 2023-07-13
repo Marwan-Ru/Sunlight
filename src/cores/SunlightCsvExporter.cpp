@@ -5,7 +5,6 @@
 
 #include <fstream>
 #include <filesystem>
-#include <glm/gtc/matrix_transform.hpp>
 
 #include "SunlightCsvExporter.h"
 #include "FileInfo.h"

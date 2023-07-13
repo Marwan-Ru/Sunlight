@@ -18,7 +18,7 @@
 
 #include <ostream>
 
-#include <glm/vec3.hpp>
+#include <maths/Vector3.h>
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members
@@ -29,18 +29,18 @@ class Envelope
     friend class CityGMLHandler;
 public:
     Envelope();
-    Envelope(const glm::highp_dvec3& lowerBound, const glm::highp_dvec3& upperBound);
+    Envelope(const TVec3d& lowerBound, const TVec3d& upperBound);
 
-    const glm::highp_dvec3& getLowerBound() const;
-    const glm::highp_dvec3& getUpperBound() const;
+    const TVec3d& getLowerBound() const;
+    const TVec3d& getUpperBound() const;
 
     void merge(const Envelope& e);
 
-    void merge(const glm::highp_dvec3& p);
+    void merge(const TVec3d& p);
 
 protected:
-    glm::highp_dvec3 _lowerBound;
-    glm::highp_dvec3 _upperBound;
+    TVec3d _lowerBound;
+    TVec3d _upperBound;
 };
 
 std::ostream& operator<<( std::ostream&, const Envelope& );

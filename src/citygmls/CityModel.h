@@ -55,7 +55,7 @@ public:
     Envelope& getEnvelope();
 
     // Return the translation parameters of the model
-    const glm::highp_dvec3& getTranslationParameters() const;
+    const TVec3d& getTranslationParameters() const;
 
     // Get the number of city objects
     size_t size() const;
@@ -123,7 +123,7 @@ protected:
 
     std::string _srsName;
 
-    glm::highp_dvec3 _translation;
+    TVec3d _translation;
 
     std::vector<temporal::Version*> _versions;
     std::vector<temporal::VersionTransition*> _versionTransitions;
