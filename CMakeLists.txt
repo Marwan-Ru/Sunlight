@@ -16,7 +16,11 @@ include(FetchContent)
 file(GLOB_RECURSE HEADERS "src/*.h")
 file(GLOB_RECURSE SRCS "src/*.cpp")
 
-add_executable(sunlight ${SRCS} ${HEADERS})
+add_compile_options(-fPIC)
+
+# Add static library for pySunlight
+add_library(sunlight ${HEADERS} ${SRCS})
+# add_executable(sunlight ${SRCS} ${HEADERS})
 
 target_include_directories(sunlight PRIVATE "src/")
 
@@ -91,7 +95,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glm)
 
-target_include_directories(sunlight PRIVATE ${glm_SOURCE_DIR})
+target_include_directories(sunlight PUBLIC ${glm_SOURCE_DIR})
 
 
 # Add spdlog
