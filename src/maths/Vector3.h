@@ -6,6 +6,7 @@
 #pragma once
 
 #include <iostream>
+#include <math.h>
 
 // 3D vector class.
 template< class T > class TVec3
@@ -25,6 +26,11 @@ public:
 
 	inline T length() const;
 	inline T sqrLength() const;
+
+   // Wrap x, y, z to expose these value in swig because swig doesn't support nested union
+   T getX() const { return x; }
+   T getY() const { return y; }
+   T getZ() const { return z; }
 
 	T dot(const TVec3<T>& vec) const;
 	TVec3 cross(const TVec3<T>& vec) const;
