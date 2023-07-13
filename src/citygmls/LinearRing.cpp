@@ -14,8 +14,6 @@
 * GNU Lesser General Public License for more details.
 */
 #include <limits>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/norm.hpp>
 
 #include "LinearRing.h"
 #include "Envelope.h"
@@ -34,12 +32,12 @@ unsigned int LinearRing::size() const
     return (unsigned int)_vertices.size();
 }
 
-const std::vector<glm::highp_dvec3>& LinearRing::getVertices() const
+const std::vector<TVec3d>& LinearRing::getVertices() const
 {
     return _vertices;
 }
 
-void LinearRing::addVertex( const glm::highp_dvec3& v )
+void LinearRing::addVertex( const TVec3d& v )
 {
     _vertices.push_back( v );
 }
@@ -50,28 +48,29 @@ const Envelope& LinearRing::getEnvelope() const
     return _envelope;
 }
 
-std::vector<glm::highp_dvec3>& LinearRing::getVertices()
+std::vector<TVec3d>& LinearRing::getVertices()
 {
     return _vertices;
 }
 
-glm::highp_dvec3 LinearRing::computeNormal() const
+TVec3d LinearRing::computeNormal() const
 {
     unsigned int len = size();
-    if ( len < 3 ) return glm::highp_dvec3();
+    if ( len < 3 ) return TVec3d();
 
     // Tampieri, F. 1992. Newell's method for computing the plane equation of a polygon. In Graphics Gems III, pp.231-232.
-    glm::highp_dvec3 n( 0., 0., 0. );
+    TVec3d n( 0., 0., 0. );
     for ( unsigned int i = 0; i < len; i++ )
     {
-        const glm::highp_dvec3& current = _vertices[i];
-        const glm::highp_dvec3& next = _vertices[ ( i + 1 ) % len];
+        const TVec3d& current = _vertices[i];
+        const TVec3d& next = _vertices[ ( i + 1 ) % len];
 
         n.x += ( current.y - next.y ) * ( current.z + next.z );
         n.y += ( current.z - next.z ) * ( current.x + next.x );
         n.z += ( current.x - next.x ) * ( current.y + next.y );
     }
-    return glm::normalize(n);
+
+    return n.normalize();
 }
 
 void LinearRing::finish( TexCoords* texCoords )
@@ -81,7 +80,7 @@ void LinearRing::finish( TexCoords* texCoords )
    unsigned int len = (unsigned int)_vertices.size();
    if ( len < 2 ) return;
 
-   double lengthSquare(glm::length2(_vertices[0] - _vertices[len - 1]));
-   if (lengthSquare <= std::numeric_limits<double>::epsilon())
+   auto diff = _vertices[0] - _vertices[len - 1];
+   if (diff.sqrLength() <= std::numeric_limits<double>::epsilon())
       _vertices.erase( _vertices.begin() + len - 1 );
 }

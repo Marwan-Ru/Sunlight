@@ -17,7 +17,7 @@
 #pragma once
 
 #include <string>
-#include <glm/vec3.hpp>
+#include <maths/Vector3.h>
 
 #ifdef USE_GDAL
 #	include "ogrsf_frmts.h"
@@ -49,21 +49,21 @@ public:
     }
 
 #ifdef USE_GDAL
-    inline void transform( glm::highp_dvec3 &p ) const
+    inline void transform( TVec3d &p ) const
     {
         if ( _trans ) ((OGRCoordinateTransformation*)_trans)->Transform( 1, &p.x, &p.y );
 #else
-    inline void transform( glm::highp_dvec3 & ) const
+    inline void transform( TVec3d & ) const
     {
 #endif
     }
 
 #ifdef USE_GDAL
-    inline void transform( glm::highp_dvec2 &p ) const
+    inline void transform( TVec2d &p ) const
     {
         if ( _trans ) ((OGRCoordinateTransformation*)_trans)->Transform( 1, &p.x, &p.y );
 #else
-    inline void transform( glm::highp_dvec2 & ) const
+    inline void transform( TVec2d & ) const
     {
 #endif
     }

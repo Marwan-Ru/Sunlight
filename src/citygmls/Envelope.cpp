@@ -24,17 +24,17 @@ Envelope::Envelope()
   _upperBound(std::numeric_limits<double>::min(),std::numeric_limits<double>::min(),std::numeric_limits<double>::min())
 {}
 
-Envelope::Envelope(const glm::highp_dvec3& lowerBound, const glm::highp_dvec3& upperBound)
+Envelope::Envelope(const TVec3d& lowerBound, const TVec3d& upperBound)
     : _lowerBound(lowerBound), _upperBound(upperBound)
 {
 }
 
-const glm::highp_dvec3& Envelope::getLowerBound() const
+const TVec3d& Envelope::getLowerBound() const
 {
     return _lowerBound;
 }
 
-const glm::highp_dvec3& Envelope::getUpperBound() const
+const TVec3d& Envelope::getUpperBound() const
 {
     return _upperBound;
 }
@@ -45,7 +45,7 @@ void Envelope::merge(const Envelope& e)
     merge(e._upperBound);
 }
 
-void Envelope::merge(const glm::highp_dvec3& p)
+void Envelope::merge(const TVec3d& p)
 {
     if(p.x < _lowerBound.x) _lowerBound.x = p.x;
     /*else*/if(p.x > _upperBound.x) _upperBound.x = p.x;

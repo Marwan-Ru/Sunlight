@@ -28,7 +28,7 @@ public:
   /// Build a tile and load a CityGML file
   /// \param filepath CityGML file path
   Tile(const std::string& filepath);
-  //Tile(const glm::highp_dvec3& pMin, const glm::highp_dvec3& pMax);
+  //Tile(const TVec3d& pMin, const TVec3d& pMax);
   ~Tile();
 
   /// Get tile enveloppe

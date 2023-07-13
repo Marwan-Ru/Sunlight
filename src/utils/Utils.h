@@ -22,8 +22,8 @@
 #include <fstream>
 #include <filesystem>
 #include <iterator>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
+#include <maths/Vector2.h>
+#include <maths/Vector3.h>
 
 #include <cores/FileInfo.h>
 
@@ -99,9 +99,9 @@ static bool areFilesIdentical(const std::string& file1, const std::string& file2
 /// <param name="os"></param>
 /// <param name="v"></param>
 /// <returns></returns>
-std::ostream& operator<<(std::ostream& os, const glm::highp_dvec3& v);
+std::ostream& operator<<(std::ostream& os, const TVec3d& v);
 
-std::ostream& operator<<(std::ostream& os, const glm::vec3& v);
+std::ostream& operator<<(std::ostream& os, const TVec3f& v);
 
 /// <summary>
 /// Add vector 2 information in the stream,
@@ -110,13 +110,13 @@ std::ostream& operator<<(std::ostream& os, const glm::vec3& v);
 /// <param name="os"></param>
 /// <param name="v"></param>
 /// <returns></returns>
-std::ostream& operator<<(std::ostream& os, const glm::vec2& v);
+std::ostream& operator<<(std::ostream& os, const TVec2f& v);
 
-std::istream& operator>>(std::istream& is, glm::highp_dvec3& v);
+std::istream& operator>>(std::istream& is, TVec3d& v);
 
-std::istream& operator>>(std::istream& is, glm::vec3& v);
+std::istream& operator>>(std::istream& is, TVec3f& v);
 
-std::istream& operator>>(std::istream& is, glm::vec2& v);
+std::istream& operator>>(std::istream& is, TVec2f& v);
 
 /**
  * @brief Search all gml files in layerFolder and create FileInfos instances

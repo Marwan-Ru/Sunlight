@@ -14,11 +14,11 @@ int main()
    ///// <summary>
    ///// Testing if the computed output is identical to the expected output (old 3DUSE)
    ///// </summary>
-   const std::string rootDirectory(".\\datas\\LYON_1ER_47BATI_2018\\");
+   const std::string rootDirectory(".\\datas\\26_HOTEL_POLICE_LYON\\");
    const std::string sunlightCsv(".\\datas\\AnnualSunPath_Lyon.csv");
    const auto testingFiles(getAllTilesIn(rootDirectory));
 
-   int BENCHMARK_RUN(30);
+   int BENCHMARK_RUN(1);
    for (size_t i = 1; i <= BENCHMARK_RUN; i++)
    {
       spdlog::info("Compute {} on {}", i, BENCHMARK_RUN);

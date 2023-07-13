@@ -28,7 +28,7 @@ protected:
     std::stringstream* getBuff(){return &(gmlHandler->_buff);}
     ParserParams* getParams(){return &(gmlHandler->_params);}
     CityModel** getModel(){return &(gmlHandler->_model);}
-    glm::highp_dvec3* getTranslate(){return &(gmlHandler->_translate);}
+    TVec3d* getTranslate(){return &(gmlHandler->_translate);}
     CityObject** getCurrentCityObject(){return &(gmlHandler->_currentCityObject);}
     std::stack<CityObject*>* getCityObjectStack(){return &(gmlHandler->_cityObjectStack);}
     Object** getCurrentObject(){return &(gmlHandler->_currentObject);}
@@ -43,7 +43,7 @@ protected:
     int* getCurrentLOD(){return &(gmlHandler->_currentLOD);}
     bool* getFilterNodeType(){return &(gmlHandler->_filterNodeType);}
     unsigned int* getFilterDepth(){return &(gmlHandler->_filterDepth);} // MT (MAC OS X problem...)
-    std::vector<glm::highp_dvec3>* getPoints(){return &(gmlHandler->_points);}
+    std::vector<TVec3d>* getPoints(){return &(gmlHandler->_points);}
     int* getSrsDimension(){return &(gmlHandler->_srsDimension);}
     char* getOrientation(){return &(gmlHandler->_orientation);}
     bool* getExterior(){return &(gmlHandler->_exterior);}

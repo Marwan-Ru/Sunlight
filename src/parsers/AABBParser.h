@@ -28,7 +28,7 @@ std::optional<AABBCollection> loadLayersAABBs(const std::string& layerDirectory)
 *	@param filePath where to save the collection
 *	@param AABBs The collection of box
 */
-void saveAABB(const std::string& filePath, const std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>>& AABBs);
+void saveAABB(const std::string& filePath, const std::map<std::string, std::pair<TVec3d, TVec3d>>& AABBs);
 
 /**
 *	@brief Build a collection of boxes from a citygml file in a set of directory
@@ -37,7 +37,7 @@ void saveAABB(const std::string& filePath, const std::map<std::string, std::pair
 *	@param type Type of citygml (building, ground...)
 *	@return a collection of boxes, key = name of the box, value = <min of the box, max of the box>
 */
-std::map<std::string, std::pair<glm::highp_dvec3, glm::highp_dvec3>> buildAABB(const std::string& cityGmlDirectory, const TiledLayer& tile, const CityObjectsType& type);
+std::map<std::string, std::pair<TVec3d, TVec3d>> buildAABB(const std::string& cityGmlDirectory, const TiledLayer& tile, const CityObjectsType& type);
 
 /**
 *	@brief Build bounding box from a set of tile in a text file. One file will contain Building AABBs (tilename_Building_AABB.dat)

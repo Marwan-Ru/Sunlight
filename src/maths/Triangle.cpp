@@ -3,8 +3,6 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
-#include <glm/gtc/matrix_transform.hpp> 
-#include <glm/gtx/normal.hpp> 
 #include <vector>
 
 #include "Triangle.h"
@@ -14,7 +12,7 @@
 #include <citygmls/Geometry.h>
 #include <citygmls/Tile.h>
 
-Triangle::Triangle(glm::highp_dvec3 a, glm::highp_dvec3 b, glm::highp_dvec3 c)
+Triangle::Triangle(TVec3d a, TVec3d b, TVec3d c)
 {
     this->a = a;
     this->b = b;
@@ -23,9 +21,13 @@ Triangle::Triangle(glm::highp_dvec3 a, glm::highp_dvec3 b, glm::highp_dvec3 c)
     subObjectType = CityObjectsType::COT_All;
 }
 
-glm::highp_dvec3 Triangle::GetNormal()
+TVec3d Triangle::GetNormal()
 {
-    return glm::triangleNormal(a, b, c);
+   auto x = b - a;
+   auto y = c - a;
+   auto normal = x.cross(y);
+
+   return normal.normalize();
 }
 
 std::vector<std::shared_ptr<Triangle>>* BuildTriangleList(const std::string& tilefilename, const CityObjectsType& objectType, const std::string& cityObjId, const double& zMin)
@@ -50,14 +52,14 @@ std::vector<std::shared_ptr<Triangle>>* BuildTriangleList(const std::string& til
                     for (Polygon* PolygonCityGML : Geometry->getPolygons()) //Pour chaque polygone
                     {
                         //Get triangle list
-                        const std::vector<glm::highp_dvec3>& vert = PolygonCityGML->getVertices();
+                        const std::vector<TVec3d>& vert = PolygonCityGML->getVertices();
                         const std::vector<unsigned int>& ind = PolygonCityGML->getIndices();
 
                         for (unsigned int i = 0; i < ind.size() / 3; i++)//Push all triangle of the polygon in our list
                         {
-                            glm::highp_dvec3 a = vert[ind[i * 3 + 0]];
-                            glm::highp_dvec3 b = vert[ind[i * 3 + 1]];
-                            glm::highp_dvec3 c = vert[ind[i * 3 + 2]];
+                            TVec3d a = vert[ind[i * 3 + 0]];
+                            TVec3d b = vert[ind[i * 3 + 1]];
+                            TVec3d c = vert[ind[i * 3 + 2]];
 
                             // If all vertices of current triangle are below given zMin
                             if (a.z - zMin < epsilon && b.z - zMin < epsilon && c.z - zMin < epsilon)
@@ -86,14 +88,14 @@ std::vector<std::shared_ptr<Triangle>>* BuildTriangleList(const std::string& til
                 for (Polygon* PolygonCityGML : Geometry->getPolygons()) //Pour chaque polygone
                 {
                     //Get triangle list
-                    const std::vector<glm::highp_dvec3>& vert = PolygonCityGML->getVertices();
+                    const std::vector<TVec3d>& vert = PolygonCityGML->getVertices();
                     const std::vector<unsigned int>& ind = PolygonCityGML->getIndices();
 
                     for (unsigned int i = 0; i < ind.size() / 3; i++)//Push all triangle of the polygon in our list
                     {
-                        glm::highp_dvec3 a = vert[ind[i * 3 + 0]];
-                        glm::highp_dvec3 b = vert[ind[i * 3 + 1]];
-                        glm::highp_dvec3 c = vert[ind[i * 3 + 2]];
+                        TVec3d a = vert[ind[i * 3 + 0]];
+                        TVec3d b = vert[ind[i * 3 + 1]];
+                        TVec3d c = vert[ind[i * 3 + 2]];
 
                         // If all vertices of current triangle are below given zMin
                         if (a.z - zMin < epsilon && b.z - zMin < epsilon && c.z - zMin < epsilon)

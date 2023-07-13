@@ -8,9 +8,7 @@
 // Log in console
 #include <spdlog/spdlog.h>
 #include <optional>
-#include <glm/vec2.hpp>
-// GLM min and max functions
-#include <glm/common.hpp>
+#include <maths/Vector2.h>
 
 #include "TiledFilesLayout.h"
 #include "citygmls/Tile.h"
@@ -42,8 +40,8 @@ void TiledFiles::BuildListofLayers()
         if (layerFolder != "_BATI" && layerFolder != "_MNT")
            continue;
 
-        std::optional<glm::ivec2> min;
-        std::optional<glm::ivec2> max;
+        std::optional<TVec2i> min;
+        std::optional<TVec2i> max;
 
         for (const auto& TileFolder : std::filesystem::directory_iterator(LayerFolder.path()))
         {
@@ -60,7 +58,7 @@ void TiledFiles::BuildListofLayers()
 
             int Xval (std::stoi(X));
             int Yval (std::stoi(Y));
-            glm::ivec2 currentTileCoordinate(Xval, Yval);
+            TVec2i currentTileCoordinate(Xval, Yval);
 
             if (!min.has_value())
             {
@@ -71,9 +69,8 @@ void TiledFiles::BuildListofLayers()
                max = currentTileCoordinate;
             }
 
-            // Minimum and maximum of Tile Coordinate
-            min = glm::min(min.value(), currentTileCoordinate);
-            max = glm::max(max.value(), currentTileCoordinate);
+            min = getMinimumCoordinate(min.value(), currentTileCoordinate);
+            max = getMaximumCoordinate(min.value(), currentTileCoordinate);
         }
 
         const std::string layerFileName(LayerFolder.path().filename().string());

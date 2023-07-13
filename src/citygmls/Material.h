@@ -17,7 +17,7 @@
 #pragma once
 
 #include "Appearance.h"
-#include <glm/vec3.hpp>
+#include <maths/Vector3.h>
 
 class Material : virtual public Appearance
 {
@@ -25,17 +25,17 @@ class Material : virtual public Appearance
 public:
     Material( const std::string& id );
 
-    glm::vec3 getDiffuse() const;
-    glm::vec3 getEmissive() const;
-    glm::vec3 getSpecular() const;
+    TVec3f getDiffuse() const;
+    TVec3f getEmissive() const;
+    TVec3f getSpecular() const;
     float getAmbientIntensity() const;
     float getShininess() const;
     float getTransparency() const;
 
 protected:
-    glm::vec3 _diffuse;
-    glm::vec3 _emissive;
-    glm::vec3 _specular;
+    TVec3f _diffuse;
+    TVec3f _emissive;
+    TVec3f _specular;
     float _ambientIntensity;
     float _shininess;
     float _transparency;

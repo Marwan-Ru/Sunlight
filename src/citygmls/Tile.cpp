@@ -36,7 +36,7 @@ Tile::~Tile()
     delete m_root;
 }
 
-/*Tile::Tile(const glm::highp_dvec3& pMin, const glm::highp_dvec3& pMax)
+/*Tile::Tile(const TVec3d& pMin, const TVec3d& pMax)
     : m_envelope(pMin, pMax)
 {
 }*/

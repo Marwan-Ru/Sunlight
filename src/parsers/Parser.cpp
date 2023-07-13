@@ -279,7 +279,7 @@ template<> inline void parseValue( std::stringstream &s, bool &v )
         std::cerr << "Error ! Boolean expected, got " << value << std::endl;
 }
 
-template<class T> inline void parseValue( std::stringstream &s, T &v, GeoTransform* transform, const glm::highp_dvec3 &translate ) 
+template<class T> inline void parseValue( std::stringstream &s, T &v, GeoTransform* transform, const TVec3d &translate ) 
 {
     parseValue( s, v );
     
@@ -304,7 +304,7 @@ template<class T> inline void parseVecList( std::stringstream &s, std::vector<T>
     }
 }
 
-template<class T> inline void parseVecList( std::stringstream &s, std::vector<T> &vec, GeoTransform* transform, const glm::highp_dvec3 &translate ) 
+template<class T> inline void parseVecList( std::stringstream &s, std::vector<T> &vec, GeoTransform* transform, const TVec3d &translate ) 
 {
     T v;
     size_t oldSize( vec.size() );
@@ -735,7 +735,7 @@ void CityGMLHandler::endElement( const std::string& name )
     case NODETYPE( lowerCorner ):
     case NODETYPE( upperCorner ):
         {
-            glm::highp_dvec3 p;
+            TVec3d p;
             parseValue( buffer, p, (GeoTransform*)_geoTransform, _translate );
             if ( nodeType == NODETYPE( lowerCorner ) )
                 _points.insert( _points.begin(), p );
@@ -841,7 +841,7 @@ void CityGMLHandler::endElement( const std::string& name )
     case NODETYPE( pos ):
         if ( _currentCityObject )
         {
-            glm::highp_dvec3 p;
+            TVec3d p;
             parseValue( buffer, p, (GeoTransform*)_geoTransform, _translate );
             if ( !_currentPolygon )
                 _points.push_back( p );
@@ -851,7 +851,7 @@ void CityGMLHandler::endElement( const std::string& name )
         else
         {
             // special case, for envelope
-            glm::highp_dvec3 p;
+            TVec3d p;
             parseValue( buffer, p, (GeoTransform*)_geoTransform, _translate );
             _points.push_back( p );
         }
@@ -937,7 +937,7 @@ void CityGMLHandler::endElement( const std::string& name )
     case NODETYPE( specularColor ):
         if ( Material* mat = dynamic_cast<Material*>( _currentAppearance ) ) 
         {
-            glm::vec3 col;
+            TVec3f col;
             parseValue( buffer, col );	
             if ( nodeType == NODETYPE( diffuseColor ) ) mat->_diffuse = col;
             else if ( nodeType == NODETYPE( emissiveColor ) ) mat->_emissive = col;

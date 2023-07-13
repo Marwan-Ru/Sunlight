@@ -3,21 +3,18 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/intersect.hpp>
-
 #include "Ray.h"
 #include "Hit.h"
 #include "Triangle.h"
 
 //Ray
 
-Ray::Ray(glm::highp_dvec3 ori, glm::highp_dvec3 dir, int id)
+Ray::Ray(TVec3d ori, TVec3d dir, int id)
 {
     this->id = id;
     this->origin = ori;
     this->direction = dir;
-    inv_direction = glm::highp_dvec3(1 / dir.x, 1 / dir.y, 1 / dir.z);
+    inv_direction = TVec3d(1 / dir.x, 1 / dir.y, 1 / dir.z);
     sign[0] = (inv_direction.x < 0);
     sign[1] = (inv_direction.y < 0);
     sign[2] = (inv_direction.z < 0);
@@ -25,9 +22,9 @@ Ray::Ray(glm::highp_dvec3 ori, glm::highp_dvec3 dir, int id)
     fragCoord.y = -1;
 }
 
-float DotCross(glm::highp_vec3 v0, glm::highp_vec3 v1, glm::highp_vec3 v2)
+float DotCross(TVec3d v0, TVec3d v1, TVec3d v2)
 {
-   return glm::dot(v0, glm::cross(v1, v2));
+   return v0.dot(v1.cross(v2));
 }
 
 //Ray triangle intersection, from geometric tools engine
@@ -37,17 +34,17 @@ bool Ray::Intersect(std::shared_ptr<Triangle> triangle, Hit* hit)
    Hit tempHit;
 
    // Compute the offset origin, edges, and normal.
-   glm::highp_vec3 diff = origin - triangle->a;
-   glm::highp_vec3 edge1 = triangle->b - triangle->a;
-   glm::highp_vec3 edge2 = triangle->c - triangle->a;
-   glm::highp_vec3 normal = glm::cross(edge1, edge2);
+   TVec3d diff = origin - triangle->a;
+   TVec3d edge1 = triangle->b - triangle->a;
+   TVec3d edge2 = triangle->c - triangle->a;
+   TVec3d normal = edge1.cross(edge2);
 
    // Solve Q + t*D = b1*E1 + b2*E2 (Q = kDiff, D = ray direction,
    // E1 = edge1, E2 = edge2, N = Cross(E1,E2)) by
    //   |Dot(D,N)|*b1 = sign(Dot(D,N))*Dot(D,Cross(Q,E2))
    //   |Dot(D,N)|*b2 = sign(Dot(D,N))*Dot(D,Cross(E1,Q))
    //   |Dot(D,N)|*t = -sign(Dot(D,N))*Dot(Q,N)
-   double DdN = glm::dot(static_cast<glm::vec3>(direction), normal);
+   double DdN = direction.dot(normal);
    double sign;
    if (0.0 < DdN)
    {
@@ -74,7 +71,7 @@ bool Ray::Intersect(std::shared_ptr<Triangle> triangle, Hit* hit)
          if (DdQxE2 + DdE1xQ <= DdN)
          {
             // Line intersects triangle, check whether ray does.
-            double QdN = -sign * glm::dot(diff, normal);
+            double QdN = -sign * diff.dot(normal);
             if (0.0 <= QdN)
             {
                // Ray intersects triangle.
@@ -99,21 +96,4 @@ bool Ray::Intersect(std::shared_ptr<Triangle> triangle, Hit* hit)
    // else: b1 < 0, no intersection
 
    return false;
-
-    ////GLM intersection test
-    //Hit tempHit;
-    //if (glm::intersectLineTriangle(origin, direction, triangle->a, triangle->b, triangle->c, tempHit.impactPoint))
-    //{
-    //    tempHit.triangle = *triangle;
-    //    tempHit.ray = (*this);
-
-    //    if (hit != nullptr)
-    //    {
-    //        *hit = tempHit;
-    //    }
-
-    //    return true;
-    //}
-
-    //return false;
 }

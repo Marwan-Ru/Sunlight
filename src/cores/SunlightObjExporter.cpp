@@ -8,8 +8,8 @@
 
 void SunlightObjExporter::exportResult(std::map<int, bool>& sunInfo, const std::shared_ptr<Triangle>& t, const FileInfo& file, int iStartDate, int iEndDate, const std::string& outputDir)
 {
-   glm::vec3 shadowRgb(0, 0, 1);
-   glm::vec3 lightRgb(1, 0, 0);
+   TVec3f shadowRgb(0, 0, 1);
+   TVec3f lightRgb(1, 0, 0);
 
    for (const auto& [iDate, bTriangleInLight] : sunInfo)
    {
@@ -19,7 +19,7 @@ void SunlightObjExporter::exportResult(std::map<int, bool>& sunInfo, const std::
       std::ofstream ofs;
       ofs.open(outputDir + "/Sunlight/" + file.withPrevFolder() + "/" + datetime + ".obj", std::ofstream::app);
 
-      glm::vec3 currentRgb = shadowRgb;
+      TVec3f currentRgb = shadowRgb;
       if (bTriangleInLight)
       {
          currentRgb = lightRgb;

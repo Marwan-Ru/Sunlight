@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include <glm/vec3.hpp>
+#include <maths/Vector3.h>
 
 #ifdef _MSC_VER                // Inhibit dll-interface warnings concerning
 #pragma warning(disable: 4251) // export problem on STL members

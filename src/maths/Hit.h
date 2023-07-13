@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <glm/vec3.hpp>
+#include <maths/Vector3.h>
 
 #include "Triangle.h"
 #include "Ray.h"
@@ -17,6 +17,6 @@ struct Hit
 {
     Ray ray;///< The ray that hits
     float distance;///< Distance from the origin of the ray to the hit position
-    glm::highp_dvec3 impactPoint;///< Hit position
+    TVec3d impactPoint;///< Hit position
     Triangle triangle;///< Triangle that has been hit
 };

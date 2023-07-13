@@ -6,6 +6,6 @@
 #pragma once
 
 #include <vector>
-#include <glm/vec2.hpp>
+#include <maths/Vector2.h>
 
-typedef std::vector<glm::vec2> TexCoords;
+typedef std::vector<TVec2f> TexCoords;

@@ -318,7 +318,7 @@ public: // MT (MAC OS X problem...)
         
     CityModel* _model;
 
-    glm::highp_dvec3 _translate;
+    TVec3d _translate;
 
     CityObject* _currentCityObject;
     std::stack<CityObject*> _cityObjectStack;
@@ -344,7 +344,7 @@ public: // MT (MAC OS X problem...)
     bool _filterNodeType;
     unsigned int _filterDepth;
 
-    std::vector<glm::highp_dvec3> _points;
+    std::vector<TVec3d> _points;
 
     int _srsDimension;
 

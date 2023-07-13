@@ -12,7 +12,7 @@
 namespace documentADE
 {
 
-#define MAKE_RGBA( _r_, _g_, _b_, _a_ ) glm::vec4( _r_/255.f, _g_/255.f, _b_/255.f, _a_/255.f )
+#define MAKE_RGBA( _r_, _g_, _b_, _a_ ) TVec4f( _r_/255.f, _g_/255.f, _b_/255.f, _a_/255.f )
 #define MAKE_RGB( _r_, _g_, _b_ ) MAKE_RGBA( _r_, _g_, _b_, 255 )
 
   enum DocumentType
@@ -55,7 +55,7 @@ namespace documentADE
   {
   public:
       DocumentObject( const std::string& id ) : CityObject( id, COT_GenericCityObject ){}
-      //inline glm::vec4 getDefaultColor() const
+      //inline TVec4f getDefaultColor() const
       //{
       //   return MAKE_RGB( 10, 230, 1 );
       //}

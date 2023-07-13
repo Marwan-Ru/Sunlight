@@ -61,7 +61,7 @@ Envelope& CityModel::getEnvelope()
 }
 
 // Return the translation parameters of the model
-const glm::highp_dvec3& CityModel::getTranslationParameters() const
+const TVec3d& CityModel::getTranslationParameters() const
 {
     return _translation;
 }
@@ -228,8 +228,8 @@ void CityModel::computeEnvelope()
         if(obj->getEnvelope().getUpperBound().x > 1000000000) //Pour pas qu'un batiment qui bug gene le calcul de l'enveloppe
             continue;
         
-        //glm::highp_dvec3 Low = _envelope.getLowerBound();
-        //glm::highp_dvec3 Up = _envelope.getUpperBound();
+        //TVec3d Low = _envelope.getLowerBound();
+        //TVec3d Up = _envelope.getUpperBound();
         _envelope.merge(obj->getEnvelope());
 
         /*if(_envelope.getLowerBound() != Low || _envelope.getUpperBound() != Up)
