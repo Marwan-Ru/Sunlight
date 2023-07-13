@@ -16,8 +16,6 @@ include(FetchContent)
 file(GLOB_RECURSE HEADERS "src/*.h")
 file(GLOB_RECURSE SRCS "src/*.cpp")
 
-add_compile_options(-fPIC)
-
 # Add static library for pySunlight
 add_library(sunlight ${HEADERS} ${SRCS})
 # add_executable(sunlight ${SRCS} ${HEADERS})
@@ -49,6 +47,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # preventing buffer overflow vulnerabilities.
   # More information : https://wiki.debian.org/Hardening#DEB_BUILD_HARDENING_FORTIFY_.28gcc.2Fg.2B-.2B-_-D_FORTIFY_SOURCE.3D2.29
   target_compile_options(sunlight PRIVATE -fstack-protector -D_FORTIFY_SOURCE=2)
+
+  # fPIC flag : https://iq.opengenus.org/fpic-in-gcc/
+  target_compile_options(sunlight PRIVATE -fPIC)
 endif()
 
 
@@ -88,16 +89,6 @@ endif()
 # WARNING fetching an external content will always populate the build directory
 # following the standard of a lower-case name. For instance, the package LibXml2 
 # will have a macro libxml2_SOURCE_DIR and a directory libxml2-src directory.
-FetchContent_Declare(
-    glm
-    GIT_REPOSITORY    https://github.com/g-truc/glm.git
-    GIT_TAG           0.9.9.8
-)
-FetchContent_MakeAvailable(glm)
-
-target_include_directories(sunlight PUBLIC ${glm_SOURCE_DIR})
-
-
 # Add spdlog
 FetchContent_Declare(
     spdlog
