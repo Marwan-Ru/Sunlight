@@ -4,7 +4,7 @@
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
 #include "Ray.h"
-#include "Hit.h"
+#include "RayHit.h"
 #include "Triangle.h"
 
 //Ray
@@ -29,9 +29,9 @@ float DotCross(TVec3d v0, TVec3d v1, TVec3d v2)
 
 //Ray triangle intersection, from geometric tools engine
 //License : http://www.boost.org/LICENSE_1_0.txt
-bool Ray::Intersect(std::shared_ptr<Triangle> triangle, Hit* hit)
+bool Ray::Intersect(std::shared_ptr<Triangle> triangle, RayHit* hit)
 {
-   Hit tempHit;
+   RayHit tempHit;
 
    // Compute the offset origin, edges, and normal.
    TVec3d diff = origin - triangle->a;

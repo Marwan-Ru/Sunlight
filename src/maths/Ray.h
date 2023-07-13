@@ -11,7 +11,7 @@
 #include <maths/Vector3.h>
 #include <maths/Vector2.h>
 
-struct Hit;
+struct RayHit;
 struct RayCollection;
 struct ViewPoint;
 struct Triangle;
@@ -35,7 +35,7 @@ struct Ray
     *	@param hit Information about the intersection will be stored in it
     *	@return True if this ray intersect with the triangle, false otherwise
     */
-    bool Intersect(std::shared_ptr<Triangle> triangle, Hit* hit = nullptr);
+    bool Intersect(std::shared_ptr<Triangle> triangle, RayHit* hit = nullptr);
 
     int id;///< Id of the ray
     TVec2d fragCoord;///< Fragment coordinate of the ray

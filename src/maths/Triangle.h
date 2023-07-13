@@ -43,7 +43,7 @@ struct Triangle
     CityObjectsType subObjectType;
     std::string objectId;
     std::string polygonId;
-    std::string m_triangleId;
+    std::string m_id;
     std::string m_tileName;
 };
 

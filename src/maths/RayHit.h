@@ -13,7 +13,7 @@
 /**
 *	@brief An intersection between a ray and a triangle
 */
-struct Hit
+struct RayHit
 {
     Ray ray;///< The ray that hits
     float distance;///< Distance from the origin of the ray to the hit position

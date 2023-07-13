@@ -17,7 +17,7 @@
 #include "SunlightCsvExporter.h"
 #include "SunlightObjExporter.h"
 #include "FileInfo.h"
-#include <maths/Hit.h>
+#include <maths/RayHit.h>
 #include <utils/Timer.h>
 #include <utils/DateTime.h>
 #include <citygmls/CityObject.h>
@@ -165,9 +165,9 @@ void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& 
    std::vector<std::shared_ptr<Triangle>>* trianglesTemp = BuildTriangleList(filepath, fileType, cityObjId, rayColl.at(0)->origin.z);
 
     //Perform raytracing
-    std::vector<Hit*>* tmpHits = RayTracing(trianglesTemp, rayColl, true);
+    std::vector<RayHit*>* tmpHits = RayTracing(trianglesTemp, rayColl, true);
 
-    for (Hit* h : *tmpHits)
+    for (RayHit* h : *tmpHits)
     {
         datetimeSunInfo[h->ray.id] = false;
     }

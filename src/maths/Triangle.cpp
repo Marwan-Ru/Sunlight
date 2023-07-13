@@ -22,7 +22,7 @@ Triangle::Triangle(TVec3d a, TVec3d b, TVec3d c)
 }
 
 Triangle::Triangle(const TVec3d& _a, const TVec3d& _b, const TVec3d& _c, const std::string& triangleId, const std::string& tileName)
-   : a(_a), b(_b), c(_c), m_triangleId(triangleId), m_tileName(tileName)
+   : a(_a), b(_b), c(_c), m_id(triangleId), m_tileName(tileName)
 {
 }
 
