@@ -9,7 +9,7 @@
 
 bool isFacingTheSun(const Triangle& triangle, const TVec3d& sunPosition)
 {
-   return true;
+   return 0.0 <= triangle.getNormal().dot(sunPosition);
 }
 
 std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes)
