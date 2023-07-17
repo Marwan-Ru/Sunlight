@@ -9,37 +9,6 @@
 #include <map>
 
 struct Triangle;
-class FileInfo;
-
-/**
- * @brief This function creates SunlightOutput and _BATI, _MNT folders to follow this hierarchy :
- *
- *                              sOutputDir
- *                                  |
- *                            SunlightOutput
- *                                  |
- *                       ----------------------
- *                       |                    |
- *                     _BATI                _MNT
- *                       |                    |
- *                 -------------           -------------
- *                 |            |           |          |
- *         3670_10383  ... XXXX_XXXX   3670_10383  ... XXXX_XXXX
- *             |
- *      -------------------------
- *      |                       |
- * 2016-01-01.csv     ...   2016-31-12.csv
- * 
- * @param sOutputDir Path to output directory
-*/
-void createOutputFolders(const std::string& sOutputDir);
-
-/**
- * @brief Creates folder for a given file which will hold its computed sunlight infos
- * @param file File to create folder for
- * @param sOutputDir Full path of the output directory
-*/
-void createFileFolder(const FileInfo& file, const std::string& sOutputDir);
 
 /**
  * @brief Export Sunlight results of a given triangle into a csv
@@ -50,4 +19,4 @@ void createFileFolder(const FileInfo& file, const std::string& sOutputDir);
  * @param iEndDate End date of sunlight computation encoded as int
  * @param outputDir Full path to output directory
 */
-void exportLightningToCSV(std::map<int, bool>& sunInfo, const std::shared_ptr<Triangle>& triangle, const FileInfo& file, int iStartDate, int iEndDate, const std::string& outputDir);
+void exportResult(std::map<int, bool>& sunInfo, const std::shared_ptr<Triangle>& triangle, const std::string& outputDir);

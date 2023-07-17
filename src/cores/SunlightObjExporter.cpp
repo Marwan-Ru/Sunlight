@@ -6,7 +6,7 @@
 #include <utils/Utils.h>
 
 
-void SunlightObjExporter::exportResult(std::map<int, bool>& sunInfo, const std::shared_ptr<Triangle>& t, const FileInfo& file, int iStartDate, int iEndDate, const std::string& outputDir)
+void SunlightObjExporter::exportResult(std::map<int, bool>& sunInfo, const std::shared_ptr<Triangle>& triangle, const std::string& outputDir)
 {
    TVec3f shadowRgb(0, 0, 1);
    TVec3f lightRgb(1, 0, 0);
@@ -17,7 +17,7 @@ void SunlightObjExporter::exportResult(std::map<int, bool>& sunInfo, const std::
       datetime.replace(datetime.find(':'), 1, " ");
 
       std::ofstream ofs;
-      ofs.open(outputDir + "/Sunlight/" + file.withPrevFolder() + "/" + datetime + ".obj", std::ofstream::app);
+      ofs.open(outputDir + "/Sunlight/" + triangle->getTileName() + "/" + datetime + ".obj", std::ofstream::app);
 
       TVec3f currentRgb = shadowRgb;
       if (bTriangleInLight)
@@ -26,9 +26,9 @@ void SunlightObjExporter::exportResult(std::map<int, bool>& sunInfo, const std::
       }
 
       // Store vertex position and sunlight color as xyz rgb
-      ofs << "v " << t->a.x << " " << t->a.y << " " << t->a.z << " " << currentRgb.r << " " << currentRgb.g << " " << currentRgb.b << std::endl;
-      ofs << "v " << t->b.x << " " << t->b.y << " " << t->b.z << " " << currentRgb.r << " " << currentRgb.g << " " << currentRgb.b << std::endl;
-      ofs << "v " << t->c.x << " " << t->c.y << " " << t->c.z << " " << currentRgb.r << " " << currentRgb.g << " " << currentRgb.b << std::endl;
+      ofs << "v " << triangle->a.x << " " << triangle->a.y << " " << triangle->a.z << " " << currentRgb.r << " " << currentRgb.g << " " << currentRgb.b << std::endl;
+      ofs << "v " << triangle->b.x << " " << triangle->b.y << " " << triangle->b.z << " " << currentRgb.r << " " << currentRgb.g << " " << currentRgb.b << std::endl;
+      ofs << "v " << triangle->c.x << " " << triangle->c.y << " " << triangle->c.z << " " << currentRgb.r << " " << currentRgb.g << " " << currentRgb.b << std::endl;
 
       ofs << "f " << m_VertexIndex << " " << m_VertexIndex + 1 << " " << m_VertexIndex + 2 << std::endl;
 
