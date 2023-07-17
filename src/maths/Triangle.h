@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <optional>
 
 #include <maths/Vector3.h>
 
@@ -17,6 +18,8 @@
 #endif
 
 enum CityObjectsType : int;
+struct Ray;
+struct RayHit;
 
 /**
 *	@brief A triangle created from a citygml polygon
@@ -33,10 +36,11 @@ struct Triangle
 
     Triangle(const TVec3d& _a, const TVec3d& _b, const TVec3d& _c, const std::string& triangleId, const std::string& tileName);
 
-    TVec3d GetNormal();
-
+    TVec3d getNormal() const;
     const std::string& getId() const;
     const std::string& getTileName() const;
+
+    std::optional<RayHit> doesIntersect(const Ray& ray) const;
 
     TVec3d a; ///< First point of the triangle
     TVec3d b; ///< Second point of the triangle

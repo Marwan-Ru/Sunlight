@@ -15,8 +15,14 @@
 */
 struct RayHit
 {
-    Ray ray;///< The ray that hits
-    float distance;///< Distance from the origin of the ray to the hit position
-    TVec3d impactPoint;///< Hit position
-    Triangle triangle;///< Triangle that has been hit
+   RayHit() = default;
+
+   RayHit(const Ray& ray, const TVec3d& impactPoint, const Triangle& triangle) :
+      m_ray(ray), m_impactPoint(impactPoint), m_triangle(triangle)
+   {
+   }
+
+    Ray m_ray;///< The ray that hits
+    TVec3d m_impactPoint;///< Hit position
+    Triangle m_triangle;///< Triangle that has been hit
 };

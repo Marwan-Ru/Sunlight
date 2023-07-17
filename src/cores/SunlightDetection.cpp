@@ -169,7 +169,7 @@ void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& 
 
     for (RayHit* h : *tmpHits)
     {
-        datetimeSunInfo[h->ray.id] = false;
+        datetimeSunInfo[h->m_ray.id] = false;
     }
 
     //Delete triangles

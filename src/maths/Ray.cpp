@@ -76,10 +76,10 @@ bool Ray::Intersect(std::shared_ptr<Triangle> triangle, RayHit* hit)
             {
                // Ray intersects triangle.
                double inv = ((float)1) / DdN;
-               tempHit.impactPoint = origin + inv * QdN * direction;
+               tempHit.m_impactPoint = origin + inv * QdN * direction;
 
-               tempHit.triangle = *triangle;
-               tempHit.ray = (*this);
+               tempHit.m_triangle = *triangle;
+               tempHit.m_ray = (*this);
 
                if (hit != nullptr)
                {
