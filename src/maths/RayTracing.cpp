@@ -6,8 +6,8 @@
 #include <thread>
 
 #include "RayTracing.h"
-#include "Triangle.h"
 #include "RayHit.h"
+#include "Triangle.h"
 
 /**
 *	@brief Data used by a ray tracing thread
@@ -29,18 +29,14 @@ void RayLoop(const RayTracingData& data)
 
       for (const auto& tri : (*data.triangles))
       {
-         RayHit* hit = new RayHit();
-         if (ray->Intersect(tri, hit))//Check if the ray hit the triangle and
-         {
-               data.Hits->push_back(hit);
+         auto rayHit = tri->doesIntersect(*ray);
+         if (!rayHit.has_value())
+            continue;
 
-            if (data.breakOnFirstInter) //No need to test other intersections for this ray if we want to stop after first intersection is found
-               break;
-         }
-         else
-         {
-            delete hit;
-         }
+         data.Hits->push_back(&rayHit.value());
+
+         if (data.breakOnFirstInter) //No need to test other intersections for this ray if we want to stop after first intersection is found
+            break;
       }
    }
 }

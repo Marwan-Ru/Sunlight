@@ -3,8 +3,6 @@
 
 #include "SunlightObjExporter.h"
 #include <utils/DateTime.h>
-#include <utils/Utils.h>
-
 
 void SunlightObjExporter::exportResult(std::map<int, bool>& sunInfo, const std::shared_ptr<Triangle>& triangle, const std::string& outputDir)
 {

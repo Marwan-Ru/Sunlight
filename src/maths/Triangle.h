@@ -12,12 +12,6 @@
 
 #include <maths/Vector3.h>
 
-
-#ifdef _MSC_VER
-#pragma warning(disable: 4251) // VC++ DLL jejune complains on STL _Id member
-#endif
-
-enum CityObjectsType : int;
 struct Ray;
 struct RayHit;
 
@@ -56,9 +50,9 @@ struct Triangle
     const std::string& getTileName() const;
 
     /**
-     * @brief Check intersection between a ray and a triangle.
-     * @param ray
-     * @return An optional RayHit that can be used to check if there is any intersection.
+    *	@brief Check intersection between a ray and a triangle.
+    *	@param ray
+    *	@return An optional RayHit containg intersection information.
     */
     std::optional<RayHit> doesIntersect(const Ray& ray) const;
 

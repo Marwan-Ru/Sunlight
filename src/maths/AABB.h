@@ -11,10 +11,6 @@
 
 #include <maths/Vector3.h>
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4251) // VC++ DLL jejune complains on STL _Id member
-#endif
-
 struct Ray;
 struct RayHit;
 
