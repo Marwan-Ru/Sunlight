@@ -16,56 +16,59 @@ In CMake, we will [fetch](https://cmake.org/cmake/help/latest/module/FetchConten
 
 More information [here](https://github.com/VCityTeam/Sunlight/issues/5).
 
-### Install
+### Prerequisites
 #### For Linux
 1. [Install OpenGL](https://doc.ubuntu-fr.org/opengl), libXml2 and git LFS package
 ``` bash
 sudo apt-get install freeglut3-dev && sudo apt-get install libxml2-dev && sudo apt-get install git-lfs
 ```
 
-2. Clone the repository and move to sunlight folder.
+#### For Windows
+1. [Follow this tutorial to install and configure Visual Studio](https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170).
+
+### Install
+#### For Linux
+1. Clone the repository and move to sunlight folder.
 ``` bash
 git clone https://github.com/VCityTeam/Sunlight.git
 cd Sunlight
 ```
 
-3. Fetch all cityGML files.
+2. Fetch all cityGML files.
 ``` bash
 git lfs fetch --all
 ```
 
-4. Create a build folder in Sunlight that will contains the build of sunlight.
+3. Create a build folder in Sunlight that will contains the build of sunlight.
 ``` bash
 mkdir build/
 ```
 
-5. Compile Sunlight.
+4. Compile Sunlight.
 ``` bash
 cd build/
 cmake .. && make
 ```
 
 #### For Windows
-1. [Follow this tutorial to install and configure Visual Studio](https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170).
-
-2. Clone the repository and move to sunlight folder.
+1. Clone the repository and move to sunlight folder.
 ``` bash
 git clone https://github.com/VCityTeam/Sunlight.git
 cd Sunlight
 ```
 
-3. Fetch all cityGML files.
+2. Fetch all cityGML files.
 ``` bash
 git lfs fetch --all
 ```
 
-4. Create a build folder in Sunlight that will contains the build of sunlight.
+3. Create a build folder in Sunlight that will contains the build of sunlight.
 
-5. [Download CMake 3.27](https://cmake.org/download/).
+4. [Download CMake 3.27](https://cmake.org/download/).
 
-6. Open CMake and specify the source code path (Sunlight folder) and the build binaries path (Sunlight/build).
+5. Open CMake and specify the source code path (Sunlight folder) and the build binaries path (Sunlight/build).
 
-7. Click on configure, Generate then Open Project and you are good to go.
+6. Click on configure, Generate then Open Project and you are good to go.
 
 ## Usage
 ### Pipeline - Activity Chart
