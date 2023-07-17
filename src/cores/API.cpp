@@ -15,7 +15,25 @@ bool isFacingTheSun(const Triangle& triangle, const TVec3d& sunPosition)
 std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes)
 {
    std::cout << "Check intersection with a bounding box vector containing " << boundingBoxes.size() << " AABB." << std::endl;
-   return std::vector<RayHit>();
+
+   auto result = std::vector<RayHit>();
+
+   for (const auto& boundingBoxes : boundingBoxes)
+   {
+      auto rayHit(boundingBoxes.doesIntersect(ray));
+      if (!rayHit.has_value())
+         continue;
+
+      result.push_back(rayHit.value());
+   }
+
+   // Sort by distance (from near to far)
+   std::sort(result.begin(), result.end(), [](const RayHit& a, const RayHit& b)
+   {
+      return a.m_distance < b.m_distance;
+   });
+
+   return result;
 }
 
 std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<Triangle>& triangleSoup)

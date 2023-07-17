@@ -36,21 +36,60 @@ struct Triangle
 
     Triangle(const TVec3d& _a, const TVec3d& _b, const TVec3d& _c, const std::string& triangleId, const std::string& tileName);
 
+    /**
+     * @brief Get normal of the current normal.
+     * @return Normalized Vec3d corresponding to the triangle normal.
+    */
     TVec3d getNormal() const;
+
+    /**
+     * @brief Get the triangle id that can be used to identify one
+     *         triangle in a triangle soup.
+     * @return
+    */
     const std::string& getId() const;
+
+    /**
+     * @brief Get tile name containing the current triangle.
+     * @return
+    */
     const std::string& getTileName() const;
 
+    /**
+     * @brief Check intersection between a ray and a triangle.
+     * @param ray
+     * @return An optional RayHit that can be used to check if there is any intersection.
+    */
     std::optional<RayHit> doesIntersect(const Ray& ray) const;
 
-    TVec3d a; ///< First point of the triangle
-    TVec3d b; ///< Second point of the triangle
-    TVec3d c; ///< Third point of the triangle
+    /**
+     * @brief First Vertices of the triangle.
+    */
+    TVec3d a;
+
+    /**
+     * @brief Second Vertices of the triangle.
+    */
+    TVec3d b;
+
+    /**
+     * @brief Third Vertices of the triangle.
+    */
+    TVec3d c;
 
     CityObjectsType objectType;
     CityObjectsType subObjectType;
     std::string objectId;
     std::string polygonId;
+
+    /**
+     * @brief Triangle identifier.
+    */
     std::string m_id;
+
+    /**
+     * @brief Tile name containing the actual triangle.
+    */
     std::string m_tileName;
 };
 
