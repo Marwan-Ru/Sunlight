@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "SunlightObjExporter.h"
+#include <maths/Triangle.h>
 #include <utils/DateTime.h>
 
 void SunlightObjExporter::exportResult(std::map<int, bool>& sunInfo, const std::shared_ptr<Triangle>& triangle, const std::string& outputDir)

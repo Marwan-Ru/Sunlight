@@ -2,8 +2,9 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
-#include <maths/Triangle.h>
+struct Triangle;
 
 class SunlightObjExporter
 {
