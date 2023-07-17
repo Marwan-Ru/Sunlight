@@ -84,12 +84,16 @@ if (WIN32)
   target_link_libraries(sunlight PRIVATE libxml2)
 endif()
 
+# Add multithreading support on unix
+# For more information : https://stackoverflow.com/questions/1620918/cmake-and-libpthread/29871891#29871891
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(sunlight PRIVATE Threads::Threads)
 
-# Add glm requirement
+# Add spdlog
 # WARNING fetching an external content will always populate the build directory
 # following the standard of a lower-case name. For instance, the package LibXml2 
 # will have a macro libxml2_SOURCE_DIR and a directory libxml2-src directory.
-# Add spdlog
 FetchContent_Declare(
     spdlog
     GIT_REPOSITORY    https://github.com/gabime/spdlog.git
@@ -98,10 +102,3 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(spdlog)
 
 target_include_directories(sunlight PRIVATE ${spdlog_SOURCE_DIR}/include)
-
-
-# Add multithreading support on unix
-# For more information : https://stackoverflow.com/questions/1620918/cmake-and-libpthread/29871891#29871891
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-target_link_libraries(sunlight PRIVATE Threads::Threads)
