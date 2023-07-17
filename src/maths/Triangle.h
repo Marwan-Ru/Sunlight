@@ -35,6 +35,9 @@ struct Triangle
 
     TVec3d GetNormal();
 
+    const std::string& getId() const;
+    const std::string& getTileName() const;
+
     TVec3d a; ///< First point of the triangle
     TVec3d b; ///< Second point of the triangle
     TVec3d c; ///< Third point of the triangle

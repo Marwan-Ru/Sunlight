@@ -16,6 +16,16 @@ bool AABB::operator==(AABB const& other)
     return name == other.name;
 }
 
+const std::string& AABB::getId() const
+{
+   return m_id;
+}
+
+const std::string& AABB::getTileName() const
+{
+   return m_tileName;
+}
+
 
 //BoxOrder
 

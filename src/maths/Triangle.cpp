@@ -35,6 +35,16 @@ TVec3d Triangle::GetNormal()
    return normal.normalize();
 }
 
+const std::string& Triangle::getId() const
+{
+   return m_id;
+}
+
+const std::string& Triangle::getTileName() const
+{
+   return m_tileName;
+}
+
 std::vector<std::shared_ptr<Triangle>>* BuildTriangleList(const std::string& tilefilename, const CityObjectsType& objectType, const std::string& cityObjId, const double& zMin)
 {
     double epsilon = 0.0001;

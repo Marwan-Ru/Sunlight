@@ -23,14 +23,17 @@ struct AABB
 {
    AABB(const TVec3d& _min, const TVec3d& _max, const std::string& id, const std::string tileName);
 
+   bool operator==(AABB const& other);
+
+   const std::string& getId() const;
+   const std::string& getTileName() const;
+
     TVec3d min;///< Min point of the box
     TVec3d max;///< Max point of the box
     std::string name;///< Name of the box
 
     std::string m_id;
     std::string m_tileName;
-
-    bool operator==(AABB const& other);
 };
 
 /**
