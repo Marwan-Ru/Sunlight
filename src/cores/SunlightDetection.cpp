@@ -308,7 +308,7 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
                     continue;
 
                 //if triangle is not oriented towards the sun, it is in the shadow
-                if (t->GetNormal().dot(beamdir.second) < 0.0)
+                if (t->getNormal().dot(beamdir.second) < 0.0)
                 {
                     datetimeSunInfo[beamdir.first] = false;
                     continue;

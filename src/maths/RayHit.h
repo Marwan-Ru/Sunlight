@@ -11,18 +11,34 @@
 #include "Ray.h"
 
 /**
-*	@brief An intersection between a ray and a triangle
+*	@brief Response to an intersection between a ray and a triangle
 */
 struct RayHit
 {
    RayHit() = default;
 
-   RayHit(const Ray& ray, const TVec3d& impactPoint, const Triangle& triangle) :
-      m_ray(ray), m_impactPoint(impactPoint), m_triangle(triangle)
+   RayHit(const Ray& ray, const TVec3d& impactPoint, const Triangle& triangle, float distance) :
+      m_ray(ray), m_impactPoint(impactPoint), m_triangle(triangle), m_distance(distance)
    {
    }
 
-    Ray m_ray;///< The ray that hits
-    TVec3d m_impactPoint;///< Hit position
-    Triangle m_triangle;///< Triangle that has been hit
+   /**
+    * @brief Orginal ray responsible to the RayHit
+   */
+   Ray m_ray;
+
+   /**
+   * @brief Impact position of the ray
+   */
+   TVec3d m_impactPoint;
+
+   /**
+   * @brief Hit triangle by the ray
+   */
+   Triangle m_triangle;
+
+   /**
+   * @brief Precompute distance between ray origin and impact point
+   */
+   float m_distance;
 };

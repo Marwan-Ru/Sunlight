@@ -21,6 +21,7 @@ std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB
 std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<Triangle>& triangleSoup)
 {
    std::cout << "Check intersection with a triangle soup containing " << triangleSoup.size() << " triangles." << std::endl;
+
    auto result = std::vector<RayHit>();
 
    for (const auto& triangle : triangleSoup)
@@ -31,6 +32,12 @@ std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<Tria
 
       result.push_back(rayHit.value());
    }
+
+   // Sort by distance (from near to far)
+   std::sort(result.begin(), result.end(), [](const RayHit& a, const RayHit& b)
+   {
+      return a.m_distance < b.m_distance;
+   });
 
    return result;
 }

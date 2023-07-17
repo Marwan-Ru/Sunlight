@@ -98,7 +98,9 @@ std::optional<RayHit> Triangle::doesIntersect(const Ray& ray) const
                double inv = ((float)1) / DdN;
                TVec3d impactPoint(ray.origin + inv * QdN * ray.direction);
 
-               return RayHit(ray, impactPoint, *this);
+               float distance ((ray.direction * QdN * inv).length());
+
+               return RayHit(ray, impactPoint, *this, distance);
             }
             // else: t < 0, no intersection
          }
