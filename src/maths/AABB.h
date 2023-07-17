@@ -5,27 +5,40 @@
 
 #pragma once
 
-#include <maths/Vector3.h>
-
 #include <string>
 #include <vector>
+#include <optional>
+
+#include <maths/Vector3.h>
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4251) // VC++ DLL jejune complains on STL _Id member
 #endif
 
-// FIXME: convert this file to plain ascii (remove accented letters)
+struct Ray;
+struct RayHit;
 
 /**
 *	@brief An axis aligned bounding box
 */
 struct AABB
 {
+   AABB() = default;
+   AABB(const TVec3d& _min, const TVec3d& _max, const std::string& id, const std::string& tileName);
+
+   bool operator==(AABB const& other);
+
+   const std::string& getId() const;
+   const std::string& getTileName() const;
+
+   std::optional<RayHit> doesIntersect(const Ray& ray) const;
+
     TVec3d min;///< Min point of the box
     TVec3d max;///< Max point of the box
     std::string name;///< Name of the box
 
-    bool operator==(AABB const& other);
+    std::string m_id;
+    std::string m_tileName;
 };
 
 /**

@@ -17,7 +17,7 @@
 #include "SunlightCsvExporter.h"
 #include "SunlightObjExporter.h"
 #include "FileInfo.h"
-#include <maths/Hit.h>
+#include <maths/RayHit.h>
 #include <utils/Timer.h>
 #include <utils/DateTime.h>
 #include <citygmls/CityObject.h>
@@ -165,11 +165,11 @@ void loadTriangleAndCheckIntersectionAndUpdateSunlightResult(const std::string& 
    std::vector<std::shared_ptr<Triangle>>* trianglesTemp = BuildTriangleList(filepath, fileType, cityObjId, rayColl.at(0)->origin.z);
 
     //Perform raytracing
-    std::vector<Hit*>* tmpHits = RayTracing(trianglesTemp, rayColl, true);
+    std::vector<RayHit*>* tmpHits = RayTracing(trianglesTemp, rayColl, true);
 
-    for (Hit* h : *tmpHits)
+    for (RayHit* h : *tmpHits)
     {
-        datetimeSunInfo[h->ray.id] = false;
+        datetimeSunInfo[h->m_ray.id] = false;
     }
 
     //Delete triangles
@@ -308,7 +308,7 @@ void computeSunlight(const std::string& fileDir, const std::vector<FileInfo>& fi
                     continue;
 
                 //if triangle is not oriented towards the sun, it is in the shadow
-                if (t->GetNormal().dot(beamdir.second) < 0.0)
+                if (t->getNormal().dot(beamdir.second) < 0.0)
                 {
                     datetimeSunInfo[beamdir.first] = false;
                     continue;

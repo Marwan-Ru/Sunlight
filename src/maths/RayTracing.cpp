@@ -7,7 +7,7 @@
 
 #include "RayTracing.h"
 #include "Triangle.h"
-#include "Hit.h"
+#include "RayHit.h"
 
 /**
 *	@brief Data used by a ray tracing thread
@@ -16,7 +16,7 @@ struct RayTracingData
 {
     std::vector<std::shared_ptr<Triangle>>* triangles; ///< List of triangles of a 3D Model
     std::vector<std::shared_ptr<Ray>>* rowToDo; ///< List of ray to use for ray tracing
-    std::vector<Hit*>* Hits; ///< List of hits which store the intersections informations
+    std::vector<RayHit*>* Hits; ///< List of hits which store the intersections informations
     bool breakOnFirstInter; ///< If true, stop raytracing when an intersection is found. If false, compute all intersections between rays and triangles.
 };
 
@@ -29,7 +29,7 @@ void RayLoop(const RayTracingData& data)
 
       for (const auto& tri : (*data.triangles))
       {
-         Hit* hit = new Hit();
+         RayHit* hit = new RayHit();
          if (ray->Intersect(tri, hit))//Check if the ray hit the triangle and
          {
                data.Hits->push_back(hit);
@@ -45,7 +45,7 @@ void RayLoop(const RayTracingData& data)
    }
 }
 
-std::vector<Hit*>* RayTracing(std::vector<std::shared_ptr<Triangle>>* triangles, const std::vector<std::shared_ptr<Ray>>& rays, bool breakOnFirstInter)
+std::vector<RayHit*>* RayTracing(std::vector<std::shared_ptr<Triangle>>* triangles, const std::vector<std::shared_ptr<Ray>>& rays, bool breakOnFirstInter)
 {
    unsigned int tCount = std::thread::hardware_concurrency() - 1;//Get how many thread we have
    unsigned int rayPerThread = static_cast<unsigned int>(rays.size()) / tCount;
@@ -68,7 +68,7 @@ std::vector<Hit*>* RayTracing(std::vector<std::shared_ptr<Triangle>>* triangles,
     }
 
     //List of hits for each thread
-    std::vector<Hit*>* hitsArray = new std::vector<Hit*>[tCount];
+    std::vector<RayHit*>* hitsArray = new std::vector<RayHit*>[tCount];
 
     //std::cout << "Thread : " << tCount << std::endl;
     //std::cout << "Ray count : " << rays.size() << std::endl;
@@ -99,10 +99,10 @@ std::vector<Hit*>* RayTracing(std::vector<std::shared_ptr<Triangle>>* triangles,
     //std::cout << "The joining is completed" << std::endl;
 
     //Join vector of hits
-    std::vector<Hit*>* hits = new std::vector<Hit*>();
+    std::vector<RayHit*>* hits = new std::vector<RayHit*>();
 
     // preallocate memory
-    std::vector<Hit*>::size_type mem_size = 0;
+    std::vector<RayHit*>::size_type mem_size = 0;
 
     for (unsigned int i = 0; i < tCount; i++)
     {
