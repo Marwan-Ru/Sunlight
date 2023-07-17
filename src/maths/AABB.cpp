@@ -5,7 +5,7 @@
 
 #include "AABB.h"
 
-AABB::AABB(const TVec3d& _min, const TVec3d& _max, const std::string& id, const std::string tileName) :
+AABB::AABB(const TVec3d& _min, const TVec3d& _max, const std::string& id, const std::string& tileName) :
       min(_min), max(_max), m_id(id), m_tileName(tileName)
 {
 }

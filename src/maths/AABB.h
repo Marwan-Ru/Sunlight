@@ -21,7 +21,8 @@
 */
 struct AABB
 {
-   AABB(const TVec3d& _min, const TVec3d& _max, const std::string& id, const std::string tileName);
+   AABB() = default;
+   AABB(const TVec3d& _min, const TVec3d& _max, const std::string& id, const std::string& tileName);
 
    bool operator==(AABB const& other);
 
