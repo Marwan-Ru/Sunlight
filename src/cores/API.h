@@ -6,8 +6,8 @@
 
 struct Ray;
 struct RayHit;
-class Triangle;
-class AABB;
+struct Triangle;
+struct AABB;
 
 bool isFacingTheSun(const Triangle& triangle, const TVec3d& sunPosition);
 
