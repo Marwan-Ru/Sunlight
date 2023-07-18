@@ -67,7 +67,7 @@ git lfs fetch --all
 
 4. Open CMake and specify the source code path (Sunlight folder) and the build binaries path (Sunlight/build).
 
-5. Click on configure, Generate then Open Project and you are good to go.
+5. Click on Configure, Generate then Open Project and you are good to go.
 
 ## Usage
 ### Pipeline - Activity Chart
