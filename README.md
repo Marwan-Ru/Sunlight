@@ -3,12 +3,8 @@
 ### Prerequisites
 We are using C++ 20 because we are using latest functionalities ([optional](https://en.cppreference.com/w/cpp/utility/optional), [filesystem](https://en.cppreference.com/w/cpp/filesystem)...).
 
-- [glm - 0.9.9.8](https://github.com/g-truc/glm)
 - [spdlog - v1.11.0](https://github.com/gabime/spdlog)
-- [libxml2 - 2.9.3](https://github.com/GNOME/libxml2)  
-⚠️ We use a modified version of libxml2 available in the [3DUSE binary kit](https://download.gforge.liris.cnrs.fr/meppbin/windows/vs2015/VCITY/kits/VCITY_local_vs2015_64.7z).
-- OpenGL
-- Glu
+
 
 ### External Sources Policies
 In CMake, we will [fetch](https://cmake.org/cmake/help/latest/module/FetchContent.html) all externals libraries to avoid external sources in VCity repository. For more information on how include the fetch content, click [here](https://stackoverflow.com/questions/63311116/how-to-find-the-source-directory-of-package-downloaded-via-fetchcontent).  
@@ -18,9 +14,9 @@ More information [here](https://github.com/VCityTeam/Sunlight/issues/5).
 
 ### Prerequisites
 #### For Linux
-1. [Install OpenGL](https://doc.ubuntu-fr.org/opengl), libXml2 and git LFS package
+1. Install git LFS package
 ``` bash
-sudo apt-get install freeglut3-dev && sudo apt-get install libxml2-dev && sudo apt-get install git-lfs
+sudo apt-get install git-lfs
 ```
 
 #### For Windows
@@ -81,19 +77,13 @@ Sunlight (repo)
 ├── datas                     # Datas use for testing
 ├── docs                      # Documentations (original charts...)
 ├── src                       # Source code
-|    ├── ADE
-|    ├── citygml                
 |    ├── cores                # Core program / Main functionality
 |    ├── maths                # Mathematical and geometrical class
-|    ├── parsers
+|    ├── parsers              # Annual sun position parser
 |    ├── utils                # Small utils / helpers (timer, operators override...)
 |
-├── third-partys              # Externals libraries
-|        ├── libxml2-2.9.3    # Precompiled windows parser for cityGML
-|
-├── .editorconfig             # Formatting rules and configuration
 ├── .gitattributes            # Define Large Files (.gml, .dat...)
 ├── .gitignore                # Files/folders ignored by Git
 ├── CMakeLists.txt            # CMake file to create a crossplatform software
-├── Readme.md
+├── README.md
 ```

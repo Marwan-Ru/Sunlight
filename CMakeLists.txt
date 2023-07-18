@@ -54,36 +54,6 @@ endif()
 
 
 # ============================== Add External libraries ============================== 
-# Add OpenGL requirement
-find_package(OpenGL REQUIRED)
-if (NOT OPENGL_FOUND)
-  message (FATAL_ERROR "OpenGL not found.")
-endif()
-
-target_link_libraries(sunlight PRIVATE ${OPENGL_gl_LIBRARY})
-target_link_libraries(sunlight PRIVATE ${OPENGL_glu_LIBRARY})
-
-
-# Add libxml2
-if (UNIX)
-  find_package(LibXml2 REQUIRED)
-  if (NOT LIBXML2_FOUND)
-    message (FATAL_ERROR "LibXml2 not found.")
-  endif()
-
-  target_include_directories(sunlight PRIVATE ${LIBXML2_INCLUDE_DIR})
-  target_link_libraries(sunlight PRIVATE ${LIBXML2_LIBRARIES})
-endif()
-
-# Add precompiled windows libxml
-if (WIN32)
-  set(LibXml2 "third-partys/libxml2-2.9.3")
-
-  target_include_directories(sunlight PRIVATE ${LibXml2}/include/libxml2/)
-  target_link_directories(sunlight PRIVATE ${LibXml2}/lib/)
-  target_link_libraries(sunlight PRIVATE libxml2)
-endif()
-
 # Add multithreading support on unix
 # For more information : https://stackoverflow.com/questions/1620918/cmake-and-libpthread/29871891#29871891
 set(THREADS_PREFER_PTHREAD_FLAG ON)
