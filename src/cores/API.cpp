@@ -30,7 +30,7 @@ std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB
    // Sort by distance (from near to far)
    std::sort(result.begin(), result.end(), [](const RayHit& a, const RayHit& b)
    {
-      return a.m_distance < b.m_distance;
+      return a.distance < b.distance;
    });
 
    return result;
@@ -54,7 +54,7 @@ std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<Tria
    // Sort by distance (from near to far)
    std::sort(result.begin(), result.end(), [](const RayHit& a, const RayHit& b)
    {
-      return a.m_distance < b.m_distance;
+      return a.distance < b.distance;
    });
 
    return result;

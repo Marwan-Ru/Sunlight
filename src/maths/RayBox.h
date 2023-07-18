@@ -20,8 +20,10 @@ struct RayBoxHit
     std::vector<unsigned int> ListRays; //Contient la liste des rayons intersectant cette box.
 };
 
-bool operator<(const RayBoxHit& a, const RayBoxHit& b);
-
+bool operator<(const RayBoxHit& a, const RayBoxHit& b)
+{
+   return a.minDistance < b.minDistance;
+}
 
 /**
  * @brief Ray - Bounding Boxes related methods and members
@@ -31,23 +33,17 @@ class RayBox : public Ray
 
 public:
 
+   RayBox() = default;
+
     /**
     *	@brief Build a new rayBox
-    *	@param ori Origin of the rayBox
-    *	@param dir Direction of the rayBox
-    * @param id oh the rayBox
+    *	@param _origin Origin of the rayBox
+    *	@param _direction Direction of the rayBox
     */
-    RayBox(TVec3d ori = TVec3d(0.0, 0.0, 0.0), TVec3d dir = TVec3d(1.0, 1.0, 1.0), int id = -1);
-
-    /**
-    *	@brief To know if the ray instersects a given box
-    *	@param box Box to intersect
-    *	@param hitt0 t0 at when ray first hits the box
-    *	@param hitt1 t1 at when ray first leaves the box
-    *	@return True if this ray intersect with the box
-    */
-    bool Intersect(AABB box, float* hitt0, float* hitt1);
+    RayBox(TVec3d _origin, TVec3d _direction) :
+       Ray(_origin, _direction), boxes(std::vector<RayBoxHit>())
+    {
+    }
 
     std::vector<RayBoxHit> boxes;///< List of boxes that this ray go through
-
 };

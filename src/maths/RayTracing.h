@@ -11,7 +11,7 @@
 #include "Ray.h"
 
 struct RayHit;
-struct TriangleList;
+struct Triangle;
 
 /**
 *	@build Perform raytracing algorithm on a set of triangles
