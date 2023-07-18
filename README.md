@@ -1,6 +1,6 @@
 # Sunlight
 ## Getting Started
-### Prerequisites
+### External Dependencies
 We are using C++ 20 because we are using latest functionalities ([optional](https://en.cppreference.com/w/cpp/utility/optional), [filesystem](https://en.cppreference.com/w/cpp/filesystem)...).
 
 - [spdlog - v1.11.0](https://github.com/gabime/spdlog)
@@ -12,7 +12,10 @@ In CMake, we will [fetch](https://cmake.org/cmake/help/latest/module/FetchConten
 
 More information [here](https://github.com/VCityTeam/Sunlight/issues/5).
 
+
 ### Prerequisites
+- CMake 3.27.
+
 #### For Linux
 1. Install git LFS package
 ``` bash
