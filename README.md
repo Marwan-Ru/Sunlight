@@ -22,6 +22,8 @@ sudo apt-get install git-lfs
 #### For Windows
 1. [Follow this tutorial to install and configure Visual Studio](https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170).
 
+2. [Download CMake 3.27](https://cmake.org/download/).
+
 ### Install
 #### For Linux
 1. Clone the repository and move to sunlight folder.
@@ -60,11 +62,9 @@ git lfs fetch --all
 
 3. Create a build folder in Sunlight that will contains the build of sunlight.
 
-4. [Download CMake 3.27](https://cmake.org/download/).
+4. Open CMake and specify the source code path (Sunlight folder) and the build binaries path (Sunlight/build).
 
-5. Open CMake and specify the source code path (Sunlight folder) and the build binaries path (Sunlight/build).
-
-6. Click on configure, Generate then Open Project and you are good to go.
+5. Click on configure, Generate then Open Project and you are good to go.
 
 ## Usage
 ### Pipeline - Activity Chart
