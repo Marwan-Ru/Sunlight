@@ -31,12 +31,6 @@ struct Triangle
     Triangle(const TVec3d& _a, const TVec3d& _b, const TVec3d& _c, const std::string& triangleId, const std::string& tileName);
 
     /**
-     * @brief Get normal of the current normal.
-     * @return Normalized Vec3d corresponding to the triangle normal.
-    */
-    TVec3d getNormal() const;
-
-    /**
      * @brief Get the triangle id that can be used to identify one
      *         triangle in a triangle soup.
      * @return
@@ -48,6 +42,18 @@ struct Triangle
      * @return
     */
     const std::string& getTileName() const;
+
+    /**
+     * @brief Get normal of the current normal.
+     * @return Normalized Vec3d corresponding to the triangle normal.
+    */
+    TVec3d getNormal() const;
+
+    /**
+     * @brief Get triangle barycenter.
+     * @return Vec3D of triangle barycenter.
+    */
+    TVec3d getBarycenter() const;
 
     /**
     *	@brief Check intersection between a ray and a triangle.

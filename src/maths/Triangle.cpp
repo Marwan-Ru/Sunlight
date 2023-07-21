@@ -21,6 +21,16 @@ Triangle::Triangle(const TVec3d& _a, const TVec3d& _b, const TVec3d& _c, const s
 {
 }
 
+const std::string& Triangle::getId() const
+{
+   return m_id;
+}
+
+const std::string& Triangle::getTileName() const
+{
+   return m_tileName;
+}
+
 TVec3d Triangle::getNormal() const
 {
    auto x = b - a;
@@ -30,14 +40,9 @@ TVec3d Triangle::getNormal() const
    return normal.normalize();
 }
 
-const std::string& Triangle::getId() const
+TVec3d Triangle::getBarycenter() const
 {
-   return m_id;
-}
-
-const std::string& Triangle::getTileName() const
-{
-   return m_tileName;
+   return (a + b + c) / 3.0;
 }
 
 //Ray triangle intersection, from geometric tools engine
