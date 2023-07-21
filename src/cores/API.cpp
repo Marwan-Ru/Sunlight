@@ -27,8 +27,6 @@ Ray constructRay(const Triangle& triangle, const TVec3d& sunDirection)
 
 std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes)
 {
-   std::cout << "Check intersection with a bounding box vector containing " << boundingBoxes.size() << " AABB." << std::endl;
-
    auto result = std::vector<RayHit>();
 
    for (const auto& boundingBoxes : boundingBoxes)
@@ -51,8 +49,6 @@ std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB
 
 std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<Triangle>& triangleSoup)
 {
-   std::cout << "Check intersection with a triangle soup containing " << triangleSoup.size() << " triangles." << std::endl;
-
    auto result = std::vector<RayHit>();
 
    for (const auto& triangle : triangleSoup)
