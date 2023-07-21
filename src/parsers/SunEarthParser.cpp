@@ -13,7 +13,7 @@ void SunEarthToolsParser::loadSunpathFile(const std::string& sunPathFile, int iS
    if (!sunFile.is_open())
    {
       spdlog::error("Failed to open {}", sunPathFile);
-      return {};
+      return;
    }
 
    bool found = false; //Date found
