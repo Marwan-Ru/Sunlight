@@ -12,7 +12,7 @@
   - Fixer l'API de Sunlight et la wrapper en Python dans `pySunlight`.
   - Demander d'effectuer des calculs de Sunlight depuis pySunlight.
   - Parser des 3DTiles à l'aide de py3DTiler `TileReader` afin d'obtenir une liste de triangles.
-  - Porter le main de Sunlight vers pySunlight puisqu'il dépend du parsing de fichier.
+  - Porter la fonction `main` de Sunlight vers pySunlight puisqu'il dépend du parsing de fichier.
     - Transformer les 3DTiles en des 3DTiles avec des features en niveau de triangles afin de 
     d'associer des résultats à chaque triangle.
     - Convertir une listes de triangles par pySunlight en une liste de triangles avec des identifiants associés utilisable Sunlight.
