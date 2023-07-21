@@ -7,7 +7,7 @@
 #include <utils/DateTime.h>
 #include <maths/maths.h>
 
-std::vector<SunDatas> SunEarthToolsParser::loadSunpathFile(const std::string& sunPathFile, int iStartDate, int iEndDate)
+void SunEarthToolsParser::loadSunpathFile(const std::string& sunPathFile, int iStartDate, int iEndDate)
 {
    std::ifstream sunFile(sunPathFile);
    if (!sunFile.is_open())
@@ -15,8 +15,6 @@ std::vector<SunDatas> SunEarthToolsParser::loadSunpathFile(const std::string& su
       spdlog::error("Failed to open {}", sunPathFile);
       return {};
    }
-
-   std::vector<SunDatas> sunDatas {};
 
    bool found = false; //Date found
    bool exit_loop = false;
@@ -85,7 +83,7 @@ std::vector<SunDatas> SunEarthToolsParser::loadSunpathFile(const std::string& su
             auto sunPosition (computeSunPosition(azimutAngleInRadians, elevationAngleInRadians));
             auto sunDirection (computeSunDirection(sunPosition));
 
-            sunDatas.push_back(SunDatas(std::to_string(dateTime), sunPosition, sunDirection));
+            m_sunDatasLoaded.push_back(SunDatas(std::to_string(dateTime), sunPosition, sunDirection));
             if (sunDirection == TVec3d(0, 0, 0))
             {
                spdlog::warn("Sun is too low to compute sunlight for {} {} with azimut angle ({}) and elevation angle ({})", sCurrentDate, hour, azimutAngleInRadians, elevationAngleInRadians);
@@ -103,8 +101,7 @@ std::vector<SunDatas> SunEarthToolsParser::loadSunpathFile(const std::string& su
             //Add nul beam direction for last hour of the day
             int dateTime = encodeDateTime(sCurrentDate, hour);
 
-
-            sunDatas.push_back(SunDatas(std::to_string(dateTime), TVec3d(0.0, 0.0, 0.0), TVec3d(0.0, 0.0, 0.0)));
+            m_sunDatasLoaded.push_back(SunDatas(std::to_string(dateTime), TVec3d(0.0, 0.0, 0.0), TVec3d(0.0, 0.0, 0.0)));
             spdlog::warn("Timeshift detected, so the position for {} {} will not be computed", sCurrentDate, hour);
          }
 
@@ -119,8 +116,6 @@ std::vector<SunDatas> SunEarthToolsParser::loadSunpathFile(const std::string& su
    {
       spdlog::error("Do not found any date corresponding while loading Annual SunPath file.");
    }
-
-   return sunDatas;
 }
 
 const std::vector<SunDatas>& SunEarthToolsParser::getSunDatas() const

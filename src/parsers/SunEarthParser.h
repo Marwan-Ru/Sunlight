@@ -20,9 +20,8 @@ public:
     * @param sunpathFile Absolute path to the file.
     * @param iStartDate Start date of sunlight computation encoded as int.
     * @param iEndDate End date of sunlight computation encoded as int.
-    * @return
    */
-   std::vector<SunDatas> loadSunpathFile(const std::string& sunPathFile, int iStartDate, int iEndDate);
+   void loadSunpathFile(const std::string& sunPathFile, int iStartDate, int iEndDate);
 
    /**
     * @brief Get all direction towards at several timestamp.
