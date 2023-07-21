@@ -32,7 +32,7 @@
     - Dockerisation pySunlight (le conteneur pySunlight ET le docker-compose
     pour son usage).
 
-## Version 0.4 (11/08/2023) - Afficher les résultats dans Ud-Viz
+## Version 0.4 (11/08/2023) - Afficher les résultats dans UD-Viz
   - Chargement d'un 3DTiles Sunlight produit par pySunlight.
   - Affichage des géométries des batiments (format 3DTiles) coloré par
     les résultat de Sunlight (à partir d'une date)
