@@ -2,17 +2,12 @@
 #include <sstream>
 // Log in console
 #include <spdlog/spdlog.h>
-#include <maths/maths.h>
 
 #include "SunEarthParser.h"
 #include <utils/DateTime.h>
+#include <maths/maths.h>
 
-SunEarthToolsParser::SunEarthToolsParser(const std::string& sunPathFile, int iStartDate, int iEndDate)
-{
-   m_directionTowardsTheSun = loadSunpathFile(sunPathFile, iStartDate, iEndDate);
-}
-
-std::map<int, TVec3d> SunEarthToolsParser::loadSunpathFile(const std::string& sunPathFile, int iStartDate, int iEndDate)
+std::vector<SunDatas> SunEarthToolsParser::loadSunpathFile(const std::string& sunPathFile, int iStartDate, int iEndDate)
 {
    std::ifstream sunFile(sunPathFile);
    if (!sunFile.is_open())
@@ -21,7 +16,7 @@ std::map<int, TVec3d> SunEarthToolsParser::loadSunpathFile(const std::string& su
       return {};
    }
 
-   std::map<int, TVec3d> SunBeamDir;
+   std::vector<SunDatas> sunDatas {};
 
    bool found = false; //Date found
    bool exit_loop = false;
@@ -87,8 +82,11 @@ std::map<int, TVec3d> SunEarthToolsParser::loadSunpathFile(const std::string& su
             int dateTime = encodeDateTime(sCurrentDate, hour);
 
             //Compute Sun's beam Direction
-            SunBeamDir[dateTime] = computeDirectionTowardsTheSun(azimutAngleInRadians, elevationAngleInRadians);
-            if (SunBeamDir[dateTime] == TVec3d(0, 0, 0))
+            auto sunPosition (computeSunPosition(azimutAngleInRadians, elevationAngleInRadians));
+            auto sunDirection (computeSunDirection(sunPosition));
+
+            sunDatas.push_back(SunDatas(std::to_string(dateTime), sunPosition, sunDirection));
+            if (sunDirection == TVec3d(0, 0, 0))
             {
                spdlog::warn("Sun is too low to compute sunlight for {} {} with azimut angle ({}) and elevation angle ({})", sCurrentDate, hour, azimutAngleInRadians, elevationAngleInRadians);
             }
@@ -104,7 +102,9 @@ std::map<int, TVec3d> SunEarthToolsParser::loadSunpathFile(const std::string& su
          {
             //Add nul beam direction for last hour of the day
             int dateTime = encodeDateTime(sCurrentDate, hour);
-            SunBeamDir[dateTime] = TVec3d(0.0, 0.0, 0.0);
+
+
+            sunDatas.push_back(SunDatas(std::to_string(dateTime), TVec3d(0.0, 0.0, 0.0), TVec3d(0.0, 0.0, 0.0)));
             spdlog::warn("Timeshift detected, so the position for {} {} will not be computed", sCurrentDate, hour);
          }
 
@@ -120,15 +120,15 @@ std::map<int, TVec3d> SunEarthToolsParser::loadSunpathFile(const std::string& su
       spdlog::error("Do not found any date corresponding while loading Annual SunPath file.");
    }
 
-   return SunBeamDir;
+   return sunDatas;
 }
 
-const std::map<int, TVec3d>& SunEarthToolsParser::getDirectionTowardsTheSun() const
+const std::vector<SunDatas>& SunEarthToolsParser::getSunDatas() const
 {
-   return m_directionTowardsTheSun;
+   return m_sunDatasLoaded;
 }
 
-Quaternion SunEarthToolsParser::getSunRotation(double azimutAngleInRadians, double elevationAngleInRadians)
+Quaternion SunEarthToolsParser::getSunRotation(double azimutAngleInRadians, double elevationAngleInRadians) const
 {
    Quaternion elevationQuaternion (TVec3d(-1.0, 0, 0), elevationAngleInRadians);
    Quaternion azimutQuaternion(TVec3d(0, 0, 1.0), azimutAngleInRadians);
@@ -136,23 +136,20 @@ Quaternion SunEarthToolsParser::getSunRotation(double azimutAngleInRadians, doub
    return elevationQuaternion * azimutQuaternion;
 }
 
-TVec3d SunEarthToolsParser::computeDirectionTowardsTheSun(double azimutAngleInRadians, double elevationAngleInRadians)
+TVec3d SunEarthToolsParser::computeSunPosition(double azimutAngleInRadians, double elevationAngleInRadians) const
 {
    //if sun to low (angle < 1 degree), return nul beam direction
    if (elevationAngleInRadians <= 0.01 || azimutAngleInRadians <= 0.01)
       return TVec3d(0.0, 0.0, 0.0);
 
-   //Lambert 93 Coordinates
-   TVec3d originOffset(1843927.29, 5173886.65, 0.0);
-   //SunPos is the first position of the sun (north) from which the angles are expressed
-   TVec3d sunBasePosition(TVec3d(0.0, 60000.0, 0.0));
+   Quaternion finalRotation(getSunRotation(azimutAngleInRadians, elevationAngleInRadians));
 
    // Rotate the sun base position with the rotation at a given time (or azimut / elevation)
-   Quaternion finalRotation(getSunRotation(azimutAngleInRadians, elevationAngleInRadians));
-   TVec3d sunPositionAfterRotation(finalRotation * sunBasePosition + originOffset);
+   return finalRotation * SUN_BASE_POSITION + ORIGIN_OFFSET;
+}
 
-   //Compute sun beam direction
-   TVec3d directionToSun(sunPositionAfterRotation - originOffset);
-
+TVec3d SunEarthToolsParser::computeSunDirection(const TVec3d& sunPosition) const
+{
+   TVec3d directionToSun(sunPosition - ORIGIN_OFFSET);
    return directionToSun.normalize();
 }
