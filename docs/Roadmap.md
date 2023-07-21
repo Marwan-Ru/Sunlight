@@ -11,11 +11,12 @@
 ## Version 0.2 (14/07/2023) - Ajout du parser 3DTiles dans pySunlight
   - Fixer l'API de Sunlight et la wrapper en Python dans `pySunlight`.
   - Demander d'effectuer des calculs de Sunlight depuis pySunlight.
-  - Parser des 3DTiles à l'aide de py3DTiler `TileReader` afin d'obtenir une liste de triangles.
+  - Parser des 3DTiles à l'aide du `TileReader` de py3DTiler afin d'obtenir une liste de triangles.
   - Porter la fonction `main` de Sunlight vers pySunlight puisqu'il dépend du parsing de fichier.
     - Transformer les 3DTiles en des 3DTiles avec des features en niveau de triangles afin de 
     d'associer des résultats à chaque triangle.
-    - Convertir une listes de triangles par pySunlight en une liste de triangles avec des identifiants associés utilisable Sunlight.
+    - Convertir une listes de triangles par pySunlight en une liste de triangles avec des identifiants associés
+    utilisable par Sunlight.
   - Supprimer le code du parser libcityGML de Sunlight.
   - Portage du build de Sunlight en CMake afin de faciliter la fabrication du wrapper.
   - Benchmark des performances.
