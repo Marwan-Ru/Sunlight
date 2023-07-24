@@ -6,6 +6,7 @@
 
 struct Ray;
 struct RayHit;
+struct RayBoxHit;
 struct Triangle;
 struct AABB;
 
@@ -30,9 +31,9 @@ Ray constructRay(const Triangle& triangle, const TVec3d& sunDirection);
  *         It's sort the output list based on impact distance from near to far.
  * @param ray Ray used to check intersections.
  * @param boundingBoxes All boundings where we check an intersection.
- * @return A vector of RayHit containing the impacted bounding boxes sorted by impact distance (from near to far).
+ * @return A vector of RayBoxHit containing the impacted bounding boxes sorted by impact distance (from near to far).
 */
-std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes);
+std::vector<RayBoxHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes);
 
 /**
  * @brief Check all intersection with a ray and a triangle soup

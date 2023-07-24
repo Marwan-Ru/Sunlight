@@ -97,7 +97,7 @@ std::optional<RayHit> Triangle::doesIntersect(const Ray& ray) const
 
                float distance ((ray.direction * QdN * inv).length());
 
-               return RayHit(ray, impactPoint, *this, distance);
+               return RayHit(impactPoint, *this, distance);
             }
             // else: t < 0, no intersection
          }

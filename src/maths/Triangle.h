@@ -58,7 +58,7 @@ struct Triangle
     /**
     *	@brief Check intersection between a ray and a triangle.
     *	@param ray
-    *	@return An optional RayHit containg intersection information.
+    *	@return An optional RayHit containing intersection information.
     */
     std::optional<RayHit> doesIntersect(const Ray& ray) const;
 

@@ -16,7 +16,15 @@ struct SunDatas
    {
    }
    
+   /**
+    * @brief Date formated in string
+   */
    std::string dateStr;
+
+   /**
+    * @brief Sun position in Lamer 93 coordinate
+   */
    TVec3d position;
+
    TVec3d direction;
 };

@@ -3,6 +3,7 @@
 #include "API.h"
 #include <maths/Ray.h>
 #include <maths/RayHit.h>
+#include <maths/RayBoxHit.h>
 #include <maths/Triangle.h>
 #include <maths/AABB.h>
 #include <maths/RayTracing.h>
@@ -25,9 +26,9 @@ Ray constructRay(const Triangle& triangle, const TVec3d& sunDirection)
    return Ray(origin, direction);
 }
 
-std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes)
+std::vector<RayBoxHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes)
 {
-   auto result = std::vector<RayHit>();
+   auto result = std::vector<RayBoxHit>();
 
    for (const auto& boundingBoxes : boundingBoxes)
    {
@@ -39,7 +40,7 @@ std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB
    }
 
    // Sort by distance (from near to far)
-   std::sort(result.begin(), result.end(), [](const RayHit& a, const RayHit& b)
+   std::sort(result.begin(), result.end(), [](const RayBoxHit& a, const RayBoxHit& b)
    {
       return a.distance < b.distance;
    });
