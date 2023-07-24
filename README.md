@@ -18,9 +18,9 @@ More information [here](https://github.com/VCityTeam/Sunlight/issues/5).
 
 #### For Linux
 1. Install git LFS package
-``` bash
-sudo apt-get install git-lfs
-```
+   ``` bash
+   sudo apt-get install git-lfs
+   ```
 
 #### For Windows
 1. [Follow this tutorial to install and configure Visual Studio](https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170).
@@ -30,38 +30,38 @@ sudo apt-get install git-lfs
 ### Install
 #### For Linux
 1. Clone the repository and move to sunlight folder.
-``` bash
-git clone https://github.com/VCityTeam/Sunlight.git
-cd Sunlight
-```
+   ``` bash
+   git clone https://github.com/VCityTeam/Sunlight.git
+   cd Sunlight
+   ```
 
 2. Fetch all cityGML files.
-``` bash
-git lfs fetch --all
-```
+   ``` bash
+   git lfs fetch --all
+   ```
 
 3. Create a build folder in Sunlight that will contains the build of sunlight.
-``` bash
-mkdir build/
-```
+   ``` bash
+   mkdir build/
+   ```
 
 4. Compile Sunlight.
-``` bash
-cd build/
-cmake .. && make
-```
+   ``` bash
+   cd build/
+   cmake .. && make
+   ```
 
 #### For Windows
 1. Clone the repository and move to sunlight folder.
-``` bash
-git clone https://github.com/VCityTeam/Sunlight.git
-cd Sunlight
-```
+   ``` bash
+   git clone https://github.com/VCityTeam/Sunlight.git
+   cd Sunlight
+   ```
 
 2. Fetch all cityGML files.
-``` bash
-git lfs fetch --all
-```
+   ``` bash
+   git lfs fetch --all
+   ```
 
 3. Create a build folder in Sunlight that will contains the build of sunlight.
 
