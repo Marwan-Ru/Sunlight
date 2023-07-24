@@ -8,6 +8,23 @@
 
 namespace fs = std::filesystem;
 
+void SunlightObjExporter::resetVertexCount()
+{
+   m_VertexIndex = 1;
+}
+
+void SunlightObjExporter::createOutputDirectory(const std::string& outputDir)
+{
+   // Remove tile directory to avoid append on preexistant file. 
+   fs::path path(outputDir);
+   if (fs::exists(path))
+   {
+      fs::remove(path);
+   }
+       
+   fs::create_directories(path);
+}
+
 void SunlightObjExporter::exportResult(const std::string& dateStr, bool bTriangleInLight, const Triangle& triangle, const std::string& outputDir)
 {
    TVec3f shadowRgb(0, 0, 1);
@@ -17,10 +34,7 @@ void SunlightObjExporter::exportResult(const std::string& dateStr, bool bTriangl
    auto dateTime = dateStr;
    dateTime.replace(dateTime.find(":"), 1, "_");
 
-   auto rootDirectory(outputDir + "/" + triangle.getTileName());
-   fs::create_directories(rootDirectory);
-
-   auto path(rootDirectory + "/" + dateTime + ".obj");
+   auto path(outputDir + "/" + dateTime + ".obj");
    std::ofstream ofs (path, std::ofstream::app);
 
    TVec3f currentRgb = shadowRgb;
