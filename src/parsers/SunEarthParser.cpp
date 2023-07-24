@@ -83,10 +83,14 @@ void SunEarthToolsParser::loadSunpathFile(const std::string& sunPathFile, int iS
             auto sunPosition (computeSunPosition(azimutAngleInRadians, elevationAngleInRadians));
             auto sunDirection (computeSunDirection(sunPosition));
 
-            m_sunDatasLoaded.push_back(SunDatas(std::to_string(dateTime), sunPosition, sunDirection));
-            if (sunDirection == TVec3d(0, 0, 0))
+            if (sunPosition != TVec3d(0, 0, 0))
             {
-               spdlog::warn("Sun is too low to compute sunlight for {} {} with azimut angle ({}) and elevation angle ({})", sCurrentDate, hour, azimutAngleInRadians, elevationAngleInRadians);
+               spdlog::warn("date {}", decodeDateTime(dateTime));
+               m_sunDatasLoaded.push_back(SunDatas(decodeDateTime(dateTime), sunPosition, sunDirection));
+            }
+            else
+            {
+               spdlog::warn("Sun is too low at {} {} to compute sunlight with azimut angle ({}) and elevation angle ({})", sCurrentDate, hour, azimutAngleInRadians, elevationAngleInRadians);
             }
 
             ++hour;
@@ -101,7 +105,7 @@ void SunEarthToolsParser::loadSunpathFile(const std::string& sunPathFile, int iS
             //Add nul beam direction for last hour of the day
             int dateTime = encodeDateTime(sCurrentDate, hour);
 
-            m_sunDatasLoaded.push_back(SunDatas(std::to_string(dateTime), TVec3d(0.0, 0.0, 0.0), TVec3d(0.0, 0.0, 0.0)));
+            //m_sunDatasLoaded.push_back(SunDatas(decodeDateTime(dateTime), TVec3d(0.0, 0.0, 0.0), TVec3d(0.0, 0.0, 0.0)));
             spdlog::warn("Timeshift detected, so the position for {} {} will not be computed", sCurrentDate, hour);
          }
 
