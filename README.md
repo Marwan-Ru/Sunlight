@@ -1,4 +1,6 @@
 # Sunlight
+Library fo light pre-calculation based on real data (urban data and sun position). It's a project extract from [3DUSE](https://github.com/VCityTeam/3DUSE) separate from parsing operations and as such, with less dependency.
+
 ## Getting Started
 ### External Dependencies
 We are using C++ 20 because we are using latest functionalities ([optional](https://en.cppreference.com/w/cpp/utility/optional), [filesystem](https://en.cppreference.com/w/cpp/filesystem)...).
@@ -90,3 +92,9 @@ Sunlight (repo)
 ├── CMakeLists.txt            # CMake file to create a crossplatform software
 ├── README.md
 ```
+
+## Contact
+- Wesley Petit - [Website](https://wesleypetit.fr/) - wesley.petit.lemoine@gmail.com
+
+## Credits
+- [3DUSE Sunlight Plugin](https://github.com/VCityTeam/3DUSE)
