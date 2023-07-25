@@ -1,47 +1,9 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-
-# Executables
-*.exe
-*.out
-*.app
-
-*.filters
-
-*.user
-
-x64/Debug/
-
+# Ignore IDE
 .vs/
 
-x64/
+# Ignore generated files
+build/
 
-datas/Sunlight/logFile.txt
-
-*.bkp
-
-*.dtmp
-build/*
+# Ignore draw.io backup files
+*.drawio.bkp
+*.drawio.dtmp
