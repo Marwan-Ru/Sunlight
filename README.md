@@ -2,6 +2,27 @@
 ## About The Project
 Library fo light pre-calculation based on real data (urban data and sun position). It's a project extract from [3DUSE](https://github.com/VCityTeam/3DUSE) separate from parsing operations and as such, with less dependency.
 
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+
 ## Getting Started
 ### External Dependencies
 We are using C++ 20 because we are using latest functionalities ([optional](https://en.cppreference.com/w/cpp/utility/optional), [filesystem](https://en.cppreference.com/w/cpp/filesystem)...).
@@ -30,7 +51,7 @@ More information [here](https://github.com/VCityTeam/Sunlight/issues/5).
 
 2. [Download CMake 3.27](https://cmake.org/download/).
 
-### Install
+### Installation
 #### For Linux
 1. Clone the repository and move to sunlight folder.
    ``` bash
@@ -93,5 +114,5 @@ Sunlight (repo)
 ## Contact
 - Wesley Petit - [Website](https://wesleypetit.fr/) - wesley.petit.lemoine@gmail.com
 
-## Credits
+## Acknowledgments
 - [3DUSE Sunlight Plugin](https://github.com/VCityTeam/3DUSE)
