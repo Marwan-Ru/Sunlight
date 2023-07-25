@@ -72,10 +72,6 @@ More information [here](https://github.com/VCityTeam/Sunlight/issues/5).
 5. Click on Configure, Generate then Open Project and you are good to go.
 
 ## Usage
-### Pipeline - Activity Chart
-Here is the pipeline we follow for Sunlight :
-![Pipeline Activity Chart](./docs/Pipeline_Activity_Chart.png)
-
 ### Directory Hierarchy
 ```
 Sunlight (repo)
