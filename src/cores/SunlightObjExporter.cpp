@@ -19,7 +19,7 @@ void SunlightObjExporter::createOutputDirectory(const std::string& outputDir)
    fs::path path(outputDir);
    if (fs::exists(path))
    {
-      fs::remove(path);
+      fs::remove_all(path);
    }
        
    fs::create_directories(path);
