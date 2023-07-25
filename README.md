@@ -1,4 +1,5 @@
 # Sunlight
+## About The Project
 Library fo light pre-calculation based on real data (urban data and sun position). It's a project extract from [3DUSE](https://github.com/VCityTeam/3DUSE) separate from parsing operations and as such, with less dependency.
 
 ## Getting Started
