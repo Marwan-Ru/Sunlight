@@ -1,27 +1,24 @@
 # Sunlight
-## Table of Contents
-<ol>
-  <li>
-    <a href="#about-the-project">About The Project</a>
-  </li>
-  <li>
-    <a href="#getting-started">Getting Started</a>
-    <ul>
-      <li><a href="#external-dependencies">External Dependencies</a></li>
-      <li><a href="#external-sources-policies">External Sources Policies</a></li>
-      <li><a href="#prerequisites">Prerequisites</a></li>
-      <li><a href="#installation">Installation</a></li>
-    </ul>
-  </li>
-  <li><a href="#usage">Usage</a>
-    <ul>
-      <li><a href="#directory-hierarchy">Directory Hierarchy</a></li>
-    </ul>
-  </li>
-  <li><a href="#contact">Contact</a></li>
-  <li><a href="#acknowledgments">Acknowledgments</a></li>
-</ol>
 
+<!-- TOC -->
+
+- [Sunlight](#sunlight)
+    - [About The Project](#about-the-project)
+    - [Getting Started](#getting-started)
+        - [External Dependencies](#external-dependencies)
+        - [External Sources Policies](#external-sources-policies)
+        - [Prerequisites](#prerequisites)
+            - [For Linux](#for-linux)
+            - [For Windows](#for-windows)
+        - [Installation](#installation)
+            - [For Linux](#for-linux-1)
+            - [For Windows](#for-windows-1)
+    - [Usage](#usage)
+        - [Directory Hierarchy](#directory-hierarchy)
+    - [Contact](#contact)
+    - [Acknowledgments](#acknowledgments)
+
+<!-- /TOC -->
 
 ## About The Project
 Library fo light pre-calculation based on real data (urban data and sun position). It's a project extract from [3DUSE](https://github.com/VCityTeam/3DUSE) separate from parsing operations and as such, with less dependency.
