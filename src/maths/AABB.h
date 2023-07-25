@@ -12,7 +12,7 @@
 #include <maths/Vector3.h>
 
 struct Ray;
-struct RayHit;
+struct RayBoxHit;
 
 /**
 *	@brief An axis aligned bounding box
@@ -22,52 +22,38 @@ struct AABB
    AABB() = default;
    AABB(const TVec3d& _min, const TVec3d& _max, const std::string& id, const std::string& tileName);
 
-   bool operator==(AABB const& other);
-
+   /**
+    * @brief Get the triangle id that can be used to identify one
+    *         triangle in a triangle soup.
+    * @return
+   */
    const std::string& getId() const;
+
+   /**
+    * @brief Get tile name containing the current triangle.
+    * @return
+   */
    const std::string& getTileName() const;
 
-   std::optional<RayHit> doesIntersect(const Ray& ray) const;
+   /**
+   *	@brief Check intersection between a ray and a bounding box.
+   *	@param ray
+   *	@return An optional RayHit containing intersection information.
+   */
+   std::optional<RayBoxHit> doesIntersect(const Ray& ray) const;
 
-    TVec3d min;///< Min point of the box
-    TVec3d max;///< Max point of the box
-    std::string name;///< Name of the box
+   /**
+   * @brief Min and Max point of the box
+   */
+   TVec3d min, max;
 
-    std::string m_id;
-    std::string m_tileName;
-};
+   /**
+   * @brief Bounding box identifier.
+   */
+   std::string m_id;
 
-/**
-*	Used when ordering a collection of bounding boxes
-*/
-struct BoxOrder
-{
-    std::string box;///< Name of the bounding box
-    unsigned int order;///< Order of the box in the collection
-};
-
-bool operator<(const BoxOrder& a, const BoxOrder& b);
-
-/**
-*	@brief Pour une box, contient un certain nombre d'informations lies aux rayons que l'on aura tente d'intersecter avec celle ci.
-*/
-struct BoxwithRays
-{
-    AABB box; //  Box concernee
-    std::vector<int> IndicesRays; //Contient les indices des rayons qui ont intersecte cette box
-    float minDistance; //Distance minimale entre la box et la camera
-};
-
-bool operator<(const BoxwithRays& a, const BoxwithRays& b);
-
-/**
-*	Used to store a bounding box collection for different layers
-*/
-struct AABBCollection
-{
-    std::vector<AABB> building;///< Bounding box of the building layer
-    std::vector<AABB> ground;///< Bounding box of the terrain layer
-    // #AABBNewDataSet
-    // Uncomment next comment to add a data set (and replace myData by your data)
-    // std::vector<AABB> myData;
+   /**
+   * @brief Tile name corresponding to the bounding box
+   */
+   std::string m_tileName;
 };

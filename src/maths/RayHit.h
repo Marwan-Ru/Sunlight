@@ -17,15 +17,10 @@ struct RayHit
 {
    RayHit() = default;
 
-   RayHit(const Ray& _ray, const TVec3d& _impactPoint, const Triangle& _triangle, float _distance) :
-      ray(_ray), impactPoint(_impactPoint), triangle(_triangle), distance(_distance)
+   RayHit(const TVec3d& _impactPoint, const Triangle& _triangle, float _distance) :
+      impactPoint(_impactPoint), triangle(_triangle), distance(_distance)
    {
    }
-
-   /**
-    * @brief Orginal ray responsible to the RayHit
-   */
-   Ray ray;
 
    /**
    * @brief Impact position of the ray

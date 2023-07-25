@@ -3,20 +3,32 @@
 #include "API.h"
 #include <maths/Ray.h>
 #include <maths/RayHit.h>
+#include <maths/RayBoxHit.h>
 #include <maths/Triangle.h>
 #include <maths/AABB.h>
 #include <maths/RayTracing.h>
 
-bool isFacingTheSun(const Triangle& triangle, const TVec3d& sunPosition)
+bool isFacingTheSun(const Triangle& triangle, const TVec3d& sunDirection)
 {
-   return 0.0 <= triangle.getNormal().dot(sunPosition);
+   return 0.0 <= triangle.getNormal().dot(sunDirection);
 }
 
-std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes)
+Ray constructRay(const Triangle& triangle, const TVec3d& sunDirection)
 {
-   std::cout << "Check intersection with a bounding box vector containing " << boundingBoxes.size() << " AABB." << std::endl;
+   const float OFFSET(0.01f);
 
-   auto result = std::vector<RayHit>();
+   TVec3d origin(triangle.getBarycenter());
+   
+   // Add an offset for raytracing. Without this offset, origin of the ray might be behind the barycenter,
+   // which will result in a collision between the ray its origin triangle
+   TVec3d direction(origin + sunDirection * OFFSET);
+
+   return Ray(origin, direction);
+}
+
+std::vector<RayBoxHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes)
+{
+   auto result = std::vector<RayBoxHit>();
 
    for (const auto& boundingBoxes : boundingBoxes)
    {
@@ -28,7 +40,7 @@ std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB
    }
 
    // Sort by distance (from near to far)
-   std::sort(result.begin(), result.end(), [](const RayHit& a, const RayHit& b)
+   std::sort(result.begin(), result.end(), [](const RayBoxHit& a, const RayBoxHit& b)
    {
       return a.distance < b.distance;
    });
@@ -38,8 +50,6 @@ std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB
 
 std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<Triangle>& triangleSoup)
 {
-   std::cout << "Check intersection with a triangle soup containing " << triangleSoup.size() << " triangles." << std::endl;
-
    auto result = std::vector<RayHit>();
 
    for (const auto& triangle : triangleSoup)

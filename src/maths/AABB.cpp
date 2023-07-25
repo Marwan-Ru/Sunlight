@@ -5,17 +5,11 @@
 
 #include "AABB.h"
 #include "Ray.h"
-#include "RayHit.h"
+#include "RayBoxHit.h"
 
 AABB::AABB(const TVec3d& _min, const TVec3d& _max, const std::string& id, const std::string& tileName) :
       min(_min), max(_max), m_id(id), m_tileName(tileName)
 {
-}
-
-//AABB
-bool AABB::operator==(AABB const& other)
-{
-    return name == other.name;
 }
 
 const std::string& AABB::getId() const
@@ -30,7 +24,7 @@ const std::string& AABB::getTileName() const
 
 //Ray aabb intersection, from pbrt-v2
 //License : http://www.pbrt.org/LICENSE.txt
-std::optional<RayHit> AABB::doesIntersect(const Ray& ray) const
+std::optional<RayBoxHit> AABB::doesIntersect(const Ray& ray) const
 {
    double t0 = 0, t1 = std::numeric_limits<double>::max();
    for (int i = 0; i < 3; ++i) {
@@ -49,19 +43,5 @@ std::optional<RayHit> AABB::doesIntersect(const Ray& ray) const
    // Smallest hit distance
    double distance = t0;
 
-   // TODO implement ray box definition
-   return {};
-}
-
-
-//BoxOrder
-
-bool operator<(const BoxOrder& a, const BoxOrder& b)
-{
-    return a.order < b.order;
-}
-
-bool operator<(const BoxwithRays& a, const BoxwithRays& b)
-{
-    return a.minDistance < b.minDistance;
+   return RayBoxHit(*this, distance);
 }
