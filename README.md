@@ -109,7 +109,7 @@ Sunlight (repo)
 ├── README.md
 ```
 
-# Contact
+# Credits
 - Wesley Petit - [Website](https://wesleypetit.fr/) - wesley.petit.lemoine@gmail.com
 
 # Acknowledgments
