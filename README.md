@@ -31,7 +31,7 @@ Library fo light pre-calculation based on real data (urban data and sun position
 
 We are using C++ 20 because we are using latest functionalities ([optional](https://en.cppreference.com/w/cpp/utility/optional), [filesystem](https://en.cppreference.com/w/cpp/filesystem)...).
 
-- [spdlog - v1.11.0](https://github.com/gabime/spdlog)
+- [spdlog - v1.11.0](https://github.com/gabime/spdlog).
 - CMake 3.27.
 
 ## External Sources Policies
