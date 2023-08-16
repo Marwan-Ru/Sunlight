@@ -85,7 +85,6 @@ void SunEarthToolsParser::loadSunpathFile(const std::string& sunPathFile, int iS
 
             if (sunPosition != TVec3d(0, 0, 0))
             {
-               spdlog::warn("date {}", decodeDateTime(dateTime));
                m_sunDatasLoaded.push_back(SunDatas(decodeDateTime(dateTime), sunPosition, sunDirection));
             }
             else
