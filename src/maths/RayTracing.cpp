@@ -4,6 +4,7 @@
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
 #include <thread>
+#include <mutex>
 
 #include "RayTracing.h"
 #include "RayHit.h"
@@ -121,4 +122,55 @@ std::vector<RayHit*>* RayTracing(std::vector<std::shared_ptr<Triangle>>* triangl
     toDo = nullptr;
 
     return hits;
+}
+
+
+std::vector<RayHit> RayTracing(const Ray& ray, const std::vector<Triangle>& triangles) {
+    std::vector<RayHit> result;
+
+    // Define the number of threads to use
+    const int numThreads = std::thread::hardware_concurrency();
+
+    // Divide the triangles into equal parts for each thread
+    const int numTriangles = triangles.size();
+    const int trianglesPerThread = numTriangles / numThreads;
+
+    // Define a mutex to protect the result vector
+    std::mutex mutex;
+
+    // Define a lambda function to be executed by each thread
+    auto traceTriangles = [&](int start, int end) {
+        std::vector<RayHit> threadResult;
+
+        for (int i = start; i < end; i++) {
+            auto triangle = triangles[i];
+            
+            auto rayHit = triangle.doesIntersect(ray);
+            if (!rayHit.has_value())
+                continue;
+
+            threadResult.push_back(rayHit.value());
+        }
+
+        // Lock the mutex and append the threadResult vector to the result vector
+        std::lock_guard<std::mutex> lock(mutex);
+        result.insert(result.end(), threadResult.begin(), threadResult.end());
+    };
+
+    // Create and start the threads
+    std::vector<std::thread> threads;
+    for (int i = 0; i < numThreads; i++) {
+        int start = i * trianglesPerThread;
+
+        // Split num triangles by thread and the last thread does intersection on remaining triangles
+        int end = (i == numThreads - 1) ? numTriangles : (i + 1) * trianglesPerThread;
+        threads.emplace_back(traceTriangles, start, end);
+    }
+
+    // Join the threads
+    for (auto& thread : threads) {
+        thread.join();
+    }
+
+    return result;
 }

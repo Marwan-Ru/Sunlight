@@ -50,17 +50,8 @@ std::vector<RayBoxHit> checkIntersectionWith(const Ray& ray, const std::vector<A
 
 std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<Triangle>& triangleSoup)
 {
-   auto result = std::vector<RayHit>();
-
-   for (const auto& triangle : triangleSoup)
-   {
-      auto rayHit(triangle.doesIntersect(ray));
-      if (!rayHit.has_value())
-         continue;
-
-      result.push_back(rayHit.value());
-   }
-
+   auto result = RayTracing(ray, triangleSoup);
+   
    // Sort by distance (from near to far)
    std::sort(result.begin(), result.end(), [](const RayHit& a, const RayHit& b)
    {

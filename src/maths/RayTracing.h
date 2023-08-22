@@ -14,11 +14,19 @@ struct RayHit;
 struct Triangle;
 
 /**
-*	@build Perform raytracing algorithm on a set of triangles
-*	@param triangles List of triangle of a CityGML tile
+*	@build Perform raytracing algorithm on a set of triangles with a list of rays
+*	@param triangles List of triangles
 *	@param rays List of rays
 *   @param breakOnFirstInter If true, stop raytracing when an intersection is found.
 *                            Default : false (compute allB intersections between rays and triangles).
 *   @return list of hits
 */
-std::vector<RayHit*>* RayTracing(std::vector<std::shared_ptr<Triangle>>* triangles, const std::vector<std::shared_ptr<Ray>>& rays, bool breakOnFirstInter = false);
+std::vector<RayHit*>* RayTracing(std::vector<std::shared_ptr<Triangle>>* triangles, const std::vector<std::shared_ptr<Ray>>& rays, bool breakOnFirstInter);
+
+/**
+*	@build Perform raytracing algorithm on a set of triangles with a given ray
+*	@param ray Ray use to check intersection
+*	@param triangles List of triangles
+*   @return list of all hits
+*/
+std::vector<RayHit> RayTracing(const Ray& ray, const std::vector<Triangle>& triangles);
