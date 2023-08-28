@@ -17,13 +17,11 @@ Ray constructRay(const Triangle& triangle, const TVec3d& sunDirection)
 {
    const float OFFSET(0.01f);
 
-   TVec3d origin(triangle.getBarycenter());
-   
    // Add an offset for raytracing. Without this offset, origin of the ray might be behind the barycenter,
    // which will result in a collision between the ray its origin triangle
-   TVec3d direction(origin + sunDirection * OFFSET);
-
-   return Ray(origin, direction);
+   TVec3d origin(triangle.getBarycenter() + sunDirection * OFFSET);
+   
+   return Ray(origin, sunDirection);
 }
 
 std::vector<RayBoxHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes)
