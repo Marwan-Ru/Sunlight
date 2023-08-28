@@ -26,6 +26,7 @@ Ray constructRay(const Triangle& triangle, const TVec3d& sunDirection)
 
 std::vector<RayBoxHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes)
 {
+   // auto result = RayTracing(ray, triangleSoup);
    auto result = std::vector<RayBoxHit>();
 
    for (const auto& boundingBoxes : boundingBoxes)
@@ -48,7 +49,16 @@ std::vector<RayBoxHit> checkIntersectionWith(const Ray& ray, const std::vector<A
 
 std::vector<RayHit> checkIntersectionWith(const Ray& ray, const std::vector<Triangle>& triangleSoup)
 {
-   auto result = RayTracing(ray, triangleSoup);
+   auto result = std::vector<RayHit>();
+
+   for (const auto& triangle : triangleSoup)
+   {
+      auto rayHit(triangle.doesIntersect(ray));
+      if (!rayHit.has_value())
+         continue;
+
+      result.push_back(rayHit.value());
+   }
    
    // Sort by distance (from near to far)
    std::sort(result.begin(), result.end(), [](const RayHit& a, const RayHit& b)
