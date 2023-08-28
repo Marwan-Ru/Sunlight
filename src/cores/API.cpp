@@ -15,7 +15,7 @@ bool isFacingTheSun(const Triangle& triangle, const TVec3d& sunDirection)
 
 Ray constructRay(const Triangle& triangle, const TVec3d& sunDirection)
 {
-   const float OFFSET(0.01f);
+   const float OFFSET(0.001f);
 
    // Add an offset for raytracing. Without this offset, origin of the ray might be behind the barycenter,
    // which will result in a collision between the ray its origin triangle
