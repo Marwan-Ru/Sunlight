@@ -132,7 +132,7 @@ Sunlight (repo)
 
 Distributed under the LGPL-2.1 License. See `LICENSE` and `Libraries Licenses` for more information.
 
-# Credits
+# Main Contributors
 
 - Wesley Petit - [Website](https://wesleypetit.fr/) - <wesley.petit.lemoine@gmail.com>
 
