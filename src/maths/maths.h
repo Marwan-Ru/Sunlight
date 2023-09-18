@@ -1,6 +1,7 @@
 #pragma once
 
-#include <numbers>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 /**
  * @brief Convert degree to radians
@@ -9,5 +10,5 @@
 */
 double radians(double degree)
 {
-   return degree * std::numbers::pi / 180;
+   return degree * M_PI / 180;
 }
