@@ -17,8 +17,10 @@ file(GLOB_RECURSE HEADERS "src/*.h")
 file(GLOB_RECURSE SRCS "src/*.cpp")
 
 # Add static library for pySunlight
-add_library(sunlight ${HEADERS} ${SRCS})
-# add_executable(sunlight ${SRCS} ${HEADERS})
+# add_library(sunlight ${HEADERS} ${SRCS})
+add_executable(sunlight ${SRCS} ${HEADERS}
+        src/parsers/ObjParser.cpp
+        src/parsers/ObjParser.h)
 
 target_include_directories(sunlight PRIVATE "src/")
 

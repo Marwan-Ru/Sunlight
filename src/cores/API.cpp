@@ -8,6 +8,8 @@
 #include <maths/AABB.h>
 #include <maths/RayTracing.h>
 
+#define OFFSET 0.001f
+
 bool isFacingTheSun(const Triangle& triangle, const TVec3d& sunDirection)
 {
    return 0.0 <= triangle.getNormal().dot(sunDirection);
@@ -15,13 +17,11 @@ bool isFacingTheSun(const Triangle& triangle, const TVec3d& sunDirection)
 
 Ray constructRay(const Triangle& triangle, const TVec3d& sunDirection)
 {
-   const float OFFSET(0.001f);
-
    // Add an offset for raytracing. Without this offset, origin of the ray might be behind the barycenter,
    // which will result in a collision between the ray its origin triangle
-   TVec3d origin(triangle.getBarycenter() + sunDirection * OFFSET);
+   const TVec3d origin(triangle.getBarycenter() + sunDirection * OFFSET);
    
-   return Ray(origin, sunDirection);
+   return {origin, sunDirection};
 }
 
 std::vector<RayBoxHit> checkIntersectionWith(const Ray& ray, const std::vector<AABB>& boundingBoxes)

@@ -117,7 +117,7 @@ void SunEarthToolsParser::loadSunpathFile(const std::string& sunPathFile, int iS
 
    if (found == false)
    {
-      spdlog::error("Do not found any date corresponding while loading Annual SunPath file.");
+      spdlog::error("Did not find any date corresponding to request while loading Annual SunPath file.");
    }
 }
 
