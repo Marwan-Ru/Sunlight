@@ -3,6 +3,7 @@
 // (Refer to accompanying file LICENSE.md or copy at
 //  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html )
 
+#include <utility>
 #include <vector>
 
 #include "Triangle.h"
@@ -11,13 +12,20 @@
 
 Triangle::Triangle(TVec3d a, TVec3d b, TVec3d c)
 {
-    this->a = a;
-    this->b = b;
-    this->c = c;
+   this->a = a;
+   this->b = b;
+   this->c = c;
+   this->calculateNormal();
 }
 
-Triangle::Triangle(const TVec3d& _a, const TVec3d& _b, const TVec3d& _c, const std::string& triangleId, const std::string& tileName)
-   : a(_a), b(_b), c(_c), m_id(triangleId), m_tileName(tileName)
+Triangle::Triangle(const TVec3d& _a, const TVec3d& _b, const TVec3d& _c, std::string  triangleId, std::string  tileName)
+   : a(_a), b(_b), c(_c), m_id(std::move(triangleId)), m_tileName(std::move(tileName))
+{
+   this->calculateNormal();
+}
+
+Triangle::Triangle(const TVec3d& _a, const TVec3d& _b, const TVec3d& _c, std::string  triangleId, std::string  tileName, const TVec3d& _n)
+   : a(_a), b(_b), c(_c), n(_n), m_id(std::move(triangleId)), m_tileName(std::move(tileName))
 {
 }
 
@@ -33,11 +41,7 @@ const std::string& Triangle::getTileName() const
 
 TVec3d Triangle::getNormal() const
 {
-   auto x = b - a;
-   auto y = c - a;
-   auto normal = x.cross(y);
-
-   return normal.normalize();
+   return n;
 }
 
 TVec3d Triangle::getBarycenter() const
@@ -108,4 +112,12 @@ std::optional<RayHit> Triangle::doesIntersect(const Ray& ray) const
    // else: b1 < 0, no intersection
 
    return {};
+}
+
+void Triangle::calculateNormal() {
+   auto x = b - a;
+   auto y = c - a;
+   auto normal = x.cross(y);
+
+   n = normal.normalize();
 }
