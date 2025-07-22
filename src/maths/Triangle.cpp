@@ -41,7 +41,7 @@ const std::string& Triangle::getTileName() const
 
 TVec3d Triangle::getNormal() const
 {
-   return n;
+   return this->n;
 }
 
 TVec3d Triangle::getBarycenter() const
@@ -49,69 +49,50 @@ TVec3d Triangle::getBarycenter() const
    return (a + b + c) / 3.0;
 }
 
-//Ray triangle intersection, from geometric tools engine
-//License : http://www.boost.org/LICENSE_1_0.txt
+/**
+ * @brief Ray - Triangle intersection method, checks if the given ray intersects with this triangle. Does not take into account normals
+ * @param ray A Ray object with which to do the intersection test
+ * @return std::optional<RayHit> object, if it contains a value there was an intersection
+ */
 std::optional<RayHit> Triangle::doesIntersect(const Ray& ray) const
 {
-   // Compute the offset origin, edges, and normal.
-   TVec3d diff = ray.origin - a;
-   TVec3d normal = getNormal();
+   constexpr float epsilon = std::numeric_limits<float>::epsilon();
 
-   TVec3d edge1 = b - a;
-   TVec3d edge2 = c - a;
+   const TVec3 edge1 = b - a;
+   const TVec3 edge2 = c - a;
+   const TVec3 ray_cross_e2 = ray.direction.cross(edge2);
+   const float det = edge1.dot(ray_cross_e2);
 
-   // Solve Q + t*D = b1*E1 + b2*E2 (Q = kDiff, D = ray direction,
-   // E1 = edge1, E2 = edge2, N = Cross(E1,E2)) by
-   //   |Dot(D,N)|*b1 = sign(Dot(D,N))*Dot(D,Cross(Q,E2))
-   //   |Dot(D,N)|*b2 = sign(Dot(D,N))*Dot(D,Cross(E1,Q))
-   //   |Dot(D,N)|*t = -sign(Dot(D,N))*Dot(Q,N)
-   double DdN = ray.direction.dot(normal);
-   double sign;
-   if (0.0 < DdN)
-   {
-      sign = 1.0;
-   }
-   else if (DdN < 0.0)
-   {
-      sign = -1.0;
-      DdN = -DdN;
-   }
-   else
-   {
-      // Ray and triangle are parallel, call it a "no intersection"
-      // even if the ray does intersect.
+   if (det > -epsilon && det < epsilon)
+      return {};    // This ray is parallel to this triangle.
+
+   float inv_det = 1.0 / det;
+   TVec3 s = ray.origin - a;
+   float u = inv_det * s.dot(ray_cross_e2);
+
+   if ((u < 0 && abs(u) > epsilon) || (u > 1 && abs(u-1) > epsilon))
       return {};
-   }
 
-   double DdQxE2 = sign * ray.direction.dot(diff.cross(edge2));
-   if (0.0 <= DdQxE2)
+   TVec3 s_cross_e1 = s.cross(edge1);
+   float v = inv_det * ray.direction.dot(s_cross_e1);
+
+   if ((v < 0 && abs(v) > epsilon) || (u + v > 1 && abs(u + v - 1) > epsilon))
+      return {};
+
+   // At this stage we can compute t to find out where the intersection point is on the line.
+   float t = inv_det * edge2.dot(s_cross_e1);
+
+   if (t > epsilon) // ray intersection
    {
-      double DdE1xQ = sign * ray.direction.dot(edge1.cross(diff));
-      if (0.0 <= DdE1xQ)
-      {
-         if (DdQxE2 + DdE1xQ <= DdN)
-         {
-            // Line intersects triangle, check whether ray does.
-            double QdN = -sign * diff.dot(normal);
-            if (0.0 <= QdN)
-            {
-               // Ray intersects triangle.
-               double inv = ((float)1) / DdN;
-               TVec3d impactPoint(ray.origin + inv * QdN * ray.direction);
+      TVec3d impactPoint(ray.origin + ray.direction * inv_det * t);
 
-               float distance ((ray.direction * QdN * inv).length());
+      float distance ((ray.direction * t * inv_det).length());
 
-               return RayHit(impactPoint, *this, distance);
-            }
-            // else: t < 0, no intersection
-         }
-         // else: b1+b2 > 1, no intersection
-      }
-      // else: b2 < 0, no intersection
+      return  RayHit(impactPoint, *this, distance);
    }
-   // else: b1 < 0, no intersection
+   else // This means that there is a line intersection but not a ray intersection.
+      return  {};
 
-   return {};
 }
 
 void Triangle::calculateNormal() {
@@ -119,5 +100,5 @@ void Triangle::calculateNormal() {
    auto y = c - a;
    auto normal = x.cross(y);
 
-   n = normal.normalize();
+   this->n = normal.normalize();
 }

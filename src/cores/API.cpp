@@ -19,7 +19,7 @@ Ray constructRay(const Triangle& triangle, const TVec3d& sunDirection)
 {
    // Add an offset for raytracing. Without this offset, origin of the ray might be behind the barycenter,
    // which will result in a collision between the ray its origin triangle
-   const TVec3d origin(triangle.getBarycenter() + sunDirection * OFFSET);
+   const TVec3d origin(triangle.getBarycenter() + triangle.getNormal() * OFFSET);
    
    return {origin, sunDirection};
 }

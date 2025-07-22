@@ -20,7 +20,8 @@ file(GLOB_RECURSE SRCS "src/*.cpp")
 # add_library(sunlight ${HEADERS} ${SRCS})
 add_executable(sunlight ${SRCS} ${HEADERS}
         src/parsers/ObjParser.cpp
-        src/parsers/ObjParser.h)
+        src/parsers/ObjParser.h
+        src/tests/intersection_test.h)
 
 target_include_directories(sunlight PRIVATE "src/")
 

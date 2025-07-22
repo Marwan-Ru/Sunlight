@@ -4,6 +4,7 @@
 #include "maths/Ray.h"
 #include "maths/RayHit.h"
 #include "utils/rapidobj.hpp"
+#include "tests/intersection_test.h"
 
 /**
  * @brief Builds sunlight triangles from rapidobj results
@@ -59,16 +60,19 @@ void writeIntoObj(const std::vector<Triangle>& soup, const std::string& outFileP
    }
 }
 
-int main()
-{
-   std::string objFilePath = "../datas/FakeData-1.obj";
+int main(int argc, char **argv) {
 
 
+   if (argc < 2) {
+      spdlog::error("Not enough arguments");
+      exit(EXIT_FAILURE);
+   }
+   std::string objFilePath = argv[1];
 
    auto parsedObj = rapidobj::ParseFile(objFilePath);
 
    if (parsedObj.error) {
-      spdlog::error(parsedObj.error.code.message());
+      spdlog::error("rapidObj error : {} on line {}", parsedObj.error.code.message(), parsedObj.error.line_num);
       exit(EXIT_FAILURE);
    }
 
@@ -83,9 +87,9 @@ int main()
    for (const auto& shape : parsedObj.shapes) {
       num_triangles += shape.mesh.num_face_vertices.size();
    }
-   std::cout << "Shapes:    " << parsedObj.shapes.size() << std::endl;
-   std::cout << "Materials: " << parsedObj.materials.size() << std::endl;
-   std::cout << "Triangles: " << num_triangles << std::endl;
+   spdlog::info("Number of shapes : {}", parsedObj.shapes.size());
+   spdlog::info("Number of materials : {}", parsedObj.materials.size());
+   spdlog::info("Number of triangles : {}", num_triangles);
 
    std::vector<Triangle> sunTriangles = getSunlightTriangleFromResults(parsedObj);
 
@@ -95,23 +99,29 @@ int main()
 
    std::cout << sundataList.size() << std::endl;
 
-   std::cout << "Number of sunlight triangles : " << sunTriangles.size() << std::endl;
+   spdlog::info("Number of sunlight triangles : {}", sunTriangles.size());
    std::vector<RayHit> hits;
    //for (const SunDatas& data : sundataList) {
-       // Create all of my rays
+   // Create all of my rays
    //std::vector<Ray> rays;
 
    std::vector<Triangle> hitTriangles;
+   std::vector<Triangle> noHitTriangles;
 
-   for (const Triangle& t : sunTriangles) {
-      Ray r = constructRay(t, sundataList.at(0).direction);
+
+   for (int i=0; i < sunTriangles.size(); i++) {
+      std::clog << "\r Triangles remaining : " << sunTriangles.size() - i << std::flush;
+      Ray r = constructRay(sunTriangles.at(i), sundataList.at(6).direction);
       auto result = checkIntersectionWith(r, sunTriangles);
       if (!result.empty()) {
-         hitTriangles.push_back(t);
+         hitTriangles.push_back(sunTriangles.at(i));
+      } else {
+         noHitTriangles.push_back(sunTriangles.at(i));
       }
    }
 
-   writeIntoObj(hitTriangles, "occluded3.obj");
-
+   writeIntoObj(hitTriangles, "occluded.obj");
+   writeIntoObj(noHitTriangles, "notOccluded.obj" );
+   std::clog << "\rDone !                             " << std::endl;
    exit(EXIT_SUCCESS);
 }
