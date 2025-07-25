@@ -3,7 +3,7 @@
 #include "parsers/SunEarthParser.h"
 #include "maths/Ray.h"
 #include "maths/RayHit.h"
-#include "utils/rapidobj.hpp"
+#include "parsers/rapidobj.hpp"
 #include "tests/intersection_test.h"
 
 /**
@@ -108,10 +108,11 @@ int main(int argc, char **argv) {
    std::vector<Triangle> hitTriangles;
    std::vector<Triangle> noHitTriangles;
 
+   auto zenith = SunDatas("2015-01-01", TVec3d(), TVec3d(1, 0, 0));
 
    for (int i=0; i < sunTriangles.size(); i++) {
       std::clog << "\r Triangles remaining : " << sunTriangles.size() - i << std::flush;
-      Ray r = constructRay(sunTriangles.at(i), sundataList.at(6).direction);
+      Ray r = constructRay(sunTriangles.at(i), zenith.direction);
       auto result = checkIntersectionWith(r, sunTriangles);
       if (!result.empty()) {
          hitTriangles.push_back(sunTriangles.at(i));

@@ -1,5 +1,6 @@
 # Ignore IDE
 .vs/
+.idea/
 
 # Ignore generated files
 build/
@@ -7,3 +8,7 @@ build/
 # Ignore draw.io backup files
 *.drawio.bkp
 *.drawio.dtmp
+
+# Ignore obj files except test file
+datas/*.obj
+datas/*.mtl
