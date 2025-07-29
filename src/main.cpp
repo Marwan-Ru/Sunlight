@@ -1,3 +1,4 @@
+/*
 #include "../cmake-build-release/_deps/spdlog-src/include/spdlog/spdlog.h"
 #include "cores/API.h"
 #include "parsers/SunEarthParser.h"
@@ -5,12 +6,12 @@
 #include "maths/RayHit.h"
 #include "parsers/rapidobj.hpp"
 #include "tests/intersection_test.h"
-
+*/
 /**
  * @brief Builds sunlight triangles from rapidobj results
  * @param parsedObj A *triangulated* rapidobj::Result object
  * @return corresponding vector of sunlight Triangles
- */
+
 std::vector<Triangle> getSunlightTriangleFromResults(rapidobj::Result& parsedObj) {
    // See https://github.com/guybrush77/rapidobj for a description of the structure of a rapidobj::Result object
    std::vector<Triangle> res;
@@ -59,10 +60,10 @@ void writeIntoObj(const std::vector<Triangle>& soup, const std::string& outFileP
       outFile.close();
    }
 }
-
+*/
 int main(int argc, char **argv) {
 
-
+/*
    if (argc < 2) {
       spdlog::error("Not enough arguments");
       exit(EXIT_FAILURE);
@@ -124,5 +125,6 @@ int main(int argc, char **argv) {
    writeIntoObj(hitTriangles, "occluded.obj");
    writeIntoObj(noHitTriangles, "notOccluded.obj" );
    std::clog << "\rDone !                             " << std::endl;
-   exit(EXIT_SUCCESS);
+   */
+   return 0;
 }
