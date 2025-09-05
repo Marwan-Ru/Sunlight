@@ -29,6 +29,12 @@ public:
    */
    const std::vector<SunDatas>& getSunDatas() const;
 
+   /**
+    * @brief Get all direction towards at timestamps of the given hour
+    * @return a vector of SunDatas objects
+   */
+   std::vector<SunDatas> getSunDataAtHour(int hour);
+
 private:
    /**
     * @brief Compute sun rotation given an azimut and elevation angle in radians.
