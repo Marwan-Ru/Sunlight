@@ -96,19 +96,25 @@ More information [here](https://github.com/VCityTeam/Sunlight/issues/5).
 
 #### Installation
 
+This project is configured as a Library, building it as-is will not allow you to use it as a standalone.
+To run it as a standalone application, you will have to modify the `CMAKELIST.txt`, commenting the add library statement and uncommenting
+the add_executable one, such that it looks like this.
+
+```
+# Add static library for pySunlight
+#add_library(sunlight ${HEADERS} ${SRCS})
+add_executable(sunlight ${SRCS} ${HEADERS})
+```
+
+The compiled executable will then run all the unit tests automaticaly.
+Commented code is available in the main function to run the app on OBJ files.
+
 1. Clone the repository and move to sunlight folder.
 
    ``` bash
    git clone https://github.com/VCityTeam/Sunlight.git
    cd Sunlight
    ```
-
-2. Fetch all cityGML files.
-
-   ``` bash
-   git lfs fetch --all
-   ```
-
 3. Create a build folder in Sunlight that will contains the build of sunlight.
 
 4. Open CMake and specify the source code path (Sunlight folder) and the build binaries path (Sunlight/build).
@@ -117,6 +123,11 @@ More information [here](https://github.com/VCityTeam/Sunlight/issues/5).
 
 ## Usage
 
+Running the executable will perform all of the implemented unit tests
+
+```
+./sunlight
+```
 ### Directory Hierarchy
 
 ```
@@ -128,6 +139,7 @@ Sunlight (repo)
 |    ├── maths                # Mathematical and geometrical class
 |    ├── parsers              # Annual sun position parser
 |    ├── utils                # Small utils / helpers (timer, operators override...)
+|    ├── tests                # Unit testing functions
 |
 ├── .gitattributes            # Define Large Files (.gml, .dat...)
 ├── .gitignore                # Files/folders ignored by Git
